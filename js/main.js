@@ -31,6 +31,8 @@
           element.css('min-width', wh * ew / eh + 'px');
           if (wh === eh) {
             return element.css('left', '-' + (ew - ww) / 2 + 'px');
+          } else {
+            return element.css('left', 0);
           }
         };
         cover();
@@ -41,13 +43,51 @@
     };
   });
 
+  myblogApp.directive('drag', function() {
+    return {
+      restrict: 'EA',
+      link: function(scope, element, attrs) {
+        var moveDrag;
+        moveDrag = function() {
+          var X, Y, start;
+          start = 0;
+          X = 0;
+          Y = 0;
+          return element.mousedown(function(event) {
+            console.log(X);
+            start = 1;
+            X = event.clientX;
+            Y = event.clientY;
+            $('body').mousemove(function(eve) {
+              var theX;
+              console.log('start2' + start);
+              if (start) {
+                theX = eve.clientX - X;
+                X = eve.clientX;
+                element.parent().css('left', '+=' + theX + 'px');
+                $('.bk-left').css('width', '+=' + theX + 'px');
+                return $('.bk-right').css('left', '+=' + theX + 'px');
+              }
+            });
+            return $('body').mouseup(function() {
+              if (start === 1) {
+                start = 0;
+                $('body').unbind('mousemove');
+                return $('body').unbind('mouseup');
+              }
+            });
+          });
+        };
+        return moveDrag();
+      }
+    };
+  });
+
   postCtrlf = function($scope, $http, $routeParams) {};
 
   postCtrl = ['$scope', '$http', '$routeParams', postCtrlf];
 
-  indexCtrlf = function($scope, $http, $routeParams) {
-    return alert('xxx');
-  };
+  indexCtrlf = function($scope, $http, $routeParams) {};
 
   indexCtrl = ['$scope', '$http', '$routeParams', indexCtrlf];
 

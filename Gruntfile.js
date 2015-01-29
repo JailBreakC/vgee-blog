@@ -37,7 +37,7 @@ module.exports = function(grunt) {
         },
         watch: {
             client: {
-                files: ['*.html', 'style/*', 'post/**/*'],
+                files: ['*.html', 'style/main.css'],
                 options: {
                     livereload: true
                 }

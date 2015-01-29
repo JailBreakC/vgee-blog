@@ -1,14 +1,30 @@
 body {
     font-family: "lucida grande", "lucida sans unicode", lucida, helvetica, "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
 }
+a {
+    color: darkturquoise;
+}
+p {
+    font-size: 14px;
+    margin: .2em;
+}
+.big-banner {
+    width: 400%;
+    height: 100%;
+    position: absolute;
+}
 .cover-page {
     position: absolute;
-    width: 100%;
+    width: 25%;
     height: 100%;
     overflow: hidden;
 }
-.c-intro {
+.c-second .container {
+    min-width: 1140px;
+}
+.c-second {
     background-color: #F7F7EF;
+    left: 25%;
 }
 .bar {
     position: absolute;
@@ -20,24 +36,32 @@ body {
 }
 .top-bar {   
     top: 0;
-    font-family: cursive;
-    background-color: #49BF9D;
-    color: white;    
 }
 .left-bar {
     left: 0;
     top: 20%;
-    color: #F65354;
-    background: #434343 url(../img/arrow-left-medium.png) no-repeat 5% center;
+    background: url(../img/arrow-left-medium.png) no-repeat 5% center;
     padding-left: 35px;
     
 }
 .right-bar {
     right: 0;
     bottom: 20%;
-    color: #434343;
-    background: #5FC59B url(../img/arrow-right-medium.png) no-repeat 92% center;
+    background: url(../img/arrow-right-medium.png) no-repeat 92% center;
     padding-right: 35px;
+}
+.resume-bar {
+    color: #F65354;
+    background-color: #434343;
+}
+.name-bar {
+    font-family: cursive;
+    background-color: #49BF9D;
+    color: white;    
+}
+.project-bar {
+    color: #434343;
+    background-color: #5FC59B
 }
 #home-chains {
     position: absolute;
@@ -68,28 +92,28 @@ body {
     background-image: url(../img/chain_right.png);
 }
 
-.avatar {
-    width: 170px;
-    height: 170px;
-    padding: 10px;
-    border-radius: 85px;
-    background-color: rgb(73, 191, 157);
-    margin: 200px auto;
-}
-
-.avatar > img {
-    border-radius: 75px;
-}
-
 #intr1 {
     position: absolute;
-    top: 100px;
-    left: 70px;
+    top: 50%;
+    left: 50%;
+    font-size: 100px;
+    color: white;
+    margin-left: -450px;
+    margin-top: -210px;
+}
+#intr1 > span {
+    color: #F65354;
 }
 #intr2 {
     position: absolute;
-    bottom: 125px;
-    right: -15px;
+    top: 50%;
+    left: 50%;
+    color: white;
+    margin-left: -42px;
+    margin-top: -75px;
+}
+#intr2 > span {
+    font-family: cursive;
 }
 #bk-video {
     position: relative;
@@ -100,21 +124,21 @@ body {
     top: 0;
     width: 50%;
     height: 100%;
-    background-color: green;
-    opacity: .5;
+    background-color: rgb(52, 58, 60);
+    opacity: .4;
 }
 .bk-right {
     position: absolute;
-    right: 0;
+    left: 50%;
     top: 0;
-    width: 50%;
+    width: 100%;
     height: 100%;
-    background-color: yellow;
-    opacity: .5;
+    background-color: rgb(255, 98, 77);
+    opacity: .8;
 }
 .bk-control {
     position: absolute;
-    right: 50%;
+    left: 50%;
     top: 0;
     height: 100%;
     width: 0px;
@@ -152,4 +176,54 @@ body {
     position: absolute;
     top: 5px;
     right: 2px;
+}
+.c-first .container{
+    padding: 0 4em;
+}
+.c-first-nav {
+    background-color: #2C3C51;
+}
+.c-first-nav  h1 {
+    color: #0CA2BA;
+    margin: 0;
+    padding: 10px;
+}
+.c-first-profile {
+    padding: 30px 0;
+    background-color: #0CA2BA;
+    color: white;
+    overflow: auto;
+}
+.avatar {
+    width: 250px;
+    height: 250px;
+    padding: 10px;
+    border-radius: 125px;
+    background-color: white;
+    background-image: url(../img/avatar.jpg);
+}
+.c-first-profile .detail {
+    padding: 30px;
+}
+.detail-list {
+    list-style: none;
+}
+.detail-list li {
+    border-bottom: solid 1px white;
+    padding: 10px;
+}
+.detail-list .d-l-h {
+    display: inline-block;
+    width: 200px;
+}
+
+.c-first-skill {
+    color: #5C636B;
+    background-color: #D7DBDB;
+    padding: 30px 0;
+}
+.c-first-more {
+    background-color: #15A286;
+    padding: 30px 0;
+    color: white;
 }

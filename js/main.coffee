@@ -26,9 +26,43 @@ myblogApp.directive 'cover', ->
             #居中
             if(wh == eh)
                 element.css('left', '-' + (ew-ww)/2 + 'px')
+            else
+                element.css('left', 0)
+
         cover()
         window.onresize = ->
             cover()
+
+myblogApp.directive 'drag', ->
+    restrict: 'EA'
+    link: (scope, element, attrs) ->
+        moveDrag = ->
+            start = 0
+            X = 0
+            Y = 0
+            element.mousedown (event) ->
+                console.log X
+                start = 1
+                #console.log 'start1'+start
+                X = event.clientX
+                Y = event.clientY
+                $('body').mousemove (eve) ->
+                    console.log 'start2'+start
+                    if start
+                        theX = eve.clientX - X
+                        X = eve.clientX
+                        #console.log 'x'+X+'cx'+eve.clientX+'thx'+theX
+                        element.parent().css('left', '+=' + theX + 'px')
+                        $('.bk-left').css('width', '+=' + theX + 'px')
+                        $('.bk-right').css('left', '+=' + theX + 'px')
+                $('body').mouseup () ->
+                    #console.log 'up'
+                    if start == 1
+                        start = 0;
+                        $('body').unbind 'mousemove'
+                        $('body').unbind 'mouseup'
+        moveDrag()
+
 
 postCtrlf = ($scope,$http,$routeParams) ->
 
@@ -38,7 +72,6 @@ postCtrl = ['$scope','$http','$routeParams', postCtrlf]
 
 
 indexCtrlf = ($scope,$http,$routeParams) ->
-    alert 'xxx'
 
 
 indexCtrl = ['$scope','$http','$routeParams', indexCtrlf]
