@@ -7,32 +7,33 @@ module.exports = function(grunt) {
     grunt.initConfig({
         pkg: function() {
                 var pkg = grunt.file.readJSON('package.json');
+                pkg.author = 'JailBreak';
                 //console.log(pkg);
                 return pkg;
-            }(),
+        }(),
         uglify: {
             options: {
                 report: "min",
-                banner: '/*! <%= pkg.customJS %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
+                banner: '/*! <%= pkg.author %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
             },
             build: {
                 files: [
-                    {src: 'js/controller.js', dest: 'js/controller.min.js'},
                     {src: 'js/main.js', dest: 'js/main.min.js'}
                 ]
             },
             concat: {
-                files: {'js/lib/lib.min.js': [
-                                            'js/lib/jquery.min.js',
-                                            'js/lib/angular.min.js',
-                                            'js/lib/underscore.js',
-                                            'js/lib/underscore.string.min.js',
-                                            'js/lib/jquery.stellar.min.js',
-                                            'js/lib/angular-route.js',
-                                            'js/lib/angular-animate.min.js',
-                                            'js/lib/marked.js',
-                                            'js/lib/highlight.pack.js'
-                                        ]}
+                files:  [
+                    {'js/build/lib/lib.min.js': [
+                        'js/lib/jquery.min.js',
+                        'js/lib/underscore.js',
+                        'js/lib/underscore.string.min.js',
+                    ]},
+                    {'js/build/lib/angular-route-animate.min.js': [
+                        'js/lib/angular.js',
+                        'js/lib/angular-route.js',
+                        'js/lib/angular-animate.min.js'
+                    ]}
+                ]
             }
         },
         watch: {
@@ -52,33 +53,6 @@ module.exports = function(grunt) {
 
     // 默认被执行的任务列表。
     grunt.registerTask('default', ['uglify:build']);
-    grunt.registerTask('lib', ['uglify:concat']);
+    grunt.registerTask('lib', ['uglify:build', 'uglify:concat']);
     grunt.registerTask('live', ['watch']);
-    grunt.registerTask('build', 'require demo', function () {
-        //任务列表
-        var tasks = ['requirejs'];
-        //源码文件
-        var srcDir = 'src';
-        //目标文件
-        var destDir = 'dest';
-        //设置参数
-        grunt.config.set('config', {
-            srcDir: srcDir,
-            destDir: destDir
-        });
-        //设置requireJs的信息
-        var taskCfg = grunt.file.readJSON('gruntCfg.json');
-        var options = taskCfg.requirejs.main.options,
-            platformCfg = options.web,
-            includes = platformCfg.include,
-            paths = options.paths;
-        var pos = -1;
-        var requireTask = taskCfg.requirejs;
-        options.path = paths;
-        options.out = platformCfg.out;
-        options.include = includes;
-        //运行任务
-        grunt.task.run(tasks);
-        grunt.config.set("requirejs", requireTask);
-    });
 };
