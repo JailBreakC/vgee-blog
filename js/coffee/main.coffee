@@ -1,7 +1,9 @@
 requirejs.config
-    baseUrl: '',
     paths:
-        angular: 'lib/angular.js'
+        "angular": '../build/lib/angular-route-animate.min'
+    shim: 
+        "angular":
+            exports: "angular"
 
 requirejs ['angular'], (angular) ->
         app = angular.module 'myblog', [
@@ -14,20 +16,20 @@ requirejs ['angular'], (angular) ->
             '$locationProvider', 
             ($routeProvider, $locationProvider) -> 
                 $routeProvider.when("/",
-                        template: list
-                ).when("/type/:type",
-                    template: list
-                ).when("/post/:name",
-                    templateUrl: "partials/page.html"
+                    templateUrl: '../../template/page-main.html'
+                ).when("/cv",
+                    templateUrl: '../../template/page-cv.html'
+                ).when("/contact",
+                    templateUrl: '../../template/page-msg.html'
+                ).when("/project",
+                    templateUrl: '../../template/page-project.html'
                 ).otherwise redirectTo: "/"
         ]
 
-        app.directive 'cover', ->
+        app.directive 'cover', -> 
             restrict: 'EA'
             link: (scope, element, attrs) ->
          
-
-
         app.controller 'mainCtrl', [
             '$scope', 
             '$http', 
