@@ -43,7 +43,7 @@ module.exports = function(grunt) {
                     livereload: true,
                     spawn: false
                 },
-                files: ['*.html', 'style/less/*.less'],
+                files: ['**/*.html', 'style/less/*.less'],
                 tasks: ['less:development']
             }
         },

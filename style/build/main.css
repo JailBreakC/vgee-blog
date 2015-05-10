@@ -66,6 +66,7 @@ p {
   top: 0;
   left: 0;
   background-color: #F7F7EF;
+  overflow: hidden;
 }
 .bar {
   position: absolute;
@@ -81,13 +82,13 @@ p {
 .left-bar {
   left: 0;
   top: 20%;
-  background: url(../img/arrow-left-medium.png) no-repeat 5% center;
+  background: url(/img/arrow-left-medium.png) no-repeat 5% center;
   padding-left: 35px;
 }
 .right-bar {
   right: 0;
   bottom: 20%;
-  background: url(../img/arrow-right-medium.png) no-repeat 92% center;
+  background: url(/img/arrow-right-medium.png) no-repeat 92% center;
   padding-right: 35px;
 }
 .resume-bar {
@@ -102,32 +103,6 @@ p {
 .project-bar {
   color: white;
   background-color: #0CA2BA;
-}
-#home-chains {
-  position: absolute;
-  width: 1000px;
-  height: 600px;
-  left: 50%;
-  top: 50%;
-  margin-left: -500px;
-  margin-top: -300px;
-}
-#home-chain-left {
-  position: absolute;
-  top: 100%;
-  width: 912px;
-  height: 675px;
-  margin-top: -200px;
-  margin-left: -620px;
-  background-image: url(../img/chain_left.png);
-}
-#home-chain-right {
-  position: absolute;
-  right: -619px;
-  width: 941px;
-  height: 675px;
-  top: -470px;
-  background-image: url(../img/chain_right.png);
 }
 #intr1 {
   position: absolute;
@@ -239,7 +214,7 @@ p {
   padding: 10px;
   border-radius: 125px;
   background-color: white;
-  background-image: url(../img/avatar.jpg);
+  background-image: url(/img/avatar.jpg);
 }
 .c-first-profile .detail {
   padding: 30px;
@@ -266,7 +241,7 @@ p {
   color: white;
 }
 .c-third {
-  background-image: url(../img/color19.png);
+  background-image: url(/img/color19.png);
   background-size: cover;
 }
 .c-third-box {
