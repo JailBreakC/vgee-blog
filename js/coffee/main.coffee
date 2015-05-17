@@ -1,17 +1,20 @@
 requirejs.config
     paths:
-        "angular": '../build/lib/angular-route-animate.min'
-        "jquery": '../build/lib/jquery.min'
-        "skel": '../build/lib/skel.min'
+        'angular': '../build/lib/angular-route-animate.min'
+        'jquery': '../build/lib/jquery.min'
+        'bootstrap': '../build/lib/bootstrap.min'
+        #'skel': '../build/lib/skel.min'
     shim: 
-        "angular":
-            exports: "angular"
-        "skel":
-            exports: 'skel'
+        'angular':
+            exports: 'angular'
+        'bootstrap':
+            deps: ['jquery'],
+            exports: 'bootstrap'
 
-requirejs ['jquery', 'angular', 'skel'], ($, angular, skel) ->
-    #skel配置项
-    skel.init 
+
+requirejs ['jquery', 'angular', 'bootstrap'], ($, angular) ->
+    ###skel配置项
+    skelparam = 
         containers: 1140
         breakpoints:
             medium: 
@@ -20,13 +23,15 @@ requirejs ['jquery', 'angular', 'skel'], ($, angular, skel) ->
             small:
                 media: '(max-width: 768px)'
                 containers: '95%'
-
+        
+    skel.init skelparam
+    ###
 
     angular.element(document).ready ->
         # setTimeout解决在ng定义前就执行bootstrap的问题。
         setTimeout ->
             angular.bootstrap(document, ['myblog'])
-            
+
     app = angular.module 'myblog', [
         "ngRoute"
         "ngAnimate"
@@ -43,7 +48,15 @@ requirejs ['jquery', 'angular', 'skel'], ($, angular, skel) ->
                 templateUrl: '/template/page-msg.html'
             ).when("/project",
                 templateUrl: '/template/page-project.html'
+            ).when("/blog",
+                templateUrl: '/template/page-blog.html'
             ).otherwise redirectTo: "/"
+    ]
+    app.factory 'AuthService', [
+        '$http',
+        ($http) ->
+            fn = {};
+            return {};
     ]
 
     app.directive 'cover', -> 
@@ -66,6 +79,32 @@ requirejs ['jquery', 'angular', 'skel'], ($, angular, skel) ->
             cover()
             window.onresize = ->
                 cover()
+    app.directive 'changeFont', ->
+        restrict: 'A'
+        link: (scope, element, attrs) ->
+            fonts = [
+                'cursive',
+                '-webkit-body',
+                '-webkit-pictograph',
+                'fantasy',
+                'serif'
+            ]
+            i = 0
+            task = {}
+            $(element).hover( ->
+                that = @
+                title = $('.navbar-brand');
+                task.now = setInterval $.proxy( ->
+                    $(title).css('font-family',fonts[i]);
+                    $(that).css('font-family',fonts[i]);
+                    if ++i >= 5
+                        i = 0
+                ), 200
+            , ->
+                clearInterval(task.now)
+            )
+
+
 
     app.directive 'drag', ->
         restrict: 'EA'
@@ -97,12 +136,33 @@ requirejs ['jquery', 'angular', 'skel'], ($, angular, skel) ->
                             $('body').unbind 'mousemove'
                             $('body').unbind 'mouseup'
             moveDrag()
+    app.directive 'showDetail', ->
+        restrict: 'A'
+        link: (scope, element, attrs) ->
+            $target = $('.bk-'+ attrs.showDetail)
+            $(element).hover( ->
+                if $(window).width() > 768
+                    $target.addClass('active');
+                    $('.round').not($(this)).addClass('fadeout');
+            ->
+                if $(window).width() > 768
+                    $target.removeClass('active');
+                    $('.round').not($(this)).removeClass('fadeout');
+            )
+    app.directive 'vgGo', ->
+        restrict: 'A'
+        link: (scope, element, attrs) ->
+            $(element).click ->
+                window.location.href = attrs.vgGo;
 
 
     app.controller 'mainCtrl', [
         '$scope', 
         '$http', 
         '$routeParams',
-        ($scope,$http,$routeParams) ->
-            xxx = 'x'
+        '$rootScope',
+        '$timeout',
+        ($scope,$http,$routeParams,$rootScope, $timeout) ->
+            $rootScope.$on('$routeChangeSuccess', ->
+            )
     ]
