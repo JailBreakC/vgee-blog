@@ -31,7 +31,7 @@ requirejs(['jquery', 'angular', 'bootstrap'], function($, angular) {
       
   skel.init skelparam
    */
-  var app;
+  var app, filterType, parseList, parsePost, parseTitle, parseType;
   angular.element(document).ready(function() {
     return setTimeout(function() {
       return angular.bootstrap(document, ['myblog']);
@@ -48,6 +48,8 @@ requirejs(['jquery', 'angular', 'bootstrap'], function($, angular) {
         templateUrl: '/template/page-msg.html'
       }).when("/project", {
         templateUrl: '/template/page-project.html'
+      }).when("/blog/:type", {
+        templateUrl: '/template/page-blog.html'
       }).when("/blog", {
         templateUrl: '/template/page-blog.html'
       }).otherwise({
@@ -62,6 +64,43 @@ requirejs(['jquery', 'angular', 'bootstrap'], function($, angular) {
       return {};
     }
   ]);
+  filterType = function(data, param) {
+    var i, j, len, output, type;
+    if (param) {
+      type = param;
+    }
+    if (type && data && type !== 'all') {
+      output = [];
+      for (j = 0, len = data.length; j < len; j++) {
+        i = data[j];
+        if (i.type === type) {
+          output.push(i);
+        }
+      }
+      return output;
+    }
+    return data;
+  };
+  app.filter('blogListType', function() {
+    var blogListType;
+    return blogListType = filterType;
+  });
+  app.directive('celAnimate', function() {
+    return {
+      restrict: 'EA',
+      link: function(scope, element, attrs) {
+        return $(window).scroll(function() {
+          var height, pos, top;
+          height = $(window).height();
+          top = $(window).scrollTop();
+          pos = element.offset().top;
+          if (pos - top <= height) {
+            return element.addClass('cel-show');
+          }
+        });
+      }
+    };
+  });
   app.directive('cover', function() {
     return {
       restrict: 'EA',
@@ -183,9 +222,90 @@ requirejs(['jquery', 'angular', 'bootstrap'], function($, angular) {
       }
     };
   });
-  return app.controller('mainCtrl', [
-    '$scope', '$http', '$routeParams', '$rootScope', '$timeout', function($scope, $http, $routeParams, $rootScope, $timeout) {
-      return $rootScope.$on('$routeChangeSuccess', function() {});
+  parseTitle = function(data) {
+    var j, key, len, line, month, r, ref, ref1, value;
+    r = {
+      title: "",
+      type: "",
+      tag: "",
+      disc: "",
+      url: "",
+      hide: ""
+    };
+    month = '零 一 二 三 四 五 六 七 八 九 十 十一 十二'.split(' ');
+    ref = data.split('\n');
+    for (j = 0, len = ref.length; j < len; j++) {
+      line = ref[j];
+      ref1 = line.split(':'), key = ref1[0], value = ref1[1];
+      key = $.trim(key);
+      value = $.trim(value);
+      if (r.hasOwnProperty(key)) {
+        r[key] = value;
+      }
+    }
+    r.date = r.url.split('-');
+    r.date.month = month[parseInt(r.date[1], 10)];
+    r.date.day = parseInt(r.date[2], 10);
+    return r;
+  };
+  parseList = function(data) {
+    var r;
+    r = [];
+    data = data.split(/\n[\-=]+/);
+    data.forEach(function(list) {
+      list = parseTitle(list);
+      if (list.hide !== 'true') {
+        return r.push(list);
+      }
+    });
+    return r;
+  };
+  parseType = function(data) {
+    var r;
+    r = [];
+    data.forEach(function(list) {
+      if (r.indexOf(list.type) === -1) {
+        return r.push(list.type);
+      }
+    });
+    return r;
+  };
+  parsePost = function(text) {
+    var flag, head, j, len, line, post, ref, tail;
+    flag = false;
+    head = "";
+    tail = "";
+    ref = text.split('\n');
+    for (j = 0, len = ref.length; j < len; j++) {
+      line = ref[j];
+      if (/[\-=]+/.test(line)) {
+        flag = true;
+      }
+      if (flag) {
+        tail += '\n' + line;
+      } else {
+        head += '\n' + line + '\n';
+      }
+    }
+    post = parseTitle(head);
+    post.text = tail;
+    if (post.hide === 'true') {
+      return;
+    }
+    return post;
+  };
+  return app.controller('blogList', [
+    '$scope', '$http', '$routeParams', '$rootScope', '$timeout', '$location', function($scope, $http, $routeParams, $rootScope, $timeout, $location) {
+      $scope.routeType = $routeParams.type || 'all';
+      $http.get("/post/list.md").success(function(data) {
+        $scope.blogList = $scope.blogListOrigin = parseList(data);
+        return $scope.listType = parseType($scope.blogList);
+      });
+      return $scope.changeType = function($event, type) {
+        $event.preventDefault();
+        $scope.routeType = type;
+        return $scope.blogList = filterType($scope.blogListOrigin, type);
+      };
     }
   ]);
 });

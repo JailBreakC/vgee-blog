@@ -48,6 +48,8 @@ requirejs ['jquery', 'angular', 'bootstrap'], ($, angular) ->
                 templateUrl: '/template/page-msg.html'
             ).when("/project",
                 templateUrl: '/template/page-project.html'
+            ).when("/blog/:type",
+                templateUrl: '/template/page-blog.html'
             ).when("/blog",
                 templateUrl: '/template/page-blog.html'
             ).otherwise redirectTo: "/"
@@ -58,6 +60,29 @@ requirejs ['jquery', 'angular', 'bootstrap'], ($, angular) ->
             fn = {};
             return {};
     ]
+    filterType = (data,param) ->
+        if param then type = param
+        if type and data and type isnt 'all'
+            output = []
+            for i in data
+                if i.type is type
+                    output.push i
+            ##console.log output
+            return output
+        return data
+    app.filter 'blogListType', ->
+        blogListType = filterType
+
+
+    app.directive 'celAnimate', ->
+        restrict: 'EA'
+        link: (scope,element,attrs)->
+            $(window).scroll ->
+                height = $(window).height()
+                top = $(window).scrollTop()
+                pos = element.offset().top
+                if pos - top <= height
+                    element.addClass('cel-show')
 
     app.directive 'cover', -> 
         restrict: 'EA'
@@ -155,14 +180,78 @@ requirejs ['jquery', 'angular', 'bootstrap'], ($, angular) ->
             $(element).click ->
                 window.location.href = attrs.vgGo;
 
+    parseTitle = (data) ->
+        r =
+            title:""
+            type:""
+            tag:""
+            disc:""
+            url:""
+            hide:""
+        month = '零 一 二 三 四 五 六 七 八 九 十 十一 十二'.split(' ')
+        for line in data.split('\n')
+            [key,value] = line.split(':')
+            key = $.trim key
+            value = $.trim value
+            if r.hasOwnProperty(key) then r[key]=value
+        r.date = r.url.split('-')
+        r.date.month = month[parseInt r.date[1],10]
+        r.date.day =  parseInt r.date[2],10
+        return r
 
-    app.controller 'mainCtrl', [
+    parseList = (data) ->
+        #console.log data.split(/\n[\-=]+/)
+        r = []
+        data = data.split(/\n[\-=]+/)
+        data.forEach (list)->
+            list = parseTitle(list)
+            #剔除hide的的文章
+            if list.hide isnt 'true' then r.push list
+        return r
+
+    parseType = (data) ->
+        r = []
+        data.forEach (list)->
+            if r.indexOf(list.type) is -1
+                r.push list.type
+        return r
+
+
+    parsePost = (text) ->
+        flag = false
+        head = ""
+        tail = ""
+        for line in text.split('\n')
+            if /[\-=]+/.test(line)
+                flag=true
+            if flag
+                tail+= '\n'+line
+            else
+                head+= '\n'+line+'\n'
+        post = parseTitle head
+        post.text = tail
+        if post.hide == 'true' then return
+        return post
+
+    app.controller 'blogList', [
         '$scope', 
         '$http', 
         '$routeParams',
         '$rootScope',
         '$timeout',
-        ($scope,$http,$routeParams,$rootScope, $timeout) ->
-            $rootScope.$on('$routeChangeSuccess', ->
-            )
+        '$location',
+        ($scope,$http,$routeParams,$rootScope, $timeout, $location) ->
+            $scope.routeType = $routeParams.type || 'all'
+            #console.log $scope.routeParams
+            $http.get("/post/list.md").success (data) ->
+                #解析博客列表，
+                $scope.blogList = $scope.blogListOrigin= parseList(data)
+                #解析博客分类
+                $scope.listType = parseType($scope.blogList)
+
+            $scope.changeType = ($event, type)->
+                $event.preventDefault();
+                $scope.routeType = type
+                $scope.blogList = filterType($scope.blogListOrigin, type);
     ]
+

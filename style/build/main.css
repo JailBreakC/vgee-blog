@@ -817,8 +817,8 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
 }
 .c-blog .blog {
   opacity: 0;
-  -webkit-animation: text-slide-up 1s ease 0.4s both;
-          animation: text-slide-up 1s ease 0.4s both;
+  -webkit-animation: text-slide-up 1s ease 0.3s both;
+          animation: text-slide-up 1s ease 0.3s both;
 }
 .c-blog .blog-cel {
   position: relative;
@@ -838,8 +838,9 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
           transform: translateY(-3px);
 }
 .c-blog .blog-cel h2 > a {
+  font-size: 24px;
   color: #2cc3b0;
-  text-shadow: 1px 1px 0 #F5F5F5, 2px 2px 0 #CCC;
+  text-shadow: 1px 1px 0 #CCC;
   margin-left: 50px;
 }
 .c-blog .blog-cel .intro {
