@@ -12,8 +12,8 @@ body {
     overflow-y: scroll;
     font-family: "lucida grande", "lucida sans unicode", lucida, helvetica, "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
     /* overflow-x: hidden; */
-
 }
+
 a {
     color: rgb(0, 206, 209);
     text-decoration: none;
@@ -523,6 +523,11 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
 @screen-sm-min: 768px;
 @screen-md-min: 992px;
 @screen-lg-min: 1200px;
+@media(min-width: @screen-lg-min) {
+    .container {
+        min-width: 1200px;
+    }
+}
 @media(max-width: @screen-sm-min) {
     .bk-left {
         top: 0;
@@ -649,7 +654,7 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
         margin: 40px 0;
         padding: 0 10px 10px 10px;
         //border-bottom-color: lighten(@blog-base-color, 20%);
-        border-radius: 10px;
+        border-radius: 5px;
         background-color: white;
         transition: all .4s ease;
         &:hover {
@@ -711,6 +716,13 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
     .type-ct {
         margin-top: 40px;
         background-color: white;
+        border-radius: 5px;
+        overflow: hidden;
+        transition: transform .4s ease; 
+        &:hover {
+            box-shadow: 0px 0px 15px 1px #B5B5B5;
+            transform: translateY(-3px);
+        }
         .type-head {
             color: white;
             background-color: @blog-base-color;
@@ -745,33 +757,44 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
                         color: white;
                     }
                 }
-/*  
-                &:after {
-                    content: '';
-                    position: absolute;
-                    height: 100%;
-                    width: 28px;
-                    left: -28px;
-                    top: 0px;
-                    background-color: #2cc3b0;
-                    display: none;
-                }
-                &:hover:after {
-                    display: block;
-                } 
-*/
             }
+        }
+    }
+    .blog-detail {
+        background: white;
+        margin-top: 40px;
+        border-radius: 5px;
+        padding: 20px;
+        &>h1 {
+            font-size: 30px;
+        }
+        img {
+            max-width: 100%;
         }
     }
 }
 .big-banner.ng-leave { 
     transform-origin: top left;
     animation: round-to-left .7s ease ;
+    z-index: 10;
 }
 .big-banner.ng-enter {
     opacity: 1;
     animation: fade-in .7s ease;
     position: absolute;
     top: 0;
+    z-index: -1;
+}
+.blog-ct.ng-leave { 
+    transform-origin: top left;
+    animation: round-to-left .7s ease ;
+    z-index: 10;
+}
+.blog-ct.ng-enter {
+    opacity: 1;
+    animation: fade-in .7s ease;
+    position: absolute;
+    top: 0;
+    right: 0;
     z-index: -1;
 }

@@ -1,0 +1,17 @@
+<div class="blog-cel" ng-repeat="list in blogList | blogListType: blogtype ">
+    <h2><a ng-href="#/blog/post/{{list.url}}">{{list.title}}</a></h2>
+    <div class="shortcut"></div>
+    <p class="intro">{{list.disc}}</p>
+    <div class="time">
+        <div class="day">{{list.date.day}}</div>
+        <div class="month">{{list.date.month}}</div>
+    </div>
+    <div class="btn-ct">
+        <div class="type-label"><a ng-href="#/blog/{{list.type}}">{{list.type}}</a></div>
+        <a ng-href="#/blog/post/{{list.url}}">
+            <button class="btn btn-sm btn-primary">
+                阅读全文
+            </button>
+        </a>
+    </div>
+</div>

@@ -17,20 +17,14 @@ module.exports = function(grunt) {
             },
             build: {
                 files: [
-                    {src: 'js/main.js', dest: 'js/main.min.js'}
+                    {src: 'js/lib/markdown.js', dest: 'js/build/lib/markdown.min.js'}
                 ]
             },
             concat: {
                 files:  [
-                    {'js/build/lib/lib.min.js': [
-                        'js/lib/jquery.min.js',
-                        'js/lib/underscore.js',
-                        'js/lib/underscore.string.min.js'
-                        ]
-                    },
                     {'js/build/lib/angular-route-animate.min.js': [
                         'js/lib/angular.js',
-                        'js/lib/angular-route.js',
+                        'js/lib/angular-ui-router.js',
                         'js/lib/angular-animate.min.js'
                         ]
                     }
@@ -38,13 +32,21 @@ module.exports = function(grunt) {
             }
         },
         watch: {
-            client: {
+            less: {
                 options: {
                     livereload: true,
                     spawn: false
                 },
                 files: ['**/*.html', 'style/less/*.less'],
                 tasks: ['less:development']
+            },
+            coffee: {
+                options: {
+                    livereload: false,
+                    spawn: false
+                },
+                files: ['js/coffee/*.coffee'],
+                tasks: ['coffee:dev']
             }
         },
         less: {
@@ -74,6 +76,17 @@ module.exports = function(grunt) {
                     "style/build/main.css": "style/less/*.less"
                 }
             }
+        },
+        coffee: {
+            dev: {
+                options: {
+                    sourceMap: false,
+                    bare: true
+                },
+                files: {
+                    "js/compile/main.js": "js/coffee/*.coffee"
+                }
+            }
         }
     });
 
@@ -82,7 +95,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-requirejs');
     grunt.loadNpmTasks('grunt-contrib-less');
-
+    grunt.loadNpmTasks('grunt-contrib-coffee');
     // 默认被执行的任务列表。
     grunt.registerTask('default', ['uglify:build']);
     grunt.registerTask('lib', ['uglify:build', 'uglify:concat']);

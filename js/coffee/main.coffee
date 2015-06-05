@@ -3,6 +3,8 @@ requirejs.config
         'angular': '../build/lib/angular-route-animate.min'
         'jquery': '../build/lib/jquery.min'
         'bootstrap': '../build/lib/bootstrap.min'
+        'markdown': '../build/lib/markdown.min'
+        'hljs': '../build/lib/highlight.pack'
         #'skel': '../build/lib/skel.min'
     shim: 
         'angular':
@@ -10,6 +12,8 @@ requirejs.config
         'bootstrap':
             deps: ['jquery'],
             exports: 'bootstrap'
+        'markdown':
+            exports: 'markdown'
 
 
 requirejs ['jquery', 'angular', 'bootstrap'], ($, angular) ->
@@ -33,26 +37,40 @@ requirejs ['jquery', 'angular', 'bootstrap'], ($, angular) ->
             angular.bootstrap(document, ['myblog'])
 
     app = angular.module 'myblog', [
-        "ngRoute"
-        "ngAnimate"
+        'ui.router'
+        'ngAnimate'
     ]
     app.config [
-        '$routeProvider', 
-        '$locationProvider', 
-        ($routeProvider, $locationProvider) -> 
-            $routeProvider.when("/",
+        '$stateProvider',
+        '$urlRouterProvider',
+        ($stateProvider, $urlRouterProvider) -> 
+            $stateProvider.state('main', 
+                url: '/',
                 templateUrl: '/template/page-main.html'
-            ).when("/cv",
+            ).state('cv',
+                url: '/cv',
                 templateUrl: '/template/page-cv.html'
-            ).when("/contact",
+            ).state('contact',
+                url: '/contact',
                 templateUrl: '/template/page-msg.html'
-            ).when("/project",
+            ).state('project',
+                url: '/project',
                 templateUrl: '/template/page-project.html'
-            ).when("/blog/:type",
-                templateUrl: '/template/page-blog.html'
-            ).when("/blog",
-                templateUrl: '/template/page-blog.html'
-            ).otherwise redirectTo: "/"
+            ).state('blog',
+                url: '/blog',
+                templateUrl: '/template/page-blog.html',
+                controller: 'blog'
+            ).state('blog.list',
+                url: '/:type',
+                templateUrl: '/template/page-blog-list.html',
+                controller: 'bloglist'
+            ).state('blog.detail',
+                url: '/post/:article',
+                templateUrl: '/template/page-blog-detail.html',
+                controller: 'blogdetail'
+            )
+
+            $urlRouterProvider.otherwise('/');
     ]
     app.factory 'AuthService', [
         '$http',
@@ -180,14 +198,42 @@ requirejs ['jquery', 'angular', 'bootstrap'], ($, angular) ->
             $(element).click ->
                 window.location.href = attrs.vgGo;
 
+    app.directive 'markdown', ->
+        restrict: 'A'
+        scope: {
+            content: '=markdownText'
+        },
+        link: (scope, element, attrs)-> 
+            them = if attrs.theme then attrs.theme else 'default'
+            cssUrl = require.toUrl('/style/lib/hightlight/' + them + '.css')
+            link = document.createElement('link')
+            link.type = 'text/css'
+            link.rel = 'stylesheet'
+            link.href = cssUrl
+            document.getElementsByTagName('head')[0].appendChild(link);
+
+            requirejs ['markdown', 'hljs'], (md, hljs) ->
+                scope.$watch( ->
+                    return scope.content
+                , ->
+                    console.log newValue
+                    element.html md.toHTML(newValue)
+                    $(element).find('pre>code').each (i, block) ->
+                       return hljs.highlightBlock block
+                )
+                element.html md.toHTML(scope.content)
+                $(element).find('pre>code').each (i, block) ->
+                   return hljs.highlightBlock block
+    
+
     parseTitle = (data) ->
         r =
-            title:""
-            type:""
-            tag:""
-            disc:""
-            url:""
-            hide:""
+            title:''
+            type:''
+            tag:''
+            disc:''
+            url:''
+            hide:''
         month = '零 一 二 三 四 五 六 七 八 九 十 十一 十二'.split(' ')
         for line in data.split('\n')
             [key,value] = line.split(':')
@@ -219,8 +265,8 @@ requirejs ['jquery', 'angular', 'bootstrap'], ($, angular) ->
 
     parsePost = (text) ->
         flag = false
-        head = ""
-        tail = ""
+        head = ''
+        tail = '' 
         for line in text.split('\n')
             if /[\-=]+/.test(line)
                 flag=true
@@ -233,25 +279,39 @@ requirejs ['jquery', 'angular', 'bootstrap'], ($, angular) ->
         if post.hide == 'true' then return
         return post
 
-    app.controller 'blogList', [
+    app.controller 'blog', [
         '$scope', 
         '$http', 
-        '$routeParams',
         '$rootScope',
         '$timeout',
         '$location',
-        ($scope,$http,$routeParams,$rootScope, $timeout, $location) ->
-            $scope.routeType = $routeParams.type || 'all'
-            #console.log $scope.routeParams
-            $http.get("/post/list.md").success (data) ->
+        '$stateParams',
+        ($scope,$http,$rootScope, $timeout, $location, $stateParams) ->
+            ##$scope.routeType = $routeParams.type || 'all'
+            $http.get('/post/list.md').success (data) ->
                 #解析博客列表，
                 $scope.blogList = $scope.blogListOrigin= parseList(data)
                 #解析博客分类
                 $scope.listType = parseType($scope.blogList)
+    ]
 
-            $scope.changeType = ($event, type)->
-                $event.preventDefault();
-                $scope.routeType = type
-                $scope.blogList = filterType($scope.blogListOrigin, type);
+    app.controller 'bloglist', [
+        '$scope',
+        '$rootScope',
+        '$http',
+        '$stateParams',
+        ($rootScope, $scope, $http, $stateParams) ->
+            console.log $scope.blogtype = $rootScope.$parent.$parent.blogtype = $stateParams.type
+
+    ]   
+    app.controller 'blogdetail', [
+        '$scope',
+        '$http',
+        '$stateParams'
+        ($scope, $http, $stateParams) ->
+            $http.get('/post/' + $stateParams.article).success (data) ->
+                data = parsePost(data)
+                $scope.title = data.title
+                $scope.article = data.text
     ]
 
