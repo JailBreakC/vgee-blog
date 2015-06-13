@@ -244,23 +244,27 @@ requirejs(['jquery', 'angular', 'bootstrap'], function($, angular) {
         content: '=markdownText'
       },
       link: function(scope, element, attrs) {
-        var cssUrl, link, them;
-        them = attrs.theme ? attrs.theme : 'default';
+        var cssUrl, link, loading, them;
+        them = attrs.theme ? attrs.theme : 'zenburn';
         cssUrl = require.toUrl('/style/lib/hightlight/' + them + '.css');
         link = document.createElement('link');
         link.type = 'text/css';
         link.rel = 'stylesheet';
         link.href = cssUrl;
         document.getElementsByTagName('head')[0].appendChild(link);
+        loading = '<div class="spinner"> <div class="rect1"></div> <div class="rect2"></div> <div class="rect3"></div> <div class="rect4"></div> <div class="rect5"></div> </div>';
         return requirejs(['markdown', 'hljs'], function(md, hljs) {
           scope.$watch(function() {
             return scope.content;
-          }, function() {
-            console.log(newValue);
-            element.html(md.toHTML(newValue));
-            return $(element).find('pre>code').each(function(i, block) {
-              return hljs.highlightBlock(block);
-            });
+          }, function(newValue) {
+            if (newValue) {
+              element.html(md.toHTML(newValue));
+              return $(element).find('pre>code').each(function(i, block) {
+                return hljs.highlightBlock(block);
+              });
+            } else {
+              return element.html(loading);
+            }
           });
           element.html(md.toHTML(scope.content));
           return $(element).find('pre>code').each(function(i, block) {
@@ -344,10 +348,12 @@ requirejs(['jquery', 'angular', 'bootstrap'], function($, angular) {
   };
   app.controller('blog', [
     '$scope', '$http', '$rootScope', '$timeout', '$location', '$stateParams', function($scope, $http, $rootScope, $timeout, $location, $stateParams) {
-      return $http.get('/post/list.md').success(function(data) {
+      var themes;
+      $http.get('/post/list.md').success(function(data) {
         $scope.blogList = $scope.blogListOrigin = parseList(data);
         return $scope.listType = parseType($scope.blogList);
       });
+      return themes = ['green', 'blue', 'yello', 'pink'];
     }
   ]);
   app.controller('bloglist', [

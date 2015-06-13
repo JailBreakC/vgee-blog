@@ -204,22 +204,31 @@ requirejs ['jquery', 'angular', 'bootstrap'], ($, angular) ->
             content: '=markdownText'
         },
         link: (scope, element, attrs)-> 
-            them = if attrs.theme then attrs.theme else 'default'
+            them = if attrs.theme then attrs.theme else 'zenburn'
             cssUrl = require.toUrl('/style/lib/hightlight/' + them + '.css')
             link = document.createElement('link')
             link.type = 'text/css'
             link.rel = 'stylesheet'
             link.href = cssUrl
             document.getElementsByTagName('head')[0].appendChild(link);
-
+            loading = '<div class="spinner">
+                          <div class="rect1"></div>
+                          <div class="rect2"></div>
+                          <div class="rect3"></div>
+                          <div class="rect4"></div>
+                          <div class="rect5"></div>
+                      </div>'
             requirejs ['markdown', 'hljs'], (md, hljs) ->
                 scope.$watch( ->
                     return scope.content
-                , ->
-                    console.log newValue
-                    element.html md.toHTML(newValue)
-                    $(element).find('pre>code').each (i, block) ->
-                       return hljs.highlightBlock block
+                , (newValue)->
+                    if newValue
+                        element.html md.toHTML(newValue)
+                        $(element).find('pre>code').each (i, block) ->
+                           return hljs.highlightBlock block
+                    else
+                        element.html loading
+
                 )
                 element.html md.toHTML(scope.content)
                 $(element).find('pre>code').each (i, block) ->
@@ -280,12 +289,12 @@ requirejs ['jquery', 'angular', 'bootstrap'], ($, angular) ->
         return post
 
     app.controller 'blog', [
-        '$scope', 
-        '$http', 
-        '$rootScope',
-        '$timeout',
-        '$location',
-        '$stateParams',
+        '$scope'
+        '$http'
+        '$rootScope'
+        '$timeout'
+        '$location'
+        '$stateParams'
         ($scope,$http,$rootScope, $timeout, $location, $stateParams) ->
             ##$scope.routeType = $routeParams.type || 'all'
             $http.get('/post/list.md').success (data) ->
@@ -293,20 +302,26 @@ requirejs ['jquery', 'angular', 'bootstrap'], ($, angular) ->
                 $scope.blogList = $scope.blogListOrigin= parseList(data)
                 #解析博客分类
                 $scope.listType = parseType($scope.blogList)
+            themes = [
+                'green'
+                'blue'
+                'yello'
+                'pink'
+            ]
     ]
 
     app.controller 'bloglist', [
-        '$scope',
-        '$rootScope',
-        '$http',
-        '$stateParams',
+        '$scope'
+        '$rootScope'
+        '$http'
+        '$stateParams'
         ($rootScope, $scope, $http, $stateParams) ->
             console.log $scope.blogtype = $rootScope.$parent.$parent.blogtype = $stateParams.type
 
     ]   
     app.controller 'blogdetail', [
-        '$scope',
-        '$http',
+        '$scope'
+        '$http'
         '$stateParams'
         ($scope, $http, $stateParams) ->
             $http.get('/post/' + $stateParams.article).success (data) ->
