@@ -334,7 +334,7 @@ requirejs ['jquery', 'angular', 'bootstrap'], ($, angular) ->
                     selected: false
                 },
                 {
-                    color: 'yello'
+                    color: 'yellow'
                     selected: false
                 },
                 {

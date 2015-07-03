@@ -378,7 +378,7 @@ requirejs(['jquery', 'angular', 'bootstrap'], function($, angular) {
           color: 'purple',
           selected: false
         }, {
-          color: 'yello',
+          color: 'yellow',
           selected: false
         }, {
           color: 'pink',
