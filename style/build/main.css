@@ -426,7 +426,6 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
   0% {
     -webkit-transform: rotateZ(0deg);
             transform: rotateZ(0deg);
-    opacity: 1;
   }
   20% {
     -webkit-transform: rotateZ(10deg);
@@ -445,14 +444,12 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
   100% {
     -webkit-transform: translateY(100%) rotateZ(17deg);
             transform: translateY(100%) rotateZ(17deg);
-    opacity: 0;
   }
 }
 @keyframes rotate-fall {
   0% {
     -webkit-transform: rotateZ(0deg);
             transform: rotateZ(0deg);
-    opacity: 1;
   }
   20% {
     -webkit-transform: rotateZ(10deg);
@@ -471,7 +468,6 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
   100% {
     -webkit-transform: translateY(100%) rotateZ(17deg);
             transform: translateY(100%) rotateZ(17deg);
-    opacity: 0;
   }
 }
 @-webkit-keyframes scale-up {
@@ -563,7 +559,8 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
 @-webkit-keyframes scale-up-down {
   from {
     opacity: 0;
-    -transform: scale(1.2);
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
   }
 }
 .bk-left {
@@ -801,16 +798,280 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
 .navbar-fixed-top {
   position: absolute;
 }
+/****************
+ *
+ * 主题配色区， @blog-base-color为主题基调色
+ *
+ *****************/
+/* 默认主题基调 绿色 */
+/* green */
+.theme-green.c-blog .blog-cel h2 > a {
+  -webkit-transition: background-color 1s ease, color 1s ease;
+          transition: background-color 1s ease, color 1s ease;
+  color: #2cc3b0;
+}
+.theme-green.c-blog .blog-cel .btn {
+  -webkit-transition: background-color 1s ease, color 1s ease;
+          transition: background-color 1s ease, color 1s ease;
+  background-color: #2cc3b0;
+  border-color: #27ae9d;
+}
+.theme-green.c-blog .blog-cel .btn:hover， .theme-green.c-blog .blog-cel .btn:focus {
+  background-color: #23998a;
+}
+.theme-green.c-blog .blog-cel .time {
+  -webkit-transition: background-color 1s ease, color 1s ease;
+          transition: background-color 1s ease, color 1s ease;
+  background-color: #2cc3b0;
+}
+.theme-green.c-blog .blog-cel .type-label {
+  -webkit-transition: background-color 1s ease, color 1s ease;
+          transition: background-color 1s ease, color 1s ease;
+  background-color: #75e0d2;
+}
+.theme-green.c-blog .type-ct .type-head {
+  -webkit-transition: background-color 1s ease, color 1s ease;
+          transition: background-color 1s ease, color 1s ease;
+  background-color: #2cc3b0;
+}
+.theme-green.c-blog .type-ct .types {
+  -webkit-transition: background-color 1s ease, color 1s ease;
+          transition: background-color 1s ease, color 1s ease;
+  color: #2cc3b0;
+}
+.theme-green.c-blog .type-ct .types > li a {
+  -webkit-transition: background-color 1s ease, color 1s ease;
+          transition: background-color 1s ease, color 1s ease;
+  color: #2cc3b0;
+}
+.theme-green.c-blog .type-ct .types > li:hover,
+.theme-green.c-blog .type-ct .types > li.active {
+  -webkit-transition: background-color 1s ease, color 0.2s ease;
+          transition: background-color 1s ease, color 0.2s ease;
+  background-color: #4cd6c5;
+}
+.theme-green.c-blog .type-ct .types > li.active {
+  -webkit-transition: background-color 1s ease, color 1s ease;
+          transition: background-color 1s ease, color 1s ease;
+  background-color: #4cd6c5;
+}
+/* blue */
+.theme-blue.c-blog .blog-cel h2 > a {
+  -webkit-transition: background-color 1s ease, color 1s ease;
+          transition: background-color 1s ease, color 1s ease;
+  color: #427bd2;
+}
+.theme-blue.c-blog .blog-cel .btn {
+  -webkit-transition: background-color 1s ease, color 1s ease;
+          transition: background-color 1s ease, color 1s ease;
+  background-color: #427bd2;
+  border-color: #306dca;
+}
+.theme-blue.c-blog .blog-cel .btn:hover， .theme-blue.c-blog .blog-cel .btn:focus {
+  background-color: #2b62b6;
+}
+.theme-blue.c-blog .blog-cel .time {
+  -webkit-transition: background-color 1s ease, color 1s ease;
+          transition: background-color 1s ease, color 1s ease;
+  background-color: #427bd2;
+}
+.theme-blue.c-blog .blog-cel .type-label {
+  -webkit-transition: background-color 1s ease, color 1s ease;
+          transition: background-color 1s ease, color 1s ease;
+  background-color: #94b5e6;
+}
+.theme-blue.c-blog .type-ct .type-head {
+  -webkit-transition: background-color 1s ease, color 1s ease;
+          transition: background-color 1s ease, color 1s ease;
+  background-color: #427bd2;
+}
+.theme-blue.c-blog .type-ct .types {
+  -webkit-transition: background-color 1s ease, color 1s ease;
+          transition: background-color 1s ease, color 1s ease;
+  color: #427bd2;
+}
+.theme-blue.c-blog .type-ct .types > li a {
+  -webkit-transition: background-color 1s ease, color 1s ease;
+          transition: background-color 1s ease, color 1s ease;
+  color: #427bd2;
+}
+.theme-blue.c-blog .type-ct .types > li:hover,
+.theme-blue.c-blog .type-ct .types > li.active {
+  -webkit-transition: background-color 1s ease, color 0.2s ease;
+          transition: background-color 1s ease, color 0.2s ease;
+  background-color: #6b98dc;
+}
+.theme-blue.c-blog .type-ct .types > li.active {
+  -webkit-transition: background-color 1s ease, color 1s ease;
+          transition: background-color 1s ease, color 1s ease;
+  background-color: #6b98dc;
+}
+/* purple */
+.theme-purple.c-blog .blog-cel h2 > a {
+  -webkit-transition: background-color 1s ease, color 1s ease;
+          transition: background-color 1s ease, color 1s ease;
+  color: #9586bf;
+}
+.theme-purple.c-blog .blog-cel .btn {
+  -webkit-transition: background-color 1s ease, color 1s ease;
+          transition: background-color 1s ease, color 1s ease;
+  background-color: #9586bf;
+  border-color: #8675b6;
+}
+.theme-purple.c-blog .blog-cel .btn:hover， .theme-purple.c-blog .blog-cel .btn:focus {
+  background-color: #7865ad;
+}
+.theme-purple.c-blog .blog-cel .time {
+  -webkit-transition: background-color 1s ease, color 1s ease;
+          transition: background-color 1s ease, color 1s ease;
+  background-color: #9586bf;
+}
+.theme-purple.c-blog .blog-cel .type-label {
+  -webkit-transition: background-color 1s ease, color 1s ease;
+          transition: background-color 1s ease, color 1s ease;
+  background-color: #cfc9e2;
+}
+.theme-purple.c-blog .type-ct .type-head {
+  -webkit-transition: background-color 1s ease, color 1s ease;
+          transition: background-color 1s ease, color 1s ease;
+  background-color: #9586bf;
+}
+.theme-purple.c-blog .type-ct .types {
+  -webkit-transition: background-color 1s ease, color 1s ease;
+          transition: background-color 1s ease, color 1s ease;
+  color: #9586bf;
+}
+.theme-purple.c-blog .type-ct .types > li a {
+  -webkit-transition: background-color 1s ease, color 1s ease;
+          transition: background-color 1s ease, color 1s ease;
+  color: #9586bf;
+}
+.theme-purple.c-blog .type-ct .types > li:hover,
+.theme-purple.c-blog .type-ct .types > li.active {
+  -webkit-transition: background-color 1s ease, color 0.2s ease;
+          transition: background-color 1s ease, color 0.2s ease;
+  background-color: #b2a7d1;
+}
+.theme-purple.c-blog .type-ct .types > li.active {
+  -webkit-transition: background-color 1s ease, color 1s ease;
+          transition: background-color 1s ease, color 1s ease;
+  background-color: #b2a7d1;
+}
+/* yellow */
+.theme-yellow.c-blog .blog-cel h2 > a {
+  -webkit-transition: background-color 1s ease, color 1s ease;
+          transition: background-color 1s ease, color 1s ease;
+  color: #efd16a;
+}
+.theme-yellow.c-blog .blog-cel .btn {
+  -webkit-transition: background-color 1s ease, color 1s ease;
+          transition: background-color 1s ease, color 1s ease;
+  background-color: #efd16a;
+  border-color: #edca53;
+}
+.theme-yellow.c-blog .blog-cel .btn:hover， .theme-yellow.c-blog .blog-cel .btn:focus {
+  background-color: #eac33c;
+}
+.theme-yellow.c-blog .blog-cel .time {
+  -webkit-transition: background-color 1s ease, color 1s ease;
+          transition: background-color 1s ease, color 1s ease;
+  background-color: #efd16a;
+}
+.theme-yellow.c-blog .blog-cel .type-label {
+  -webkit-transition: background-color 1s ease, color 1s ease;
+          transition: background-color 1s ease, color 1s ease;
+  background-color: #f9edc6;
+}
+.theme-yellow.c-blog .type-ct .type-head {
+  -webkit-transition: background-color 1s ease, color 1s ease;
+          transition: background-color 1s ease, color 1s ease;
+  background-color: #efd16a;
+}
+.theme-yellow.c-blog .type-ct .types {
+  -webkit-transition: background-color 1s ease, color 1s ease;
+          transition: background-color 1s ease, color 1s ease;
+  color: #efd16a;
+}
+.theme-yellow.c-blog .type-ct .types > li a {
+  -webkit-transition: background-color 1s ease, color 1s ease;
+          transition: background-color 1s ease, color 1s ease;
+  color: #efd16a;
+}
+.theme-yellow.c-blog .type-ct .types > li:hover,
+.theme-yellow.c-blog .type-ct .types > li.active {
+  -webkit-transition: background-color 1s ease, color 0.2s ease;
+          transition: background-color 1s ease, color 0.2s ease;
+  background-color: #f4df98;
+}
+.theme-yellow.c-blog .type-ct .types > li.active {
+  -webkit-transition: background-color 1s ease, color 1s ease;
+          transition: background-color 1s ease, color 1s ease;
+  background-color: #f4df98;
+}
+/* pink */
+.theme-pink.c-blog .blog-cel h2 > a {
+  -webkit-transition: background-color 1s ease, color 1s ease;
+          transition: background-color 1s ease, color 1s ease;
+  color: #e2685b;
+}
+.theme-pink.c-blog .blog-cel .btn {
+  -webkit-transition: background-color 1s ease, color 1s ease;
+          transition: background-color 1s ease, color 1s ease;
+  background-color: #e2685b;
+  border-color: #de5445;
+}
+.theme-pink.c-blog .blog-cel .btn:hover， .theme-pink.c-blog .blog-cel .btn:focus {
+  background-color: #da4030;
+}
+.theme-pink.c-blog .blog-cel .time {
+  -webkit-transition: background-color 1s ease, color 1s ease;
+          transition: background-color 1s ease, color 1s ease;
+  background-color: #e2685b;
+}
+.theme-pink.c-blog .blog-cel .type-label {
+  -webkit-transition: background-color 1s ease, color 1s ease;
+          transition: background-color 1s ease, color 1s ease;
+  background-color: #f1b8b2;
+}
+.theme-pink.c-blog .type-ct .type-head {
+  -webkit-transition: background-color 1s ease, color 1s ease;
+          transition: background-color 1s ease, color 1s ease;
+  background-color: #e2685b;
+}
+.theme-pink.c-blog .type-ct .types {
+  -webkit-transition: background-color 1s ease, color 1s ease;
+          transition: background-color 1s ease, color 1s ease;
+  color: #e2685b;
+}
+.theme-pink.c-blog .type-ct .types > li a {
+  -webkit-transition: background-color 1s ease, color 1s ease;
+          transition: background-color 1s ease, color 1s ease;
+  color: #e2685b;
+}
+.theme-pink.c-blog .type-ct .types > li:hover,
+.theme-pink.c-blog .type-ct .types > li.active {
+  -webkit-transition: background-color 1s ease, color 0.2s ease;
+          transition: background-color 1s ease, color 0.2s ease;
+  background-color: #ea9086;
+}
+.theme-pink.c-blog .type-ct .types > li.active {
+  -webkit-transition: background-color 1s ease, color 1s ease;
+          transition: background-color 1s ease, color 1s ease;
+  background-color: #ea9086;
+}
+/**** 主题配色区结束 *****/
 .c-blog {
   background-color: #F5F5F5;
 }
 .c-blog .header {
+  position: relative;
   width: 100%;
+  box-sizing: border-box;
   height: 500px;
-  background: url(../../img/01.jpg) no-repeat;
-  background-size: cover;
+  background: #333;
   color: white;
   text-align: center;
+  overflow: hidden;
 }
 .c-blog .header h1 {
   font-size: 92px;
@@ -820,6 +1081,21 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
   opacity: 0;
   -webkit-animation: text-slide-up 1s ease both;
           animation: text-slide-up 1s ease both;
+}
+.c-blog .header .header-background {
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: url(../../img/05.jpg) no-repeat;
+  background-size: cover;
+}
+.c-blog .header .container,
+.c-blog .header .container_fuild {
+  position: relative;
+  z-index: 10;
 }
 .c-blog .header .sub-title {
   opacity: 0;
@@ -847,6 +1123,7 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
 }
 .c-blog .header .container_fuild .theme-type p i {
   padding: 0 10px;
+  margin: 0 10px;
   cursor: pointer;
   -webkit-transition: all .5s ease;
           transition: all .5s ease;
@@ -984,6 +1261,8 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
 }
 .c-blog .type-ct .types > li:hover,
 .c-blog .type-ct .types > li.active {
+  -webkit-transition: background-color 1s ease, color 0.2s ease;
+          transition: background-color 1s ease, color 0.2s ease;
   background-color: #4cd6c5;
 }
 .c-blog .type-ct .types > li:hover a,
@@ -1031,6 +1310,14 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
   top: 0;
   right: 0;
   z-index: -1;
+}
+.bg-enter {
+  -webkit-animation: scale-up-down 0.5s ease 0.3s both;
+          animation: scale-up-down 0.5s ease 0.3s both;
+}
+.bg-leave {
+  -webkit-animation: scale-down 0.7s ease both;
+          animation: scale-down 0.7s ease both;
 }
 /*  loading  */
 .spinner {

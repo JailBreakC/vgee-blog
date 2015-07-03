@@ -367,11 +367,11 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
     100%  {transform: translateY(0px); opacity: 1;}
 }
 @keyframes rotate-fall {
-    0% { transform: rotateZ(0deg); opacity: 1;}
+    0% { transform: rotateZ(0deg);}
     20% { transform: rotateZ(10deg); animation-timing-function: ease-out; }
     40% { transform: rotateZ(17deg); }
     60% { transform: rotateZ(16deg); }
-    100% { transform: translateY(100%) rotateZ(17deg); opacity: 0}
+    100% { transform: translateY(100%) rotateZ(17deg);}
 }
 @keyframes scale-up {
     from { opacity: 0; transform: scale(.8); }
@@ -398,7 +398,7 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
     to { opacity: 0; transform: scale(.8); }
 }
 @-webkit-keyframes scale-up-down {
-    from { opacity: 0; -transform: scale(1.2); }
+    from { opacity: 0; transform: scale(1.2); }
 }
 .color-left (@opacity: 1) {
     color: rgba(255, 138, 0, @opacity);
@@ -616,16 +616,287 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
 .navbar-fixed-top {
     position: absolute;
 }
+/****************
+ *
+ * 主题配色区， @blog-base-color为主题基调色
+ *
+ *****************/
+ /* 默认主题基调 绿色 */
 @blog-base-color: #2cc3b0;
+
+/* green */
+.theme-green.c-blog {
+    @blog-base-color: #2cc3b0;
+    .blog-cel {
+
+        h2 > a {
+            transition: background-color 1s ease, color 1s ease;
+            color: @blog-base-color;
+        }
+        .btn {
+            transition: background-color 1s ease, color 1s ease;
+            background-color: @blog-base-color;
+            border-color: darken(@blog-base-color, 5%);
+            &:hover， &:focus {
+                background-color: darken(@blog-base-color, 10%)
+            }
+        }
+        .time {
+            transition: background-color 1s ease, color 1s ease;
+            background-color: @blog-base-color;
+        }
+        .type-label {
+            transition: background-color 1s ease, color 1s ease;
+            background-color: lighten(@blog-base-color, 20%);
+        }
+    }
+    .type-ct {
+        .type-head {
+            transition: background-color 1s ease, color 1s ease;
+            background-color: @blog-base-color;
+        }
+        .types {
+            transition: background-color 1s ease, color 1s ease;
+            color: @blog-base-color;
+            & > li {
+                a {
+                    transition: background-color 1s ease, color 1s ease;
+                    color: @blog-base-color;
+                }
+                &:hover, &.active {
+                    transition: background-color 1s ease, color .2s ease;
+                    background-color: lighten(@blog-base-color, 10%);
+                }
+                &.active {
+                    transition: background-color 1s ease, color 1s ease;
+                    background-color: lighten(@blog-base-color, 10%);
+                }
+            }
+        }
+    }
+}
+
+/* blue */
+.theme-blue.c-blog {
+    @blog-base-color: rgb(66, 123, 210);
+    .blog-cel {
+
+        h2 > a {
+            transition: background-color 1s ease, color 1s ease;
+            color: @blog-base-color;
+        }
+        .btn {
+            transition: background-color 1s ease, color 1s ease;
+            background-color: @blog-base-color;
+            border-color: darken(@blog-base-color, 5%);
+            &:hover， &:focus {
+                background-color: darken(@blog-base-color, 10%)
+            }
+        }
+        .time {
+            transition: background-color 1s ease, color 1s ease;
+            background-color: @blog-base-color;
+        }
+        .type-label {
+            transition: background-color 1s ease, color 1s ease;
+            background-color: lighten(@blog-base-color, 20%);
+        }
+    }
+    .type-ct {
+        .type-head {
+            transition: background-color 1s ease, color 1s ease;
+            background-color: @blog-base-color;
+        }
+        .types {
+            transition: background-color 1s ease, color 1s ease;
+            color: @blog-base-color;
+            & > li {
+                a {
+                    transition: background-color 1s ease, color 1s ease;
+                    color: @blog-base-color;
+                }
+                &:hover, &.active {
+                    transition: background-color 1s ease, color .2s ease;
+                    background-color: lighten(@blog-base-color, 10%);
+                }
+                &.active {
+                    transition: background-color 1s ease, color 1s ease;
+                    background-color: lighten(@blog-base-color, 10%);
+                }
+            }
+        }
+    }
+}
+
+/* purple */
+.theme-purple.c-blog {
+    @blog-base-color: #9586BF;
+    .blog-cel {
+
+        h2 > a {
+            transition: background-color 1s ease, color 1s ease;
+            color: @blog-base-color;
+        }
+        .btn {
+            transition: background-color 1s ease, color 1s ease;
+            background-color: @blog-base-color;
+            border-color: darken(@blog-base-color, 5%);
+            &:hover， &:focus {
+                background-color: darken(@blog-base-color, 10%)
+            }
+        }
+        .time {
+            transition: background-color 1s ease, color 1s ease;
+            background-color: @blog-base-color;
+        }
+        .type-label {
+            transition: background-color 1s ease, color 1s ease;
+            background-color: lighten(@blog-base-color, 20%);
+        }
+    }
+    .type-ct {
+        .type-head {
+            transition: background-color 1s ease, color 1s ease;
+            background-color: @blog-base-color;
+        }
+        .types {
+            transition: background-color 1s ease, color 1s ease;
+            color: @blog-base-color;
+            & > li {
+                a {
+                    transition: background-color 1s ease, color 1s ease;
+                    color: @blog-base-color;
+                }
+                &:hover, &.active {
+                    transition: background-color 1s ease, color .2s ease;
+                    background-color: lighten(@blog-base-color, 10%);
+                }
+                &.active {
+                    transition: background-color 1s ease, color 1s ease;
+                    background-color: lighten(@blog-base-color, 10%);
+                }
+            }
+        }
+    }
+}
+
+/* yellow */
+.theme-yellow.c-blog {
+    @blog-base-color: #EFD16A;
+    .blog-cel {
+
+        h2 > a {
+            transition: background-color 1s ease, color 1s ease;
+            color: @blog-base-color;
+        }
+        .btn {
+            transition: background-color 1s ease, color 1s ease;
+            background-color: @blog-base-color;
+            border-color: darken(@blog-base-color, 5%);
+            &:hover， &:focus {
+                background-color: darken(@blog-base-color, 10%)
+            }
+        }
+        .time {
+            transition: background-color 1s ease, color 1s ease;
+            background-color: @blog-base-color;
+        }
+        .type-label {
+            transition: background-color 1s ease, color 1s ease;
+            background-color: lighten(@blog-base-color, 20%);
+        }
+    }
+    .type-ct {
+        .type-head {
+            transition: background-color 1s ease, color 1s ease;
+            background-color: @blog-base-color;
+        }
+        .types {
+            transition: background-color 1s ease, color 1s ease;
+            color: @blog-base-color;
+            & > li {
+                a {
+                    transition: background-color 1s ease, color 1s ease;
+                    color: @blog-base-color;
+                }
+                &:hover, &.active {
+                    transition: background-color 1s ease, color .2s ease;
+                    background-color: lighten(@blog-base-color, 10%);
+                }
+                &.active {
+                    transition: background-color 1s ease, color 1s ease;
+                    background-color: lighten(@blog-base-color, 10%);
+                }
+            }
+        }
+    }
+}
+
+/* pink */
+.theme-pink.c-blog {
+    @blog-base-color: #E2685B;
+    .blog-cel {
+
+        h2 > a {
+            transition: background-color 1s ease, color 1s ease;
+            color: @blog-base-color;
+        }
+        .btn {
+            transition: background-color 1s ease, color 1s ease;
+            background-color: @blog-base-color;
+            border-color: darken(@blog-base-color, 5%);
+            &:hover， &:focus {
+                background-color: darken(@blog-base-color, 10%)
+            }
+        }
+        .time {
+            transition: background-color 1s ease, color 1s ease;
+            background-color: @blog-base-color;
+        }
+        .type-label {
+            transition: background-color 1s ease, color 1s ease;
+            background-color: lighten(@blog-base-color, 20%);
+        }
+    }
+    .type-ct {
+        .type-head {
+            transition: background-color 1s ease, color 1s ease;
+            background-color: @blog-base-color;
+        }
+        .types {
+            transition: background-color 1s ease, color 1s ease;
+            color: @blog-base-color;
+            & > li {
+                a {
+                    transition: background-color 1s ease, color 1s ease;
+                    color: @blog-base-color;
+                }
+                &:hover, &.active {
+                    transition: background-color 1s ease, color .2s ease;
+                    background-color: lighten(@blog-base-color, 10%);
+                }
+                &.active {
+                    transition: background-color 1s ease, color 1s ease;
+                    background-color: lighten(@blog-base-color, 10%);
+                }
+            }
+        }
+    }
+}
+/**** 主题配色区结束 *****/
+
+
 .c-blog {
     background-color: #F5F5F5;
     .header {
+        position: relative;
         width: 100%;
+        box-sizing: border-box;
         height: 500px;
-        background: url(../../img/01.jpg) no-repeat;
-        background-size: cover;
+        background: #333;
         color: white;
         text-align: center;
+        overflow: hidden;
         h1 {
             font-size: 92px; 
             margin-top: 166px;
@@ -633,6 +904,20 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
             cursor: pointer;
             opacity: 0;
             animation: text-slide-up 1s ease both;
+        }
+        .header-background {
+            position: absolute;
+            z-index: 0;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background: url(../../img/05.jpg) no-repeat;
+            background-size: cover;
+        }
+        .container, .container_fuild {
+            position: relative;
+            z-index: 10;
         }
         .sub-title {
             opacity: 0;
@@ -659,6 +944,7 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
                     font-size: 15px;
                     i {
                         padding: 0 10px;
+                        margin: 0 10px;
                         cursor: pointer;
                         transition: all .5s ease;
                         &.active, &:hover {
@@ -786,6 +1072,7 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
                 }
                 background-color: transparent;
                 &:hover, &.active {
+                    transition: background-color 1s ease, color .2s ease;
                     background-color: lighten(@blog-base-color, 10%);
                     a {
                         color: white;
@@ -830,6 +1117,12 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
     top: 0;
     right: 0;
     z-index: -1;
+}
+.bg-enter {
+    animation: scale-up-down .5s ease .3s both ;
+}
+.bg-leave {
+    animation: scale-down .7s ease both;
 }
 
 /*  loading  */

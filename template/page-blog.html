@@ -1,6 +1,7 @@
 <!-- 博客 -->
-<section class="c-blog cover-page">
+<section class="c-blog cover-page {{themeclass}}">
     <div class="header">
+        <div class="header-background"></div>
         <div class="container">
             <h1 change-font>JailBreak</h1>
             <p class="sub-title">飞翔在追寻理想的道路上</p>
@@ -9,10 +10,7 @@
             <div class="theme-type">
                 <p>
                     主题： 
-                    <i class="active glyphicon glyphicon-sunglasses"></i>
-                    <i class="glyphicon glyphicon-sunglasses"></i>
-                    <i class="glyphicon glyphicon-sunglasses"></i>
-                    <i class="glyphicon glyphicon-sunglasses"></i>
+                    <i ng-repeat="tms in themes" ng-click="changethemes($index)" class="{{tms.selected ? 'active' : ''}} {{tms.color}} glyphicon glyphicon-sunglasses"></i>
                 </p>
             </div>
             </div>

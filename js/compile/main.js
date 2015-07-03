@@ -348,12 +348,43 @@ requirejs(['jquery', 'angular', 'bootstrap'], function($, angular) {
   };
   app.controller('blog', [
     '$scope', '$http', '$rootScope', '$timeout', '$location', '$stateParams', function($scope, $http, $rootScope, $timeout, $location, $stateParams) {
-      var themes;
       $http.get('/post/list.md').success(function(data) {
         $scope.blogList = $scope.blogListOrigin = parseList(data);
         return $scope.listType = parseType($scope.blogList);
       });
-      return themes = ['green', 'blue', 'yello', 'pink'];
+      $scope.changethemes = function(index) {
+        var enterEle, leaveEle;
+        $scope.themes.forEach(function(v) {
+          return v.selected = false;
+        });
+        $scope.themes[index].selected = true;
+        $scope.themeclass = 'theme-' + $scope.themes[index].color;
+        enterEle = '<div class="header-background bg-enter" style="background: url(/img/0' + (index + 1) + '.jpg) no-repeat;background-size: cover;"></div>';
+        leaveEle = $('.c-blog > .header').find('.header-background');
+        leaveEle.removeClass('bg-enter').addClass('bg-leave');
+        setTimeout(function() {
+          return leaveEle.remove();
+        }, 1000);
+        return $(enterEle).appendTo('.c-blog > .header');
+      };
+      return $scope.themes = [
+        {
+          color: 'green',
+          selected: true
+        }, {
+          color: 'blue',
+          selected: false
+        }, {
+          color: 'purple',
+          selected: false
+        }, {
+          color: 'yello',
+          selected: false
+        }, {
+          color: 'pink',
+          selected: false
+        }
+      ];
     }
   ]);
   app.controller('bloglist', [

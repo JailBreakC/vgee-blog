@@ -179,6 +179,7 @@ requirejs ['jquery', 'angular', 'bootstrap'], ($, angular) ->
                             $('body').unbind 'mousemove'
                             $('body').unbind 'mouseup'
             moveDrag()
+
     app.directive 'showDetail', ->
         restrict: 'A'
         link: (scope, element, attrs) ->
@@ -218,6 +219,7 @@ requirejs ['jquery', 'angular', 'bootstrap'], ($, angular) ->
                           <div class="rect4"></div>
                           <div class="rect5"></div>
                       </div>'
+            #动态加载markdown 和 highlight 
             requirejs ['markdown', 'hljs'], (md, hljs) ->
                 scope.$watch( ->
                     return scope.content
@@ -302,11 +304,43 @@ requirejs ['jquery', 'angular', 'bootstrap'], ($, angular) ->
                 $scope.blogList = $scope.blogListOrigin= parseList(data)
                 #解析博客分类
                 $scope.listType = parseType($scope.blogList)
-            themes = [
-                'green'
-                'blue'
-                'yello'
-                'pink'
+
+            $scope.changethemes = (index) -> 
+                $scope.themes.forEach (v) ->
+                    v.selected = false;            
+                $scope.themes[index].selected = true;
+                $scope.themeclass = 'theme-' + $scope.themes[index].color
+                enterEle = '<div class="header-background bg-enter" style="background: url(/img/0' + (index + 1) + '.jpg) no-repeat;background-size: cover;"></div>'
+                leaveEle = $('.c-blog > .header').find('.header-background')
+                leaveEle.removeClass('bg-enter').addClass('bg-leave')
+                setTimeout(->
+                    leaveEle.remove();
+                , 1000)
+                $(enterEle).appendTo('.c-blog > .header') 
+                
+                
+
+            $scope.themes = [
+                {
+                    color: 'green'
+                    selected: true
+                },
+                {
+                    color: 'blue'
+                    selected: false
+                },
+                {
+                    color: 'purple'
+                    selected: false
+                },
+                {
+                    color: 'yello'
+                    selected: false
+                },
+                {
+                    color: 'pink'
+                    selected: false
+                },
             ]
     ]
 
