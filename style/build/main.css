@@ -556,11 +556,101 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
     opacity: 0;
   }
 }
+@keyframes scale-down {
+  to {
+    opacity: 0;
+    -webkit-transform: scale(0.8);
+            transform: scale(0.8);
+  }
+}
 @-webkit-keyframes scale-up-down {
   from {
     opacity: 0;
     -webkit-transform: scale(1.2);
             transform: scale(1.2);
+  }
+}
+@keyframes scale-up-down {
+  from {
+    opacity: 0;
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+  }
+}
+@-webkit-keyframes rotate-room-right-in {
+  from {
+    opacity: .3;
+    -webkit-transform: translateX(-100%) rotateY(90deg);
+            transform: translateX(-100%) rotateY(90deg);
+  }
+}
+@keyframes rotate-room-right-in {
+  from {
+    opacity: .3;
+    -webkit-transform: translateX(-100%) rotateY(90deg);
+            transform: translateX(-100%) rotateY(90deg);
+  }
+}
+@-webkit-keyframes rotate-room-right-out {
+  to {
+    opacity: .3;
+    -webkit-transform: translateX(100%) rotateY(-90deg);
+            transform: translateX(100%) rotateY(-90deg);
+  }
+}
+@keyframes rotate-room-right-out {
+  to {
+    opacity: .3;
+    -webkit-transform: translateX(100%) rotateY(-90deg);
+            transform: translateX(100%) rotateY(-90deg);
+  }
+}
+@-webkit-keyframes rotate-room-left-in {
+  from {
+    opacity: .3;
+    -webkit-transform: translateX(100%) rotateY(-90deg);
+            transform: translateX(100%) rotateY(-90deg);
+  }
+}
+@keyframes rotate-room-left-in {
+  from {
+    opacity: .3;
+    -webkit-transform: translateX(100%) rotateY(-90deg);
+            transform: translateX(100%) rotateY(-90deg);
+  }
+}
+@-webkit-keyframes rotate-room-left-out {
+  to {
+    opacity: .3;
+    -webkit-transform: translateX(-100%) rotateY(90deg);
+            transform: translateX(-100%) rotateY(90deg);
+  }
+}
+@keyframes rotate-room-left-out {
+  to {
+    opacity: .3;
+    -webkit-transform: translateX(-100%) rotateY(90deg);
+            transform: translateX(-100%) rotateY(90deg);
+  }
+}
+@-webkit-keyframes rotate-room-top-out {
+  to {
+    opacity: .3;
+    -webkit-transform: translateY(-100%) rotateX(-90deg);
+            transform: translateY(-100%) rotateX(-90deg);
+  }
+}
+@keyframes rotate-room-top-out {
+  to {
+    opacity: .3;
+    -webkit-transform: translateY(-100%) rotateX(-90deg);
+            transform: translateY(-100%) rotateX(-90deg);
+  }
+}
+@-webkit-keyframes rotate-room-top-in {
+  from {
+    opacity: .3;
+    -webkit-transform: translateY(100%) rotateX(90deg);
   }
 }
 .bk-left {
@@ -800,12 +890,12 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
 }
 /****************
  *
- * 主题配色区， @blog-base-color为主题基调色
+ * 主题配色区, @blog-base-color为主题基调色
  *
  *****************/
 /* 默认主题基调 绿色 */
 /* green */
-.theme-green.c-blog .blog-cel h2 > a {
+.theme-green.c-blog a {
   -webkit-transition: background-color 1s ease, color 1s ease;
           transition: background-color 1s ease, color 1s ease;
   color: #2cc3b0;
@@ -816,7 +906,8 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
   background-color: #2cc3b0;
   border-color: #27ae9d;
 }
-.theme-green.c-blog .blog-cel .btn:hover， .theme-green.c-blog .blog-cel .btn:focus {
+.theme-green.c-blog .blog-cel .btn:hover,
+.theme-green.c-blog .blog-cel .btn:focus {
   background-color: #23998a;
 }
 .theme-green.c-blog .blog-cel .time {
@@ -856,7 +947,7 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
   background-color: #4cd6c5;
 }
 /* blue */
-.theme-blue.c-blog .blog-cel h2 > a {
+.theme-blue.c-blog a {
   -webkit-transition: background-color 1s ease, color 1s ease;
           transition: background-color 1s ease, color 1s ease;
   color: #427bd2;
@@ -867,7 +958,8 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
   background-color: #427bd2;
   border-color: #306dca;
 }
-.theme-blue.c-blog .blog-cel .btn:hover， .theme-blue.c-blog .blog-cel .btn:focus {
+.theme-blue.c-blog .blog-cel .btn:hover,
+.theme-blue.c-blog .blog-cel .btn:focus {
   background-color: #2b62b6;
 }
 .theme-blue.c-blog .blog-cel .time {
@@ -907,7 +999,7 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
   background-color: #6b98dc;
 }
 /* purple */
-.theme-purple.c-blog .blog-cel h2 > a {
+.theme-purple.c-blog a {
   -webkit-transition: background-color 1s ease, color 1s ease;
           transition: background-color 1s ease, color 1s ease;
   color: #9586bf;
@@ -918,7 +1010,8 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
   background-color: #9586bf;
   border-color: #8675b6;
 }
-.theme-purple.c-blog .blog-cel .btn:hover， .theme-purple.c-blog .blog-cel .btn:focus {
+.theme-purple.c-blog .blog-cel .btn:hover,
+.theme-purple.c-blog .blog-cel .btn:focus {
   background-color: #7865ad;
 }
 .theme-purple.c-blog .blog-cel .time {
@@ -958,7 +1051,7 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
   background-color: #b2a7d1;
 }
 /* yellow */
-.theme-yellow.c-blog .blog-cel h2 > a {
+.theme-yellow.c-blog a {
   -webkit-transition: background-color 1s ease, color 1s ease;
           transition: background-color 1s ease, color 1s ease;
   color: #efd16a;
@@ -969,7 +1062,8 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
   background-color: #efd16a;
   border-color: #edca53;
 }
-.theme-yellow.c-blog .blog-cel .btn:hover， .theme-yellow.c-blog .blog-cel .btn:focus {
+.theme-yellow.c-blog .blog-cel .btn:hover,
+.theme-yellow.c-blog .blog-cel .btn:focus {
   background-color: #eac33c;
 }
 .theme-yellow.c-blog .blog-cel .time {
@@ -1009,7 +1103,7 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
   background-color: #f4df98;
 }
 /* pink */
-.theme-pink.c-blog .blog-cel h2 > a {
+.theme-pink.c-blog a {
   -webkit-transition: background-color 1s ease, color 1s ease;
           transition: background-color 1s ease, color 1s ease;
   color: #e2685b;
@@ -1020,7 +1114,8 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
   background-color: #e2685b;
   border-color: #de5445;
 }
-.theme-pink.c-blog .blog-cel .btn:hover， .theme-pink.c-blog .blog-cel .btn:focus {
+.theme-pink.c-blog .blog-cel .btn:hover,
+.theme-pink.c-blog .blog-cel .btn:focus {
   background-color: #da4030;
 }
 .theme-pink.c-blog .blog-cel .time {
@@ -1062,6 +1157,9 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
 /**** 主题配色区结束 *****/
 .c-blog {
   background-color: #F5F5F5;
+}
+.c-blog a {
+  color: #2cc3b0;
 }
 .c-blog .header {
   position: relative;
@@ -1164,7 +1262,6 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
 }
 .c-blog .blog-cel h2 > a {
   font-size: 24px;
-  color: #2cc3b0;
   text-shadow: 1px 1px 0 #CCC;
   margin-left: 50px;
 }
@@ -1311,13 +1408,74 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
   right: 0;
   z-index: -1;
 }
-.bg-enter {
-  -webkit-animation: scale-up-down 0.5s ease 0.3s both;
-          animation: scale-up-down 0.5s ease 0.3s both;
+/* room walls */
+.pt-page-rotateRoomLeftOut {
+  -webkit-transform-origin: 100% 50%;
+  -webkit-animation: rotate-room-left-out 0.8s both ease;
+  -moz-transform-origin: 100% 50%;
+  -moz-animation: rotate-room-left-out 0.8s both ease;
+  -webkit-transform-origin: 100% 50%;
+      -ms-transform-origin: 100% 50%;
+          transform-origin: 100% 50%;
+  -webkit-animation: rotate-room-left-out 0.8s both ease;
+          animation: rotate-room-left-out 0.8s both ease;
 }
-.bg-leave {
-  -webkit-animation: scale-down 0.7s ease both;
-          animation: scale-down 0.7s ease both;
+.pt-page-rotateRoomLeftIn {
+  -webkit-transform-origin: 0% 50%;
+  -webkit-animation: rotate-room-left-in 0.8s both ease;
+  -moz-transform-origin: 0% 50%;
+  -moz-animation: rotate-room-left-in 0.8s both ease;
+  -webkit-transform-origin: 0% 50%;
+      -ms-transform-origin: 0% 50%;
+          transform-origin: 0% 50%;
+  -webkit-animation: rotate-room-left-in 0.8s both ease;
+          animation: rotate-room-left-in 0.8s both ease;
+}
+.pt-page-rotateRoomRightOut {
+  -webkit-transform-origin: 0% 50%;
+  -webkit-animation: rotateRoomRightOut .8s both ease;
+  -moz-transform-origin: 0% 50%;
+  -moz-animation: rotateRoomRightOut .8s both ease;
+  -webkit-transform-origin: 0% 50%;
+      -ms-transform-origin: 0% 50%;
+          transform-origin: 0% 50%;
+  -webkit-animation: rotateRoomRightOut .8s both ease;
+          animation: rotateRoomRightOut .8s both ease;
+}
+.pt-page-rotateRoomRightIn {
+  -webkit-transform-origin: 100% 50%;
+  -webkit-animation: rotate-room-right-in 0.8s both ease;
+  -moz-transform-origin: 100% 50%;
+  -moz-animation: rotate-room-right-in 0.8s both ease;
+  -webkit-transform-origin: 100% 50%;
+      -ms-transform-origin: 100% 50%;
+          transform-origin: 100% 50%;
+  -webkit-animation: rotate-room-right-in 0.8s both ease;
+          animation: rotate-room-right-in 0.8s both ease;
+}
+.bg-leave,
+.pt-page-rotateRoomTopOut {
+  -webkit-transform-origin: 50% 100%;
+  -webkit-animation: rotate-room-top-out 0.8s both ease;
+  -moz-transform-origin: 50% 100%;
+  -moz-animation: rotate-room-top-out 0.8s both ease;
+  -webkit-transform-origin: 50% 100%;
+      -ms-transform-origin: 50% 100%;
+          transform-origin: 50% 100%;
+  -webkit-animation: rotate-room-top-out 0.8s both ease;
+          animation: rotate-room-top-out 0.8s both ease;
+}
+.bg-enter,
+.pt-page-rotateRoomTopIn {
+  -webkit-transform-origin: 50% 0%;
+  -webkit-animation: rotate-room-top-in 0.8s both ease;
+  -moz-transform-origin: 50% 0%;
+  -moz-animation: rotate-room-top-in 0.8s both ease;
+  -webkit-transform-origin: 50% 0%;
+      -ms-transform-origin: 50% 0%;
+          transform-origin: 50% 0%;
+  -webkit-animation: rotate-room-top-in 0.8s both ease;
+          animation: rotate-room-top-in 0.8s both ease;
 }
 /*  loading  */
 .spinner {
