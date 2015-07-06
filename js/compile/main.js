@@ -21,6 +21,8 @@ requirejs.config({
 });
 
 requirejs(['jquery', 'angular', 'bootstrap'], function($, angular) {
+  var app, debug, filterType, parseList, parsePost, parseTitle, parseType;
+  debug = false;
 
   /*skel配置项
   skelparam = 
@@ -35,7 +37,6 @@ requirejs(['jquery', 'angular', 'bootstrap'], function($, angular) {
       
   skel.init skelparam
    */
-  var app, filterType, parseList, parsePost, parseTitle, parseType;
   angular.element(document).ready(function() {
     return setTimeout(function() {
       return angular.bootstrap(document, ['myblog']);
@@ -54,7 +55,7 @@ requirejs(['jquery', 'angular', 'bootstrap'], function($, angular) {
         url: '/contact',
         templateUrl: '/template/page-msg.html'
       }).state('project', {
-        url: '/project',
+        url: '/projects',
         templateUrl: '/template/page-project.html'
       }).state('blog', {
         url: '/blog',
@@ -68,8 +69,15 @@ requirejs(['jquery', 'angular', 'bootstrap'], function($, angular) {
         url: '/post/:article',
         templateUrl: '/template/page-blog-detail.html',
         controller: 'blogdetail'
+      }).state('developing', {
+        url: '/developing',
+        templateUrl: '/template/page-developing.html'
       });
-      return $urlRouterProvider.otherwise('/');
+      if (debug) {
+        return $urlRouterProvider.otherwise('/');
+      } else {
+        return $urlRouterProvider.otherwise('/developing');
+      }
     }
   ]);
   app.factory('AuthService', [
@@ -100,22 +108,45 @@ requirejs(['jquery', 'angular', 'bootstrap'], function($, angular) {
     var blogListType;
     return blogListType = filterType;
   });
-  app.directive('celAnimate', function() {
-    return {
-      restrict: 'EA',
-      link: function(scope, element, attrs) {
-        return $(window).scroll(function() {
-          var height, pos, top;
-          height = $(window).height();
-          top = $(window).scrollTop();
-          pos = element.offset().top;
-          if (pos - top <= height) {
-            return element.addClass('cel-show');
-          }
-        });
-      }
-    };
-  });
+  app.directive('celAnimate', [
+    '$rootScope', function($rootScope) {
+      return {
+        restrict: 'EA',
+        link: function(scope, element, attrs) {
+          var animationCheck, scrollCheck;
+          $(element).addClass('cel-hide');
+          scrollCheck = 0;
+          animationCheck = function() {
+            var height, pos, top;
+            if ($(element).hasClass('cel-show')) {
+              return;
+            }
+            height = $(window).height();
+            top = $(window).scrollTop();
+            pos = $(element).offset().top;
+            if (pos - top <= height) {
+              $(element).removeClass('cel-hide').addClass('cel-show');
+            }
+            return scrollCheck = 1;
+          };
+          animationCheck();
+          $(window).scroll(function() {
+            if (scrollCheck === 0) {
+              return animationCheck();
+            }
+          });
+          $rootScope.$on('$routeChangeSuccess', function() {
+            return setTimeout(function() {
+              return animationCheck();
+            });
+          });
+          return setInterval(function() {
+            return scrollCheck = 0;
+          }, 200);
+        }
+      };
+    }
+  ]);
   app.directive('cover', function() {
     return {
       restrict: 'EA',
@@ -163,6 +194,35 @@ requirejs(['jquery', 'angular', 'bootstrap'], function($, angular) {
           }), 200);
         }, function() {
           return clearInterval(task.now);
+        });
+      }
+    };
+  });
+  app.directive('scrollFade', function() {
+    return {
+      restrict: 'A',
+      link: function(scope, element, attrs) {
+        var $ele, $window, eHeight, eTop;
+        $ele = $(element);
+        $window = $(window);
+        eHeight = $ele.height();
+        eTop = $ele.offset().top;
+        return $window.scroll(function() {
+          var opacity, size, wTop;
+          wTop = $window.scrollTop();
+          if (wTop > eTop && wTop - eTop <= eHeight) {
+            size = (wTop - eTop) / (eHeight * 2) + 1;
+            opacity = 1 - (wTop - eTop) / eHeight;
+            console.log(size);
+            console.log(opacity);
+            console.log(eHeight);
+            console.log(wTop);
+            console.log(eTop);
+            return $ele.css({
+              'transform': 'scale(' + size + ')',
+              'opacity': opacity
+            });
+          }
         });
       }
     };

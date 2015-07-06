@@ -21,6 +21,9 @@ a {
 a:hover {
     text-decoration: underline;
 }
+.center {
+    text-align: center;
+}
 /**
  * chrome 滚动条样式
  *
@@ -394,6 +397,9 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
 @keyframes fade-in {
     from{opacity: 0;}
 }
+@keyframes fade-out {
+    to{opacity: 0;}
+}
 @keyframes scale-down {
     to { opacity: 0; transform: scale(.8); }
 }
@@ -633,6 +639,7 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
 }
 .navbar-fixed-top {
     position: absolute;
+    top: 0;
 }
 /****************
  *
@@ -642,9 +649,8 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
  /* 默认主题基调 绿色 */
 @blog-base-color: #2cc3b0;
 
-/* green */
-.theme-green.c-blog {
-    @blog-base-color: #2cc3b0;
+/* 主题配置函数 */
+.theme(@blog-base-color) {
     a {
         transition: background-color 1s ease, color 1s ease;
         color: @blog-base-color;
@@ -693,218 +699,36 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
             }
         }
     }
+}
+
+/* green */
+.theme-green.c-blog {
+    @blog-base-color: #2cc3b0;
+    .theme(@blog-base-color)
 }
 
 /* blue */
 .theme-blue.c-blog {
     @blog-base-color: rgb(66, 123, 210);
-    a {
-        transition: background-color 1s ease, color 1s ease;
-        color: @blog-base-color;
-    }
-    .blog-cel {
-
-        
-        .btn {
-            transition: background-color 1s ease, color 1s ease;
-            background-color: @blog-base-color;
-            border-color: darken(@blog-base-color, 5%);
-            &:hover, &:focus {
-                background-color: darken(@blog-base-color, 10%)
-            }
-        }
-        .time {
-            transition: background-color 1s ease, color 1s ease;
-            background-color: @blog-base-color;
-        }
-        .type-label {
-            transition: background-color 1s ease, color 1s ease;
-            background-color: lighten(@blog-base-color, 20%);
-        }
-    }
-    .type-ct {
-        .type-head {
-            transition: background-color 1s ease, color 1s ease;
-            background-color: @blog-base-color;
-        }
-        .types {
-            transition: background-color 1s ease, color 1s ease;
-            color: @blog-base-color;
-            & > li {
-                a {
-                    transition: background-color 1s ease, color 1s ease;
-                    color: @blog-base-color;
-                }
-                &:hover, &.active {
-                    transition: background-color 1s ease, color .2s ease;
-                    background-color: lighten(@blog-base-color, 10%);
-                }
-                &.active {
-                    transition: background-color 1s ease, color 1s ease;
-                    background-color: lighten(@blog-base-color, 10%);
-                }
-            }
-        }
-    }
+    .theme(@blog-base-color)
 }
 
 /* purple */
 .theme-purple.c-blog {
     @blog-base-color: #9586BF;
-    a {
-        transition: background-color 1s ease, color 1s ease;
-        color: @blog-base-color;
-    }
-    .blog-cel {
-
-        
-        .btn {
-            transition: background-color 1s ease, color 1s ease;
-            background-color: @blog-base-color;
-            border-color: darken(@blog-base-color, 5%);
-            &:hover, &:focus {
-                background-color: darken(@blog-base-color, 10%)
-            }
-        }
-        .time {
-            transition: background-color 1s ease, color 1s ease;
-            background-color: @blog-base-color;
-        }
-        .type-label {
-            transition: background-color 1s ease, color 1s ease;
-            background-color: lighten(@blog-base-color, 20%);
-        }
-    }
-    .type-ct {
-        .type-head {
-            transition: background-color 1s ease, color 1s ease;
-            background-color: @blog-base-color;
-        }
-        .types {
-            transition: background-color 1s ease, color 1s ease;
-            color: @blog-base-color;
-            & > li {
-                a {
-                    transition: background-color 1s ease, color 1s ease;
-                    color: @blog-base-color;
-                }
-                &:hover, &.active {
-                    transition: background-color 1s ease, color .2s ease;
-                    background-color: lighten(@blog-base-color, 10%);
-                }
-                &.active {
-                    transition: background-color 1s ease, color 1s ease;
-                    background-color: lighten(@blog-base-color, 10%);
-                }
-            }
-        }
-    }
+    .theme(@blog-base-color)
 }
 
 /* yellow */
 .theme-yellow.c-blog {
     @blog-base-color: #EFD16A;
-    a {
-        transition: background-color 1s ease, color 1s ease;
-        color: @blog-base-color;
-    }
-    .blog-cel {
-
-        
-        .btn {
-            transition: background-color 1s ease, color 1s ease;
-            background-color: @blog-base-color;
-            border-color: darken(@blog-base-color, 5%);
-            &:hover, &:focus {
-                background-color: darken(@blog-base-color, 10%)
-            }
-        }
-        .time {
-            transition: background-color 1s ease, color 1s ease;
-            background-color: @blog-base-color;
-        }
-        .type-label {
-            transition: background-color 1s ease, color 1s ease;
-            background-color: lighten(@blog-base-color, 20%);
-        }
-    }
-    .type-ct {
-        .type-head {
-            transition: background-color 1s ease, color 1s ease;
-            background-color: @blog-base-color;
-        }
-        .types {
-            transition: background-color 1s ease, color 1s ease;
-            color: @blog-base-color;
-            & > li {
-                a {
-                    transition: background-color 1s ease, color 1s ease;
-                    color: @blog-base-color;
-                }
-                &:hover, &.active {
-                    transition: background-color 1s ease, color .2s ease;
-                    background-color: lighten(@blog-base-color, 10%);
-                }
-                &.active {
-                    transition: background-color 1s ease, color 1s ease;
-                    background-color: lighten(@blog-base-color, 10%);
-                }
-            }
-        }
-    }
+    .theme(@blog-base-color)
 }
 
 /* pink */
 .theme-pink.c-blog {
     @blog-base-color: #E2685B;
-    a {
-        transition: background-color 1s ease, color 1s ease;
-        color: @blog-base-color;
-    }
-    .blog-cel {
-
-        
-        .btn {
-            transition: background-color 1s ease, color 1s ease;
-            background-color: @blog-base-color;
-            border-color: darken(@blog-base-color, 5%);
-            &:hover, &:focus {
-                background-color: darken(@blog-base-color, 10%)
-            }
-        }
-        .time {
-            transition: background-color 1s ease, color 1s ease;
-            background-color: @blog-base-color;
-        }
-        .type-label {
-            transition: background-color 1s ease, color 1s ease;
-            background-color: lighten(@blog-base-color, 20%);
-        }
-    }
-    .type-ct {
-        .type-head {
-            transition: background-color 1s ease, color 1s ease;
-            background-color: @blog-base-color;
-        }
-        .types {
-            transition: background-color 1s ease, color 1s ease;
-            color: @blog-base-color;
-            & > li {
-                a {
-                    transition: background-color 1s ease, color 1s ease;
-                    color: @blog-base-color;
-                }
-                &:hover, &.active {
-                    transition: background-color 1s ease, color .2s ease;
-                    background-color: lighten(@blog-base-color, 10%);
-                }
-                &.active {
-                    transition: background-color 1s ease, color 1s ease;
-                    background-color: lighten(@blog-base-color, 10%);
-                }
-            }
-        }
-    }
+    .theme(@blog-base-color)
 }
 /**** 主题配色区结束 *****/
 
@@ -1119,6 +943,12 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
         }
     }
 }
+.developing {
+    padding-top: 200px;
+    min-height: 1500px;
+    background-color: rgb(255, 138, 0);
+}
+
 .big-banner.ng-leave { 
     transform-origin: top left;
     animation: round-to-left .7s ease ;
@@ -1129,19 +959,42 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
     animation: fade-in .7s ease;
     position: absolute;
     top: 0;
+    left: 0;
     z-index: -1;
 }
-.blog-ct.ng-leave { 
-    animation: scale-down .3s ease both;
-    z-index: 10;
+@media (min-width: @screen-sm-min) {
+
+    .blog-ct.ng-leave { 
+        animation: scale-down .3s ease both;
+        z-index: 10;
+    }
+    .blog-ct.ng-enter {
+        opacity: 1;
+        animation: move-from-bottom .5s ease;
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: -1;
+    }    
 }
-.blog-ct.ng-enter {
+@media (max-width: @screen-sm-min) {
+    .blog-ct.ng-enter {
+        animation: fade-in 1s ease both;
+        z-index: -1;
+    }
+    .blog-ct.ng-lesve {
+        animation: fade-out .2s ease both;
+        z-index: 10;
+    }    
+}
+.cel-show {
     opacity: 1;
-    animation: move-from-bottom .5s ease;
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: -1;
+    transition: opacity .3s ease-out, transform .3s ease-in;
+    transform: scale(1);
+}
+.cel-hide {
+    opacity: 0;
+    transform: scale(1.3);
 }
 // .bg-enter {
 //     animation: scale-up .7s ease both ;
@@ -1200,6 +1053,8 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
     transform-origin: 50% 0%;
     animation: rotate-room-top-in .8s both ease;
 }
+
+
 /*  loading  */
 .spinner {
   margin: 100px auto;

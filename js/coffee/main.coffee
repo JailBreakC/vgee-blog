@@ -17,6 +17,7 @@ requirejs.config
 
 
 requirejs ['jquery', 'angular', 'bootstrap'], ($, angular) ->
+    debug = false
     ###skel配置项
     skelparam = 
         containers: 1140
@@ -54,7 +55,7 @@ requirejs ['jquery', 'angular', 'bootstrap'], ($, angular) ->
                 url: '/contact',
                 templateUrl: '/template/page-msg.html'
             ).state('project',
-                url: '/project',
+                url: '/projects',
                 templateUrl: '/template/page-project.html'
             ).state('blog',
                 url: '/blog',
@@ -68,10 +69,19 @@ requirejs ['jquery', 'angular', 'bootstrap'], ($, angular) ->
                 url: '/post/:article',
                 templateUrl: '/template/page-blog-detail.html',
                 controller: 'blogdetail'
+            ).state('developing',
+                url: '/developing'
+                templateUrl: '/template/page-developing.html'
             )
+            if debug
+                $urlRouterProvider.otherwise('/');
+            else 
+                $urlRouterProvider.otherwise('/developing');
 
-            $urlRouterProvider.otherwise('/');
+
     ]
+
+
     app.factory 'AuthService', [
         '$http',
         ($http) ->
@@ -92,15 +102,36 @@ requirejs ['jquery', 'angular', 'bootstrap'], ($, angular) ->
         blogListType = filterType
 
 
-    app.directive 'celAnimate', ->
+    app.directive 'celAnimate',['$rootScope', ($rootScope) ->
         restrict: 'EA'
-        link: (scope,element,attrs)->
-            $(window).scroll ->
+        link: (scope,element,attrs) ->
+            $(element).addClass('cel-hide')
+            scrollCheck = 0
+            animationCheck = ->
+                if $(element).hasClass('cel-show') then return
+
                 height = $(window).height()
                 top = $(window).scrollTop()
-                pos = element.offset().top
+                pos = $(element).offset().top
                 if pos - top <= height
-                    element.addClass('cel-show')
+                    $(element).removeClass('cel-hide').addClass('cel-show')
+                scrollCheck = 1
+            #初始化首次检测
+            animationCheck()
+            #滚动式检测动画
+            $(window).scroll ->
+                if scrollCheck == 0
+                    animationCheck()
+            #页面切换时，检测动画
+            $rootScope.$on('$routeChangeSuccess', ->
+                setTimeout ->
+                    animationCheck()
+            )
+            #节流，每200毫秒执行一次滚动动画检测
+            setInterval( ->
+                scrollCheck = 0
+            , 200)
+        ]
 
     app.directive 'cover', -> 
         restrict: 'EA'
@@ -146,6 +177,28 @@ requirejs ['jquery', 'angular', 'bootstrap'], ($, angular) ->
             , ->
                 clearInterval(task.now)
             )
+
+    #滚动时主标题文字变大变虚
+    app.directive 'scrollFade', ->
+        restrict: 'A'
+        link: (scope, element, attrs) ->
+            $ele = $(element)
+            $window = $(window)
+            eHeight = $ele.height()
+            eTop = $ele.offset().top
+            $window.scroll ->
+                wTop = $window.scrollTop()
+
+                if wTop > eTop && wTop - eTop <= eHeight
+                    size = (wTop - eTop) / (eHeight * 2) + 1
+                    opacity = 1 - (wTop - eTop) / eHeight
+                    console.log size
+                    console.log opacity
+                    console.log eHeight
+                    console.log wTop
+                    console.log eTop
+                    $ele.css({'transform': 'scale('+size+')', 'opacity': opacity})
+
 
 
 

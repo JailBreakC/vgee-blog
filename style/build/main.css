@@ -19,6 +19,9 @@ a {
 a:hover {
   text-decoration: underline;
 }
+.center {
+  text-align: center;
+}
 /**
  * chrome 滚动条样式
  *
@@ -556,6 +559,16 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
     opacity: 0;
   }
 }
+@-webkit-keyframes fade-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes fade-out {
+  to {
+    opacity: 0;
+  }
+}
 @keyframes scale-down {
   to {
     opacity: 0;
@@ -887,6 +900,7 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
 }
 .navbar-fixed-top {
   position: absolute;
+  top: 0;
 }
 /****************
  *
@@ -894,6 +908,7 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
  *
  *****************/
 /* 默认主题基调 绿色 */
+/* 主题配置函数 */
 /* green */
 .theme-green.c-blog a {
   -webkit-transition: background-color 1s ease, color 1s ease;
@@ -1378,6 +1393,11 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
 .c-blog .blog-detail img {
   max-width: 100%;
 }
+.developing {
+  padding-top: 200px;
+  min-height: 1500px;
+  background-color: #ff8a00;
+}
 .big-banner.ng-leave {
   -webkit-transform-origin: top left;
       -ms-transform-origin: top left;
@@ -1392,21 +1412,50 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
           animation: fade-in 0.7s ease;
   position: absolute;
   top: 0;
+  left: 0;
   z-index: -1;
 }
-.blog-ct.ng-leave {
-  -webkit-animation: scale-down 0.3s ease both;
-          animation: scale-down 0.3s ease both;
-  z-index: 10;
+@media (min-width: 768px) {
+  .blog-ct.ng-leave {
+    -webkit-animation: scale-down 0.3s ease both;
+            animation: scale-down 0.3s ease both;
+    z-index: 10;
+  }
+  .blog-ct.ng-enter {
+    opacity: 1;
+    -webkit-animation: move-from-bottom 0.5s ease;
+            animation: move-from-bottom 0.5s ease;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: -1;
+  }
 }
-.blog-ct.ng-enter {
+@media (max-width: 768px) {
+  .blog-ct.ng-enter {
+    -webkit-animation: fade-in 1s ease both;
+            animation: fade-in 1s ease both;
+    z-index: -1;
+  }
+  .blog-ct.ng-lesve {
+    -webkit-animation: fade-out 0.2s ease both;
+            animation: fade-out 0.2s ease both;
+    z-index: 10;
+  }
+}
+.cel-show {
   opacity: 1;
-  -webkit-animation: move-from-bottom 0.5s ease;
-          animation: move-from-bottom 0.5s ease;
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: -1;
+  -webkit-transition: opacity 0.3s ease-out, -webkit-transform 0.3s ease-in;
+          transition: opacity 0.3s ease-out, transform 0.3s ease-in;
+  -webkit-transform: scale(1);
+      -ms-transform: scale(1);
+          transform: scale(1);
+}
+.cel-hide {
+  opacity: 0;
+  -webkit-transform: scale(1.3);
+      -ms-transform: scale(1.3);
+          transform: scale(1.3);
 }
 /* room walls */
 .pt-page-rotateRoomLeftOut {

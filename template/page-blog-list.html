@@ -1,4 +1,4 @@
-<div class="blog-cel" ng-repeat="list in blogList | blogListType: blogtype ">
+<div class="blog-cel" cel-animate ng-repeat="list in blogList | blogListType: blogtype ">
     <h2><a ng-href="#/blog/post/{{list.url}}">{{list.title}}</a></h2>
     <div class="shortcut"></div>
     <p class="intro">{{list.disc}}</p>

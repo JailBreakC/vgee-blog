@@ -2,7 +2,7 @@
 <section class="c-blog cover-page {{themeclass}}">
     <div class="header">
         <div class="header-background"></div>
-        <div class="container">
+        <div class="container" scroll-fade>
             <h1 change-font>JailBreak</h1>
             <p class="sub-title">飞翔在追寻理想的道路上</p>
         </div>
@@ -34,8 +34,9 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-sm-9 blog-ct" ui-view>
-
+            <div style="position: relative">
+                <div class="blog-ct col-sm-9" ui-view>
+                </div>
             </div>
         </div>
     </div>
