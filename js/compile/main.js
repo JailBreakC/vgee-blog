@@ -31,7 +31,10 @@ requirejs(['jquery', 'angular', 'bootstrap'], function($, angular) {
   app = angular.module('myblog', ['ui.router', 'ngAnimate']);
   app.config([
     '$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
-      $stateProvider.state('main', {
+      $stateProvider.state('index', {
+        url: '',
+        templateUrl: '/template/page-main.html'
+      }).state('main', {
         url: '/',
         templateUrl: '/template/page-main.html'
       }).state('cv', {

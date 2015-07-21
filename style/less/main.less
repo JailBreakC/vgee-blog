@@ -598,47 +598,53 @@ p {
         color: white;
         background-color: transparent;
         overflow: hidden;
-        &:before, &:after {
-            content: attr(data-text);
-            position: absolute;
-            text-align: center;
-            width: 100%;
-            height: 50%;
-            left: 0;
-            background: transparent;
-            color: #fff;
-            overflow: hidden;
-            transition: transform 0.3s;
-            transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
+        &:hover, &:active ,&:visited{
+                color: white;
         }
-        &:after {
-            bottom: 0;
-            line-height: 0;
-        }
-        &:before {
-            top: 0px;
-            padding-top: 1em;
-        }
-        span {
-            display: block;
-            transform: scale3d(0.2, 0.2, 1);
-            opacity: 0;
-            transition: transform 0.3s, opacity 0.3s;
-            transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
-        }
-        &:hover {
-            color: white;
-            span {
-                opacity: 1;
-                transform: scale3d(1, 1, 1)
-            }
-            &:before {
-                transform: translate3d(0, -100%, 0);
+        @media(min-width: @screen-sm-min) {
+            &:before, &:after {
+                content: attr(data-text);
+                position: absolute;
+                text-align: center;
+                width: 100%;
+                height: 50%;
+                left: 0;
+                background: transparent;
+                color: #fff;
+                overflow: hidden;
+                transition: transform 0.3s;
+                transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
             }
             &:after {
-                transform: translate3d(0, 100%, 0);
+                bottom: 0;
+                line-height: 0;
+            }
+            &:before {
+                top: 0px;
+                padding-top: 1em;
+            }
+            span {
+                display: block;
+                transform: scale3d(0.2, 0.2, 1);
+                opacity: 0;
+                transition: transform 0.3s, opacity 0.3s;
+                transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
+            }
+            &:hover {
+                color: white;
+                span {
+                    opacity: 1;
+                    transform: scale3d(1, 1, 1)
+                }
+                &:before {
+                    transform: translate3d(0, -100%, 0);
+                }
+                &:after {
+                    transform: translate3d(0, 100%, 0);
+                }
             }
         }
+        
     }
     .navbar-collapse, .navbar-form {
         border-color: transparent;

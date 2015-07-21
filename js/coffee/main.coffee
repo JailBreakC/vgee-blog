@@ -31,7 +31,10 @@ requirejs ['jquery', 'angular', 'bootstrap'], ($, angular) ->
         '$stateProvider',
         '$urlRouterProvider',
         ($stateProvider, $urlRouterProvider) -> 
-            $stateProvider.state('main', 
+            $stateProvider.state('index', 
+                url: '',
+                templateUrl: '/template/page-main.html'
+            ).state('main', 
                 url: '/',
                 templateUrl: '/template/page-main.html'
             ).state('cv',
