@@ -1293,6 +1293,7 @@ p {
 .c-blog .header .container_fuild {
   position: relative;
   z-index: 10;
+  overflow: hidden;
 }
 .c-blog .header .sub-title {
   opacity: 0;
