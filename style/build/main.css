@@ -1337,6 +1337,9 @@ p {
     text-align: center;
     margin-top: 160px;
   }
+  .c-blog .header .container_fuild .theme-type p i {
+    margin: 0 0;
+  }
 }
 .c-blog .blog {
   opacity: 0;
@@ -1517,6 +1520,9 @@ p {
   }
 }
 @media (max-width: 768px) {
+  #bk-video {
+    display: none;
+  }
   .blog-ct.ng-enter {
     -webkit-animation: fade-in 1s ease both;
             animation: fade-in 1s ease both;
