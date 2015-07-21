@@ -1255,6 +1255,7 @@ p {
 /**** 主题配色区结束 *****/
 .c-blog {
   background-color: #F5F5F5;
+  overflow: hidden;
 }
 .c-blog a {
   color: #2cc3b0;
@@ -1293,7 +1294,6 @@ p {
 .c-blog .header .container_fuild {
   position: relative;
   z-index: 10;
-  overflow: hidden;
 }
 .c-blog .header .sub-title {
   opacity: 0;
