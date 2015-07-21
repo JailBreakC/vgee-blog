@@ -7,9 +7,8 @@ body {
   position: relative;
   height: 100%;
   width: 100%;
-  overflow: hidden;
   font-family: "lucida grande", "lucida sans unicode", lucida, helvetica, "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
-  /* overflow-x: hidden; */
+  overflow-x: hidden;
   word-break: break-all;
 }
 a {
