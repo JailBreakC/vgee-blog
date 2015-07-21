@@ -1,7 +1,9 @@
 <!-- 博客 -->
-<section class="c-blog cover-page {{themeclass}}">
+<section class="c-blog cover-page {{themes.themeClass}}">
     <div class="header">
-        <div class="header-background"></div>
+        <progress-tool class="top-progress" percent="percent"></progress-tool>
+        <div class="header-background bg-enter"></div>
+        <div class="header-background bg-leave"></div>
         <div class="container" scroll-fade>
             <h1 change-font>JailBreak</h1>
             <p class="sub-title">飞翔在追寻理想的道路上</p>
@@ -10,7 +12,9 @@
             <div class="theme-type">
                 <p>
                     主题： 
-                    <i ng-repeat="tms in themes" ng-click="changethemes($index)" class="{{tms.selected ? 'active' : ''}} {{tms.color}} glyphicon glyphicon-sunglasses"></i>
+                    <theme-switcher themes="themes"> 
+                        <switcher ng-repeat="theme in themes" tm="theme"></switcher>
+                    </theme-switcher>
                 </p>
             </div>
             </div>

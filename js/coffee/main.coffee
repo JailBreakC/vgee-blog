@@ -15,22 +15,8 @@ requirejs.config
         'markdown':
             exports: 'markdown'
 
-
 requirejs ['jquery', 'angular', 'bootstrap'], ($, angular) ->
     debug = false
-    ###skel配置项
-    skelparam = 
-        containers: 1140
-        breakpoints:
-            medium: 
-                media: '(min-width: 769px) and (max-width: 1200px)'
-                containers: '90%'
-            small:
-                media: '(max-width: 768px)'
-                containers: '95%'
-        
-    skel.init skelparam
-    ###
 
     angular.element(document).ready ->
         # setTimeout解决在ng定义前就执行bootstrap的问题。
@@ -88,20 +74,9 @@ requirejs ['jquery', 'angular', 'bootstrap'], ($, angular) ->
             fn = {};
             return {};
     ]
-    filterType = (data,param) ->
-        if param then type = param
-        if type and data and type isnt 'all'
-            output = []
-            for i in data
-                if i.type is type
-                    output.push i
-            ##console.log output
-            return output
-        return data
-    app.filter 'blogListType', ->
-        blogListType = filterType
 
 
+    #博客列表的动画，滚动时在下方出现
     app.directive 'celAnimate',['$rootScope', ($rootScope) ->
         restrict: 'EA'
         link: (scope,element,attrs) ->
@@ -120,8 +95,8 @@ requirejs ['jquery', 'angular', 'bootstrap'], ($, angular) ->
             animationCheck()
             #滚动式检测动画
             $(window).scroll ->
-                if scrollCheck == 0
-                    animationCheck()
+                scrollCheck = 0
+                
             #页面切换时，检测动画
             $rootScope.$on('$routeChangeSuccess', ->
                 setTimeout ->
@@ -129,10 +104,12 @@ requirejs ['jquery', 'angular', 'bootstrap'], ($, angular) ->
             )
             #节流，每200毫秒执行一次滚动动画检测
             setInterval( ->
-                scrollCheck = 0
+                if scrollCheck == 0
+                    animationCheck()
             , 200)
         ]
 
+    #模拟 css background-size: cover ， 让元素本身也能相对于窗口cover
     app.directive 'cover', -> 
         restrict: 'EA'
         link: (scope, element, attrs) ->
@@ -149,10 +126,10 @@ requirejs ['jquery', 'angular', 'bootstrap'], ($, angular) ->
                     element.css('left', '-' + (ew-ww)/2 + 'px')
                 else
                     element.css('left', 0)
-
             cover()
             window.onresize = ->
                 cover()
+
     app.directive 'changeFont', ->
         restrict: 'A'
         link: (scope, element, attrs) ->
@@ -188,18 +165,10 @@ requirejs ['jquery', 'angular', 'bootstrap'], ($, angular) ->
             eTop = $ele.offset().top
             $window.scroll ->
                 wTop = $window.scrollTop()
-
-                if wTop > eTop && wTop - eTop <= eHeight
+                if wTop > eTop && wTop - eTop <= eHeight * 2
                     size = (wTop - eTop) / (eHeight * 2) + 1
-                    opacity = 1 - (wTop - eTop) / eHeight
-                    console.log size
-                    console.log opacity
-                    console.log eHeight
-                    console.log wTop
-                    console.log eTop
+                    opacity = 1 - (wTop - eTop) / (eHeight * 2)
                     $ele.css({'transform': 'scale('+size+')', 'opacity': opacity})
-
-
 
 
     app.directive 'drag', ->
@@ -285,10 +254,105 @@ requirejs ['jquery', 'angular', 'bootstrap'], ($, angular) ->
                         element.html loading
 
                 )
-                element.html md.toHTML(scope.content)
-                $(element).find('pre>code').each (i, block) ->
-                   return hljs.highlightBlock block
-    
+                if scope.content
+                    element.html md.toHTML(scope.content)
+                    $(element).find('pre>code').each (i, block) ->
+                       return hljs.highlightBlock block
+                else
+                    element.html loading
+
+    app.directive 'themeSwitcher', ->
+        restrict: 'E'
+        scope: {
+            themes: '=themes'
+        }
+        controller: ['$scope', '$rootScope', '$timeout', ($scope, $rootScope, $timeout)->
+            themes = []
+            imgs = 
+                'green': 'http://gtms01.alicdn.com/tps/i1/TB1I3coIFXXXXaOXpXXxjZKVXXX-1200-675.jpg_1080x1800.jpg'
+                'pink': 'http://gtms03.alicdn.com/tps/i3/TB1CUj9IFXXXXbNaXXX9l.7UFXX-1920-1080.jpg_1080x1800.jpg'
+                'purple': 'http://gtms04.alicdn.com/tps/i4/TB1euAmIFXXXXbnXpXX9l.7UFXX-1920-1080.jpg_1080x1800.jpg'
+                'blue': 'http://gtms01.alicdn.com/tps/i1/TB1jEEuIFXXXXXrXXXX9l.7UFXX-1920-1080.jpg_1080x1800.jpg'
+                'yellow': 'http://gtms03.alicdn.com/tps/i3/TB1e4EaIFXXXXcuXVXX9l.7UFXX-1920-1080.jpg_1080x1800.jpg'
+
+            this.gotChanged = (theme)->
+                #预加载图片
+                bkimg = new Image()
+                bkimg.src = imgs[theme.color]
+                $(bkimg).load ->
+                    #需要将逻辑包进$rootScope.$apply 否则angular无法进行双向绑定！！！
+                    $rootScope.$apply ->
+                        themes.forEach (v) ->
+                            if v != theme
+                                v.selected = false;
+                        #切换全局主题名        
+                        $scope.themes.themeClass = 'theme-' + theme.color
+                        background = 'url(' + imgs[theme.color] + ')'
+                        enterEle = $('.header-background.bg-leave')
+                        leaveEle = $('.header-background.bg-enter')
+                        leaveEle.removeClass('bg-enter').addClass('bg-leave')
+                        enterEle.removeClass('bg-leave').addClass('bg-enter').css('background-image', background)
+                        $rootScope.$broadcast('themeChangeSuccess')
+
+            #首次打开页面也认为是切换主题
+            $timeout( ->
+                $rootScope.$broadcast('themeChangeSuccess')
+            , 300)
+            this.addThemes = (e) ->
+                themes.push(e)
+            return
+        ]    
+
+    app.directive 'switcher', ['$rootScope', '$timeout', ($rootScope, $timeout) ->
+        restrict: 'EA'
+        template: '<i ng-click="toggleTheme()" class="{{theme.selected ? \'active\' : \'\'}} glyphicon glyphicon-sunglasses"></i>'
+        replace: true,
+        transclude: true,
+        require: '^themeSwitcher'
+        scope: {
+            theme: '=tm'
+        }
+        link: (scope,element,attr,themeSwitcherController) ->
+            scope.theme.selected = false
+            #首次打开页面也认为是切换主题
+            $rootScope.$broadcast('themeChangeStart')
+            if scope.theme.color is 'green' then scope.theme.selected = true
+            themeSwitcherController.addThemes(scope.theme);
+            scope.toggleTheme = ->
+                scope.theme.selected = true;
+                themeSwitcherController.gotChanged(scope.theme);
+                $rootScope.$broadcast('themeChangeStart')
+    ]
+
+    app.directive 'progressTool', ['$rootScope', '$timeout', ($rootScope, $timeout) ->
+        restrict: 'EA'
+        replace: true
+        template: '<div class="progress {{mhide}}">
+                      <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="{{percent}}" aria-valuemin="0" aria-valuemax="100" style="width: {{percent}}%;">
+                        <span class="{{showPercent ? \'\' : \'sr-only\'}}">{{percent}}%</span>
+                      </div>
+                    </div>'
+        scope: {
+            percent: '=percent'
+            showPercent: '=showPercent'
+        }
+        link: (scope, element, attrs) ->
+            scope.mhide = ''
+            scope.percent += ''
+            scope.$watch( ->
+                scope.percent
+            , ->
+                if scope.percent is '100'
+                    #必须要用$timeout而不是setTimeout，否则双向绑定会失效
+                    $timeout( ->
+                        scope.percent = '0'
+                        scope.mhide = 'hide'               
+                    , 500)
+                    $timeout( ->
+                        scope.mhide = ''
+                    , 800)
+            )
+    ]
 
     parseTitle = (data) ->
         r =
@@ -303,6 +367,7 @@ requirejs ['jquery', 'angular', 'bootstrap'], ($, angular) ->
             [key,value] = line.split(':')
             key = $.trim key
             value = $.trim value
+            (a, b, c)->
             if r.hasOwnProperty(key) then r[key]=value
         r.date = r.url.split('-')
         r.date.month = month[parseInt r.date[1],10]
@@ -310,7 +375,6 @@ requirejs ['jquery', 'angular', 'bootstrap'], ($, angular) ->
         return r
 
     parseList = (data) ->
-        #console.log data.split(/\n[\-=]+/)
         r = []
         data = data.split(/\n[\-=]+/)
         data.forEach (list)->
@@ -343,6 +407,20 @@ requirejs ['jquery', 'angular', 'bootstrap'], ($, angular) ->
         if post.hide == 'true' then return
         return post
 
+    filterType = (data,param) ->
+        if param then type = param
+        if type and data and type isnt 'all'
+            output = []
+            for i in data
+                if i.type is type
+                    output.push i
+            ##console.log output
+            return output
+        return data
+
+    app.filter 'blogListType', ->
+        blogListType = filterType
+
     app.controller 'blog', [
         '$scope'
         '$http'
@@ -357,22 +435,14 @@ requirejs ['jquery', 'angular', 'bootstrap'], ($, angular) ->
                 $scope.blogList = $scope.blogListOrigin= parseList(data)
                 #解析博客分类
                 $scope.listType = parseType($scope.blogList)
-
-            $scope.changethemes = (index) -> 
-                $scope.themes.forEach (v) ->
-                    v.selected = false;            
-                $scope.themes[index].selected = true;
-                $scope.themeclass = 'theme-' + $scope.themes[index].color
-                enterEle = '<div class="header-background bg-enter" style="background: url(/img/0' + (index + 1) + '.jpg) no-repeat;background-size: cover;"></div>'
-                leaveEle = $('.c-blog > .header').find('.header-background')
-                leaveEle.removeClass('bg-enter').addClass('bg-leave')
-                setTimeout(->
-                    leaveEle.remove();
-                , 1000)
-                $(enterEle).appendTo('.c-blog > .header') 
-                
-                
-
+            #主题加载
+            $scope.percent = '0'
+            $rootScope.$on('themeChangeStart', ->
+                $scope.percent = '30'
+            )
+            $rootScope.$on('themeChangeSuccess', ->
+                $scope.percent = '100'
+            )
             $scope.themes = [
                 {
                     color: 'green'
@@ -395,22 +465,24 @@ requirejs ['jquery', 'angular', 'bootstrap'], ($, angular) ->
                     selected: false
                 },
             ]
+            $scope.themes.themeClass = 'theme-green' 
     ]
 
     app.controller 'bloglist', [
-        '$scope'
         '$rootScope'
+        '$scope'
         '$http'
         '$stateParams'
         ($rootScope, $scope, $http, $stateParams) ->
-            console.log $scope.blogtype = $rootScope.$parent.$parent.blogtype = $stateParams.type
+            $scope.blogtype = $rootScope.blogtype = $stateParams.type
 
     ]   
     app.controller 'blogdetail', [
         '$scope'
         '$http'
         '$stateParams'
-        ($scope, $http, $stateParams) ->
+        '$timeout'
+        ($scope, $http, $stateParams, $timeout) ->
             $http.get('/post/' + $stateParams.article).success (data) ->
                 data = parsePost(data)
                 $scope.title = data.title

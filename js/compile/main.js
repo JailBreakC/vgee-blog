@@ -23,20 +23,6 @@ requirejs.config({
 requirejs(['jquery', 'angular', 'bootstrap'], function($, angular) {
   var app, debug, filterType, parseList, parsePost, parseTitle, parseType;
   debug = false;
-
-  /*skel配置项
-  skelparam = 
-      containers: 1140
-      breakpoints:
-          medium: 
-              media: '(min-width: 769px) and (max-width: 1200px)'
-              containers: '90%'
-          small:
-              media: '(max-width: 768px)'
-              containers: '95%'
-      
-  skel.init skelparam
-   */
   angular.element(document).ready(function() {
     return setTimeout(function() {
       return angular.bootstrap(document, ['myblog']);
@@ -87,27 +73,6 @@ requirejs(['jquery', 'angular', 'bootstrap'], function($, angular) {
       return {};
     }
   ]);
-  filterType = function(data, param) {
-    var i, j, len, output, type;
-    if (param) {
-      type = param;
-    }
-    if (type && data && type !== 'all') {
-      output = [];
-      for (j = 0, len = data.length; j < len; j++) {
-        i = data[j];
-        if (i.type === type) {
-          output.push(i);
-        }
-      }
-      return output;
-    }
-    return data;
-  };
-  app.filter('blogListType', function() {
-    var blogListType;
-    return blogListType = filterType;
-  });
   app.directive('celAnimate', [
     '$rootScope', function($rootScope) {
       return {
@@ -131,9 +96,7 @@ requirejs(['jquery', 'angular', 'bootstrap'], function($, angular) {
           };
           animationCheck();
           $(window).scroll(function() {
-            if (scrollCheck === 0) {
-              return animationCheck();
-            }
+            return scrollCheck = 0;
           });
           $rootScope.$on('$routeChangeSuccess', function() {
             return setTimeout(function() {
@@ -141,7 +104,9 @@ requirejs(['jquery', 'angular', 'bootstrap'], function($, angular) {
             });
           });
           return setInterval(function() {
-            return scrollCheck = 0;
+            if (scrollCheck === 0) {
+              return animationCheck();
+            }
           }, 200);
         }
       };
@@ -210,14 +175,9 @@ requirejs(['jquery', 'angular', 'bootstrap'], function($, angular) {
         return $window.scroll(function() {
           var opacity, size, wTop;
           wTop = $window.scrollTop();
-          if (wTop > eTop && wTop - eTop <= eHeight) {
+          if (wTop > eTop && wTop - eTop <= eHeight * 2) {
             size = (wTop - eTop) / (eHeight * 2) + 1;
-            opacity = 1 - (wTop - eTop) / eHeight;
-            console.log(size);
-            console.log(opacity);
-            console.log(eHeight);
-            console.log(wTop);
-            console.log(eTop);
+            opacity = 1 - (wTop - eTop) / (eHeight * 2);
             return $ele.css({
               'transform': 'scale(' + size + ')',
               'opacity': opacity
@@ -326,14 +286,124 @@ requirejs(['jquery', 'angular', 'bootstrap'], function($, angular) {
               return element.html(loading);
             }
           });
-          element.html(md.toHTML(scope.content));
-          return $(element).find('pre>code').each(function(i, block) {
-            return hljs.highlightBlock(block);
-          });
+          if (scope.content) {
+            element.html(md.toHTML(scope.content));
+            return $(element).find('pre>code').each(function(i, block) {
+              return hljs.highlightBlock(block);
+            });
+          } else {
+            return element.html(loading);
+          }
         });
       }
     };
   });
+  app.directive('themeSwitcher', function() {
+    return {
+      restrict: 'E',
+      scope: {
+        themes: '=themes'
+      },
+      controller: [
+        '$scope', '$rootScope', '$timeout', function($scope, $rootScope, $timeout) {
+          var imgs, themes;
+          themes = [];
+          imgs = {
+            'green': 'http://gtms01.alicdn.com/tps/i1/TB1I3coIFXXXXaOXpXXxjZKVXXX-1200-675.jpg_1080x1800.jpg',
+            'pink': 'http://gtms03.alicdn.com/tps/i3/TB1CUj9IFXXXXbNaXXX9l.7UFXX-1920-1080.jpg_1080x1800.jpg',
+            'purple': 'http://gtms04.alicdn.com/tps/i4/TB1euAmIFXXXXbnXpXX9l.7UFXX-1920-1080.jpg_1080x1800.jpg',
+            'blue': 'http://gtms01.alicdn.com/tps/i1/TB1jEEuIFXXXXXrXXXX9l.7UFXX-1920-1080.jpg_1080x1800.jpg',
+            'yellow': 'http://gtms03.alicdn.com/tps/i3/TB1e4EaIFXXXXcuXVXX9l.7UFXX-1920-1080.jpg_1080x1800.jpg'
+          };
+          this.gotChanged = function(theme) {
+            var bkimg;
+            bkimg = new Image();
+            bkimg.src = imgs[theme.color];
+            return $(bkimg).load(function() {
+              return $rootScope.$apply(function() {
+                var background, enterEle, leaveEle;
+                themes.forEach(function(v) {
+                  if (v !== theme) {
+                    return v.selected = false;
+                  }
+                });
+                $scope.themes.themeClass = 'theme-' + theme.color;
+                background = 'url(' + imgs[theme.color] + ')';
+                enterEle = $('.header-background.bg-leave');
+                leaveEle = $('.header-background.bg-enter');
+                leaveEle.removeClass('bg-enter').addClass('bg-leave');
+                enterEle.removeClass('bg-leave').addClass('bg-enter').css('background-image', background);
+                return $rootScope.$broadcast('themeChangeSuccess');
+              });
+            });
+          };
+          $timeout(function() {
+            return $rootScope.$broadcast('themeChangeSuccess');
+          }, 300);
+          this.addThemes = function(e) {
+            return themes.push(e);
+          };
+        }
+      ]
+    };
+  });
+  app.directive('switcher', [
+    '$rootScope', '$timeout', function($rootScope, $timeout) {
+      return {
+        restrict: 'EA',
+        template: '<i ng-click="toggleTheme()" class="{{theme.selected ? \'active\' : \'\'}} glyphicon glyphicon-sunglasses"></i>',
+        replace: true,
+        transclude: true,
+        require: '^themeSwitcher',
+        scope: {
+          theme: '=tm'
+        },
+        link: function(scope, element, attr, themeSwitcherController) {
+          scope.theme.selected = false;
+          $rootScope.$broadcast('themeChangeStart');
+          if (scope.theme.color === 'green') {
+            scope.theme.selected = true;
+          }
+          themeSwitcherController.addThemes(scope.theme);
+          return scope.toggleTheme = function() {
+            scope.theme.selected = true;
+            themeSwitcherController.gotChanged(scope.theme);
+            return $rootScope.$broadcast('themeChangeStart');
+          };
+        }
+      };
+    }
+  ]);
+  app.directive('progressTool', [
+    '$rootScope', '$timeout', function($rootScope, $timeout) {
+      return {
+        restrict: 'EA',
+        replace: true,
+        template: '<div class="progress {{mhide}}"> <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="{{percent}}" aria-valuemin="0" aria-valuemax="100" style="width: {{percent}}%;"> <span class="{{showPercent ? \'\' : \'sr-only\'}}">{{percent}}%</span> </div> </div>',
+        scope: {
+          percent: '=percent',
+          showPercent: '=showPercent'
+        },
+        link: function(scope, element, attrs) {
+          scope.mhide = '';
+          scope.percent += '';
+          return scope.$watch(function() {
+            return scope.percent;
+          }, function() {
+            if (scope.percent === '100') {
+              $timeout(function() {
+                scope.percent = '0';
+                return scope.mhide = 'hide';
+              }, 500);
+              return $timeout(function() {
+                return scope.mhide = '';
+              }, 800);
+            }
+          });
+        }
+      };
+    }
+  ]);
   parseTitle = function(data) {
     var j, key, len, line, month, r, ref, ref1, value;
     r = {
@@ -351,6 +421,7 @@ requirejs(['jquery', 'angular', 'bootstrap'], function($, angular) {
       ref1 = line.split(':'), key = ref1[0], value = ref1[1];
       key = $.trim(key);
       value = $.trim(value);
+      (function(a, b, c) {});
       if (r.hasOwnProperty(key)) {
         r[key] = value;
       }
@@ -406,28 +477,41 @@ requirejs(['jquery', 'angular', 'bootstrap'], function($, angular) {
     }
     return post;
   };
+  filterType = function(data, param) {
+    var i, j, len, output, type;
+    if (param) {
+      type = param;
+    }
+    if (type && data && type !== 'all') {
+      output = [];
+      for (j = 0, len = data.length; j < len; j++) {
+        i = data[j];
+        if (i.type === type) {
+          output.push(i);
+        }
+      }
+      return output;
+    }
+    return data;
+  };
+  app.filter('blogListType', function() {
+    var blogListType;
+    return blogListType = filterType;
+  });
   app.controller('blog', [
     '$scope', '$http', '$rootScope', '$timeout', '$location', '$stateParams', function($scope, $http, $rootScope, $timeout, $location, $stateParams) {
       $http.get('/post/list.md').success(function(data) {
         $scope.blogList = $scope.blogListOrigin = parseList(data);
         return $scope.listType = parseType($scope.blogList);
       });
-      $scope.changethemes = function(index) {
-        var enterEle, leaveEle;
-        $scope.themes.forEach(function(v) {
-          return v.selected = false;
-        });
-        $scope.themes[index].selected = true;
-        $scope.themeclass = 'theme-' + $scope.themes[index].color;
-        enterEle = '<div class="header-background bg-enter" style="background: url(/img/0' + (index + 1) + '.jpg) no-repeat;background-size: cover;"></div>';
-        leaveEle = $('.c-blog > .header').find('.header-background');
-        leaveEle.removeClass('bg-enter').addClass('bg-leave');
-        setTimeout(function() {
-          return leaveEle.remove();
-        }, 1000);
-        return $(enterEle).appendTo('.c-blog > .header');
-      };
-      return $scope.themes = [
+      $scope.percent = '0';
+      $rootScope.$on('themeChangeStart', function() {
+        return $scope.percent = '30';
+      });
+      $rootScope.$on('themeChangeSuccess', function() {
+        return $scope.percent = '100';
+      });
+      $scope.themes = [
         {
           color: 'green',
           selected: true
@@ -445,15 +529,16 @@ requirejs(['jquery', 'angular', 'bootstrap'], function($, angular) {
           selected: false
         }
       ];
+      return $scope.themes.themeClass = 'theme-green';
     }
   ]);
   app.controller('bloglist', [
-    '$scope', '$rootScope', '$http', '$stateParams', function($rootScope, $scope, $http, $stateParams) {
-      return console.log($scope.blogtype = $rootScope.$parent.$parent.blogtype = $stateParams.type);
+    '$rootScope', '$scope', '$http', '$stateParams', function($rootScope, $scope, $http, $stateParams) {
+      return $scope.blogtype = $rootScope.blogtype = $stateParams.type;
     }
   ]);
   return app.controller('blogdetail', [
-    '$scope', '$http', '$stateParams', function($scope, $http, $stateParams) {
+    '$scope', '$http', '$stateParams', '$timeout', function($scope, $http, $stateParams, $timeout) {
       return $http.get('/post/' + $stateParams.article).success(function(data) {
         data = parsePost(data);
         $scope.title = data.title;
