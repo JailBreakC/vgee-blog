@@ -438,6 +438,7 @@ requirejs ['jquery', 'angular', 'bootstrap'], ($, angular) ->
                 $scope.blogList = $scope.blogListOrigin= parseList(data)
                 #解析博客分类
                 $scope.listType = parseType($scope.blogList)
+
             #主题加载
             $scope.percent = '0'
             $rootScope.$on('themeChangeStart', ->
@@ -469,7 +470,8 @@ requirejs ['jquery', 'angular', 'bootstrap'], ($, angular) ->
                 },
             ]
             $scope.themes.themeClass = 'theme-green' 
-    ]
+            
+        ]
 
     app.controller 'bloglist', [
         '$rootScope'
@@ -485,10 +487,24 @@ requirejs ['jquery', 'angular', 'bootstrap'], ($, angular) ->
         '$http'
         '$stateParams'
         '$timeout'
-        ($scope, $http, $stateParams, $timeout) ->
+        '$location'
+        ($scope, $http, $stateParams, $timeout, $location) ->
             $http.get('/post/' + $stateParams.article).success (data) ->
                 data = parsePost(data)
                 $scope.title = data.title
                 $scope.article = data.text
+                #添加多说评论框
+                toggleDuoshuoComments('.blog-detail')
+            toggleDuoshuoComments = (container) ->
+                el = document.createElement('div') #该div不需要设置class="ds-thread"
+                el.setAttribute('id', $location.url()) #必选参数
+                el.setAttribute('data-thread-key', $scope.title) #必选参数
+                el.setAttribute('data-url', $location.url()) #必选参数
+                #el.setAttribute('data-author-key', '作者的本地用户ID');//可选参数
+                #console.log(el)
+                DUOSHUO.EmbedThread(el)
+                #console.log(el)
+                jQuery(container).append(el)
     ]
+
 

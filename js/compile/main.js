@@ -541,12 +541,23 @@ requirejs(['jquery', 'angular', 'bootstrap'], function($, angular) {
     }
   ]);
   return app.controller('blogdetail', [
-    '$scope', '$http', '$stateParams', '$timeout', function($scope, $http, $stateParams, $timeout) {
-      return $http.get('/post/' + $stateParams.article).success(function(data) {
+    '$scope', '$http', '$stateParams', '$timeout', '$location', function($scope, $http, $stateParams, $timeout, $location) {
+      var toggleDuoshuoComments;
+      $http.get('/post/' + $stateParams.article).success(function(data) {
         data = parsePost(data);
         $scope.title = data.title;
-        return $scope.article = data.text;
+        $scope.article = data.text;
+        return toggleDuoshuoComments('.blog-detail');
       });
+      return toggleDuoshuoComments = function(container) {
+        var el;
+        el = document.createElement('div');
+        el.setAttribute('id', $location.url());
+        el.setAttribute('data-thread-key', $scope.title);
+        el.setAttribute('data-url', $location.url());
+        DUOSHUO.EmbedThread(el);
+        return jQuery(container).append(el);
+      };
     }
   ]);
 });
