@@ -244,6 +244,8 @@ requirejs ['jquery', 'angular', 'bootstrap'], ($, angular) ->
                           <div class="rect4"></div>
                           <div class="rect5"></div>
                       </div>'
+            
+            element.html loading
             #动态加载markdown 和 highlight 
             requirejs ['markdown', 'hljs'], (md, hljs) ->
                 scope.$watch( ->

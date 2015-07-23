@@ -276,6 +276,7 @@ requirejs(['jquery', 'angular', 'bootstrap'], function($, angular) {
         link.href = cssUrl;
         document.getElementsByTagName('head')[0].appendChild(link);
         loading = '<div class="spinner"> <div class="rect1"></div> <div class="rect2"></div> <div class="rect3"></div> <div class="rect4"></div> <div class="rect5"></div> </div>';
+        element.html(loading);
         return requirejs(['markdown', 'hljs'], function(md, hljs) {
           scope.$watch(function() {
             return scope.content;
