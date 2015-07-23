@@ -36,6 +36,7 @@ url: 2014-11-04-vlab.md
 title:遇到下一个你
 disc:遇到下一个你，我会不会已经是打磨完毕的成品
 type:生活·life
+hide:true
 url: 2014-10-26-whenIMeetYou.md
 -------
 title:JCarousel.js

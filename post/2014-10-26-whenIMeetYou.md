@@ -1,6 +1,7 @@
 title:遇到下一个你
 disc:遇到下一个你，我会不会已经是打磨完毕的成品
 type:生活·life
+hide:true
 ------------------
 
 「转自豆瓣」[http://site.douban.com/108880/widget/notes/4611554/note/241229278/](http://site.douban.com/108880/widget/notes/4611554/note/241229278/)
