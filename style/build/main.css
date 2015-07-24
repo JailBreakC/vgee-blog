@@ -15,6 +15,27 @@ body pre,
 body code {
   word-break: break-word;
 }
+.clearfix:after {
+  clear: both;
+}
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: "";
+}
+@font-face {
+  font-family: 'iconfont';
+  src: url('//at.alicdn.com/t/font_1437724861_611605.eot');
+  src: url('//at.alicdn.com/t/font_1437724861_611605.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */ url('//at.alicdn.com/t/font_1437724861_611605.woff') format('woff'), /* chrome、firefox */ url('//at.alicdn.com/t/font_1437724861_611605.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/ url('//at.alicdn.com/t/font_1437724861_611605.svg#iconfont') format('svg');
+  
+  /* IE9*/
+  /* iOS 4.1- */
+}
+.iconfont {
+  font-family: "iconfont";
+  font-size: inherit;
+  font-style: normal;
+}
 a {
   color: #00ced1;
   text-decoration: none;
@@ -1482,6 +1503,7 @@ p {
 .c-blog .blog-detail {
   background: white;
   margin-top: 40px;
+  margin-bottom: 40px;
   border-radius: 5px;
   padding: 10px;
 }
@@ -1495,6 +1517,71 @@ p {
   padding: 0;
   margin-left: -10px;
   margin-right: -10px;
+}
+#footer {
+  background-color: #ebebed;
+  padding-top: 40px;
+}
+#footer .iconfont {
+  font-size: 16px;
+}
+#footer h3 {
+  font-size: 14px;
+  padding: 0 15px;
+  color: #4e4e61;
+  font-weight: bold;
+  margin: 0;
+}
+#footer .container {
+  padding: 0 20px 10px;
+}
+#footer ul {
+  list-style: none;
+  margin: 25px 0;
+}
+#footer ul li {
+  -webkit-transition: -webkit-transform .5s ease;
+          transition: transform .5s ease;
+  list-style: none;
+  width: 190px;
+  float: left;
+  line-height: 26px;
+}
+#footer ul li a {
+  font-size: 12px;
+  color: #4e4e61;
+}
+#footer ul li:hover {
+  -webkit-transform: translateX(10px);
+      -ms-transform: translateX(10px);
+          transform: translateX(10px);
+}
+#footer .contact {
+  font-size: 14px;
+}
+#footer .contact p {
+  -webkit-transition: -webkit-transform .5s ease;
+          transition: transform .5s ease;
+}
+#footer .contact p:hover {
+  -webkit-transform: translateX(10px);
+      -ms-transform: translateX(10px);
+          transform: translateX(10px);
+}
+#footer .contact a {
+  color: #4e4e61;
+  text-decoration: none;
+}
+#footer #copyright {
+  background-color: #d8d8dc;
+  clear: both;
+}
+#footer #copyright .copyright {
+  padding: 20px;
+  margin: 0 auto;
+}
+#footer #copyright .copyright p {
+  line-height: 21px;
 }
 .developing {
   padding-top: 200px;
