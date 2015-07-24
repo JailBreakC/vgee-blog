@@ -10,7 +10,10 @@ body {
     .full-size;
     font-family: "lucida grande", "lucida sans unicode", lucida, helvetica, "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
     overflow-x: hidden;
-    word-break: break-all;
+    word-break: break-word;
+    pre, code {
+        word-break: break-word;
+    }
 }
 
 a {
@@ -18,7 +21,7 @@ a {
     text-decoration: none;
 }
 a:hover {
-    text-decoration: underline;
+    text-decoration: none;
 }
 .center {
     text-align: center;
@@ -954,6 +957,7 @@ p {
                 a {
                     display: block;
                     color: @blog-base-color;
+                    transition: transform .5s ease;
                     padding: 10px 20px;
                 }
                 background-color: transparent;
@@ -961,6 +965,8 @@ p {
                     transition: background-color 1s ease, color .2s ease;
                     background-color: lighten(@blog-base-color, 10%);
                     a {
+                        transition: transform .5s ease;
+                        transform: translateX(10px);
                         color: white;
                     }
                 }
@@ -971,12 +977,17 @@ p {
         background: white;
         margin-top: 40px;
         border-radius: 5px;
-        padding: 20px;
+        padding: 10px;
         &>h1 {
             font-size: 30px;
         }
         img {
             max-width: 100%;
+        }
+        pre {
+            padding: 0;
+            margin-left: -10px;
+            margin-right: -10px;
         }
     }
 }

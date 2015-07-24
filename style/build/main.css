@@ -9,14 +9,18 @@ body {
   width: 100%;
   font-family: "lucida grande", "lucida sans unicode", lucida, helvetica, "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
   overflow-x: hidden;
-  word-break: break-all;
+  word-break: break-word;
+}
+body pre,
+body code {
+  word-break: break-word;
 }
 a {
   color: #00ced1;
   text-decoration: none;
 }
 a:hover {
-  text-decoration: underline;
+  text-decoration: none;
 }
 .center {
   text-align: center;
@@ -1456,6 +1460,8 @@ p {
 .c-blog .type-ct .types > li a {
   display: block;
   color: #2cc3b0;
+  -webkit-transition: -webkit-transform .5s ease;
+          transition: transform .5s ease;
   padding: 10px 20px;
 }
 .c-blog .type-ct .types > li:hover,
@@ -1466,19 +1472,29 @@ p {
 }
 .c-blog .type-ct .types > li:hover a,
 .c-blog .type-ct .types > li.active a {
+  -webkit-transition: -webkit-transform .5s ease;
+          transition: transform .5s ease;
+  -webkit-transform: translateX(10px);
+      -ms-transform: translateX(10px);
+          transform: translateX(10px);
   color: white;
 }
 .c-blog .blog-detail {
   background: white;
   margin-top: 40px;
   border-radius: 5px;
-  padding: 20px;
+  padding: 10px;
 }
 .c-blog .blog-detail > h1 {
   font-size: 30px;
 }
 .c-blog .blog-detail img {
   max-width: 100%;
+}
+.c-blog .blog-detail pre {
+  padding: 0;
+  margin-left: -10px;
+  margin-right: -10px;
 }
 .developing {
   padding-top: 200px;
