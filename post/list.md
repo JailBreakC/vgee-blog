@@ -1,3 +1,8 @@
+title:Blog 3 todo list
+disc:后续计划列表
+type:project
+url: 2015-07-24-blog-todo-list.md
+-------
 title:Blog 3.0 技术分析
 disc:详细介绍了本博客的 架构、设计、动画、主题系统的构思和实现
 type:project
