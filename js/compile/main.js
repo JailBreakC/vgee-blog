@@ -82,6 +82,9 @@ requirejs(['jquery', 'angular', 'bootstrap'], function($, angular) {
         restrict: 'EA',
         link: function(scope, element, attrs) {
           var animationCheck, scrollCheck;
+          if ($(window).width() < 768) {
+            return;
+          }
           $(element).addClass('cel-hide');
           scrollCheck = 0;
           animationCheck = function() {
@@ -171,6 +174,9 @@ requirejs(['jquery', 'angular', 'bootstrap'], function($, angular) {
       restrict: 'A',
       link: function(scope, element, attrs) {
         var $ele, $window, eHeight, eTop;
+        if ($(window).width() < 768) {
+          return;
+        }
         $ele = $(element);
         $window = $(window);
         eHeight = $ele.height();

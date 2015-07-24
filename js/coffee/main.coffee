@@ -83,6 +83,7 @@ requirejs ['jquery', 'angular', 'bootstrap'], ($, angular) ->
     app.directive 'celAnimate',['$rootScope', ($rootScope) ->
         restrict: 'EA'
         link: (scope,element,attrs) ->
+            if $(window).width() < 768 then return
             $(element).addClass('cel-hide')
             scrollCheck = 0
             animationCheck = ->
@@ -162,6 +163,7 @@ requirejs ['jquery', 'angular', 'bootstrap'], ($, angular) ->
     app.directive 'scrollFade', ->
         restrict: 'A'
         link: (scope, element, attrs) ->
+            if $(window).width() < 768 then return
             $ele = $(element)
             $window = $(window)
             eHeight = $ele.height()
