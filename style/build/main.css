@@ -1533,7 +1533,7 @@ p {
   margin: 0;
 }
 #footer .container {
-  padding: 0 20px 10px;
+  padding: 0 20px;
 }
 #footer ul {
   list-style: none;
@@ -1543,7 +1543,7 @@ p {
   -webkit-transition: -webkit-transform .5s ease;
           transition: transform .5s ease;
   list-style: none;
-  width: 190px;
+  width: 180px;
   float: left;
   line-height: 26px;
 }
@@ -1558,6 +1558,8 @@ p {
 }
 #footer .contact {
   font-size: 14px;
+  margin-top: 25px;
+  margin-bottom: 25px;
 }
 #footer .contact p {
   -webkit-transition: -webkit-transform .5s ease;
@@ -1577,7 +1579,7 @@ p {
   clear: both;
 }
 #footer #copyright .copyright {
-  padding: 20px;
+  padding: 15px;
   margin: 0 auto;
 }
 #footer #copyright .copyright p {

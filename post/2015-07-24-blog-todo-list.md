@@ -22,7 +22,7 @@ type:project
 
 `start 7-24`
 
-- 底部banner
+- 底部banner `7-24`
 - 主题记忆
 - 静态资源全部部署CDN
 - 加载图片大小根据屏幕大小自动调整
