@@ -1,3 +1,8 @@
+title:angularJS $rootscope.$apply()
+disc:$rootscope.$apply() 与 angular 双向绑定机制
+type:JavaScript
+url: 2015-7-27-angular-$rootscope.$apply
+-------
 title:Blog 3 todo list
 disc:后续计划列表
 type:project

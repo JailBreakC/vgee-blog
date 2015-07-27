@@ -3,7 +3,7 @@ import os,re
 def get_head(name):
     head = []
     try:
-        if not re.match(r'^\d{4}-\d\d-\d\d-',name) : 
+        if not re.match(r'^\d{4}-\d{1,2}-\d\d-',name) : 
             print('ignore file '+name)
             return None
         for i in open(name).read().splitlines():

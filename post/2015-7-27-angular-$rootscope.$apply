@@ -1,5 +1,5 @@
-title:angular $rootscope.$apply()
-disc:$rootscope.$apply()
+title:angularJS $rootscope.$apply()
+disc:$rootscope.$apply() 与 angular 双向绑定机制
 type:JavaScript
 -------
 
