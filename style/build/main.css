@@ -1607,6 +1607,10 @@ p {
   left: 0;
   z-index: -1;
 }
+.blog-ct {
+  width: 100%;
+  box-sizing: border-box;
+}
 @media (min-width: 768px) {
   .blog-ct.ng-leave {
     -webkit-animation: scale-down 0.3s ease both;
@@ -1621,6 +1625,8 @@ p {
     top: 0;
     right: 0;
     z-index: -1;
+    padding-left: 15px;
+    padding-right: 15px;
   }
 }
 @media (max-width: 768px) {
