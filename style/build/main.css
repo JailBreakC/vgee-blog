@@ -1770,6 +1770,6 @@ p {
   box-shadow: none;
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
-  -webkit-transition: width 0s ease;
-          transition: width 0s ease;
+  -webkit-transition: width .2s ease;
+          transition: width .2s ease;
 }

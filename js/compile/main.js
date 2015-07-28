@@ -326,8 +326,9 @@ requirejs(['jquery', 'angular', 'bootstrap'], function($, angular) {
             'yellow': 'http://gtms03.alicdn.com/tps/i3/TB1e4EaIFXXXXcuXVXX9l.7UFXX-1920-1080.jpg_1080x1800.jpg'
           };
           this.gotChanged = function(theme) {
-            var bkimg, xhr;
-            bkimg = new Image();
+            var bk, xhr;
+            bk = [];
+            bk.img = new Image();
             if (window.URL.createObjectURL) {
               $rootScope.$broadcast('themeChangeStart', {
                 'fake': false
@@ -337,20 +338,22 @@ requirejs(['jquery', 'angular', 'bootstrap'], function($, angular) {
               xhr.responseType = 'blob';
               xhr.onreadystatechange = function() {
                 if (xhr.readyState === 4) {
-                  return bkimg.src = window.URL.createObjectURL(xhr.response);
+                  return bk.url = window.URL.createObjectURL(xhr.response);
                 }
               };
               xhr.onprogress = function(e) {
-                return $rootScope.$broadcast('themeChangeProgress', e);
+                return $rootScope.$apply(function() {
+                  return $rootScope.$broadcast('themeChangeProgress', e);
+                });
               };
               xhr.send();
             } else {
               $rootScope.$broadcast('themeChangeStart', {
                 'fake': true
               });
-              bkimg.src = imgs[theme.color];
+              bk.img.src = bk.url = imgs[theme.color];
             }
-            return $(bkimg).load(function() {
+            return xhr.onload = bk.img.onload = function() {
               return $rootScope.$apply(function() {
                 var background, enterEle, leaveEle;
                 themes.forEach(function(v) {
@@ -359,14 +362,14 @@ requirejs(['jquery', 'angular', 'bootstrap'], function($, angular) {
                   }
                 });
                 $scope.themes.themeClass = 'theme-' + theme.color;
-                background = 'url(' + imgs[theme.color] + ')';
+                background = 'url(' + bk.url + ')';
                 enterEle = $('.header-background.bg-leave');
                 leaveEle = $('.header-background.bg-enter');
                 leaveEle.removeClass('bg-enter').addClass('bg-leave');
                 enterEle.removeClass('bg-leave').addClass('bg-enter').css('background-image', background);
                 return $rootScope.$broadcast('themeChangeSuccess');
               });
-            });
+            };
           };
           $timeout(function() {
             return $rootScope.$broadcast('themeChangeSuccess');

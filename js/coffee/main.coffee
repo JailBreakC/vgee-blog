@@ -284,7 +284,8 @@ requirejs ['jquery', 'angular', 'bootstrap'], ($, angular) ->
 
             this.gotChanged = (theme)->
                 #预加载图片
-                bkimg = new Image()
+                bk = []
+                bk.img = new Image()
                 #判断浏览器支持 如果支持xhr2 则使用加载blob的方法加载图片
                 if window.URL.createObjectURL
                     $rootScope.$broadcast('themeChangeStart', {'fake': false})
@@ -293,15 +294,16 @@ requirejs ['jquery', 'angular', 'bootstrap'], ($, angular) ->
                     xhr.responseType = 'blob'
                     xhr.onreadystatechange = ->
                         if xhr.readyState is 4
-                            bkimg.src = window.URL.createObjectURL(xhr.response)
+                            bk.url = window.URL.createObjectURL(xhr.response)
                     xhr.onprogress = (e) ->
-                        $rootScope.$broadcast('themeChangeProgress', e)
+                        $rootScope.$apply ->
+                            $rootScope.$broadcast('themeChangeProgress', e)
                     xhr.send()
                 else  
                     $rootScope.$broadcast('themeChangeStart', {'fake': true})
-                    bkimg.src = imgs[theme.color]
+                    bk.img.src = bk.url = imgs[theme.color]
 
-                $(bkimg).load ->
+                xhr.onload = bk.img.onload = ->
                     #需要将逻辑包进$rootScope.$apply 否则angular无法进行双向绑定！！！
                     $rootScope.$apply ->
                         themes.forEach (v) ->
@@ -309,7 +311,7 @@ requirejs ['jquery', 'angular', 'bootstrap'], ($, angular) ->
                                 v.selected = false;
                         #切换全局主题名        
                         $scope.themes.themeClass = 'theme-' + theme.color
-                        background = 'url(' + imgs[theme.color] + ')'
+                        background = 'url(' + bk.url + ')'
                         enterEle = $('.header-background.bg-leave')
                         leaveEle = $('.header-background.bg-enter')
                         leaveEle.removeClass('bg-enter').addClass('bg-leave')
