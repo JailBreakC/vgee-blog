@@ -273,7 +273,7 @@ requirejs ['jquery', 'angular', 'bootstrap'], ($, angular) ->
         scope: {
             themes: '=themes'
         }
-        controller: ['$scope', '$rootScope', '$timeout', ($scope, $rootScope, $timeout)->
+        controller: ['$scope', '$rootScope', '$timeout', '$http', ($scope, $rootScope, $timeout, $http)->
             themes = []
             imgs = 
                 'green': 'http://gtms01.alicdn.com/tps/i1/TB1I3coIFXXXXaOXpXXxjZKVXXX-1200-675.jpg_1080x1800.jpg'
@@ -285,7 +285,17 @@ requirejs ['jquery', 'angular', 'bootstrap'], ($, angular) ->
             this.gotChanged = (theme)->
                 #预加载图片
                 bkimg = new Image()
-                bkimg.src = imgs[theme.color]
+                #判断浏览器支持 如果支持xhr2 则使用加载blob的方法加载图片
+                if window.URL.createObjectURL
+                    $http.get(imgs[theme.color], {
+                        'responseType': 'blob'
+                    }).success (blob)->
+                        bkimg.src = window.URL.createObjectURL(blob)
+                        debugger
+                else  
+                    debugger
+                    bkimg.src = imgs[theme.color]
+
                 $(bkimg).load ->
                     #需要将逻辑包进$rootScope.$apply 否则angular无法进行双向绑定！！！
                     $rootScope.$apply ->

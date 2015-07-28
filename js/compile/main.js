@@ -315,7 +315,7 @@ requirejs(['jquery', 'angular', 'bootstrap'], function($, angular) {
         themes: '=themes'
       },
       controller: [
-        '$scope', '$rootScope', '$timeout', function($scope, $rootScope, $timeout) {
+        '$scope', '$rootScope', '$timeout', '$http', function($scope, $rootScope, $timeout, $http) {
           var imgs, themes;
           themes = [];
           imgs = {
@@ -328,7 +328,17 @@ requirejs(['jquery', 'angular', 'bootstrap'], function($, angular) {
           this.gotChanged = function(theme) {
             var bkimg;
             bkimg = new Image();
-            bkimg.src = imgs[theme.color];
+            if (window.URL.createObjectURL) {
+              $http.get(imgs[theme.color], {
+                'responseType': 'blob'
+              }).success(function(blob) {
+                bkimg.src = window.URL.createObjectURL(blob);
+                debugger;
+              });
+            } else {
+              debugger;
+              bkimg.src = imgs[theme.color];
+            }
             return $(bkimg).load(function() {
               return $rootScope.$apply(function() {
                 var background, enterEle, leaveEle;
