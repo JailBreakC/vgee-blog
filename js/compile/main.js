@@ -326,17 +326,28 @@ requirejs(['jquery', 'angular', 'bootstrap'], function($, angular) {
             'yellow': 'http://gtms03.alicdn.com/tps/i3/TB1e4EaIFXXXXcuXVXX9l.7UFXX-1920-1080.jpg_1080x1800.jpg'
           };
           this.gotChanged = function(theme) {
-            var bkimg;
+            var bkimg, xhr;
             bkimg = new Image();
             if (window.URL.createObjectURL) {
-              $http.get(imgs[theme.color], {
-                'responseType': 'blob'
-              }).success(function(blob) {
-                bkimg.src = window.URL.createObjectURL(blob);
-                debugger;
+              $rootScope.$broadcast('themeChangeStart', {
+                'fake': false
               });
+              xhr = new XMLHttpRequest();
+              xhr.open('GET', imgs[theme.color]);
+              xhr.responseType = 'blob';
+              xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                  return bkimg.src = window.URL.createObjectURL(xhr.response);
+                }
+              };
+              xhr.onprogress = function(e) {
+                return $rootScope.$broadcast('themeChangeProgress', e);
+              };
+              xhr.send();
             } else {
-              debugger;
+              $rootScope.$broadcast('themeChangeStart', {
+                'fake': true
+              });
               bkimg.src = imgs[theme.color];
             }
             return $(bkimg).load(function() {
@@ -380,15 +391,16 @@ requirejs(['jquery', 'angular', 'bootstrap'], function($, angular) {
         },
         link: function(scope, element, attr, themeSwitcherController) {
           scope.theme.selected = false;
-          $rootScope.$broadcast('themeChangeStart');
+          $rootScope.$broadcast('themeChangeStart', {
+            'fake': true
+          });
           if (scope.theme.color === 'green') {
             scope.theme.selected = true;
           }
           themeSwitcherController.addThemes(scope.theme);
           return scope.toggleTheme = function() {
             scope.theme.selected = true;
-            themeSwitcherController.gotChanged(scope.theme);
-            return $rootScope.$broadcast('themeChangeStart');
+            return themeSwitcherController.gotChanged(scope.theme);
           };
         }
       };
@@ -525,11 +537,19 @@ requirejs(['jquery', 'angular', 'bootstrap'], function($, angular) {
         return $scope.listType = parseType($scope.blogList);
       });
       $scope.percent = '0';
-      $rootScope.$on('themeChangeStart', function() {
-        return $scope.percent = '30';
+      $rootScope.$on('themeChangeStart', function(e, data) {
+        if (data.fake) {
+          return $scope.percent = '30';
+        } else {
+          return $scope.percent = '0';
+        }
       });
       $rootScope.$on('themeChangeSuccess', function() {
         return $scope.percent = '100';
+      });
+      $rootScope.$on('themeChangeProgress', function(e, data) {
+        $scope.percent = (data.loaded / data.total) * 100 + '';
+        return console.log($scope.percent);
       });
       $scope.themes = [
         {

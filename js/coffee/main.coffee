@@ -287,13 +287,18 @@ requirejs ['jquery', 'angular', 'bootstrap'], ($, angular) ->
                 bkimg = new Image()
                 #判断浏览器支持 如果支持xhr2 则使用加载blob的方法加载图片
                 if window.URL.createObjectURL
-                    $http.get(imgs[theme.color], {
-                        'responseType': 'blob'
-                    }).success (blob)->
-                        bkimg.src = window.URL.createObjectURL(blob)
-                        debugger
+                    $rootScope.$broadcast('themeChangeStart', {'fake': false})
+                    xhr = new XMLHttpRequest()
+                    xhr.open('GET', imgs[theme.color])
+                    xhr.responseType = 'blob'
+                    xhr.onreadystatechange = ->
+                        if xhr.readyState is 4
+                            bkimg.src = window.URL.createObjectURL(xhr.response)
+                    xhr.onprogress = (e) ->
+                        $rootScope.$broadcast('themeChangeProgress', e)
+                    xhr.send()
                 else  
-                    debugger
+                    $rootScope.$broadcast('themeChangeStart', {'fake': true})
                     bkimg.src = imgs[theme.color]
 
                 $(bkimg).load ->
@@ -332,13 +337,13 @@ requirejs ['jquery', 'angular', 'bootstrap'], ($, angular) ->
         link: (scope,element,attr,themeSwitcherController) ->
             scope.theme.selected = false
             #首次打开页面也认为是切换主题
-            $rootScope.$broadcast('themeChangeStart')
+            $rootScope.$broadcast('themeChangeStart', {'fake': true})
             if scope.theme.color is 'green' then scope.theme.selected = true
             themeSwitcherController.addThemes(scope.theme);
             scope.toggleTheme = ->
                 scope.theme.selected = true;
-                themeSwitcherController.gotChanged(scope.theme);
-                $rootScope.$broadcast('themeChangeStart')
+                themeSwitcherController.gotChanged(scope.theme)
+
     ]
 
     app.directive 'progressTool', ['$rootScope', '$timeout', ($rootScope, $timeout) ->
@@ -455,12 +460,20 @@ requirejs ['jquery', 'angular', 'bootstrap'], ($, angular) ->
 
             #主题加载
             $scope.percent = '0'
-            $rootScope.$on('themeChangeStart', ->
-                $scope.percent = '30'
+            $rootScope.$on('themeChangeStart', (e, data)->
+                if(data.fake)
+                    $scope.percent = '30'
+                else
+                    $scope.percent = '0'
             )
             $rootScope.$on('themeChangeSuccess', ->
                 $scope.percent = '100'
             )
+            $rootScope.$on('themeChangeProgress', (e, data)->
+                $scope.percent = (data.loaded/data.total) * 100 + ''
+                console.log($scope.percent)
+            )
+
             $scope.themes = [
                 {
                     color: 'green'
@@ -481,8 +494,9 @@ requirejs ['jquery', 'angular', 'bootstrap'], ($, angular) ->
                 {
                     color: 'pink'
                     selected: false
-                },
+                }
             ]
+
             $scope.themes.themeClass = 'theme-green' 
             
         ]
