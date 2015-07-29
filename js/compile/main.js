@@ -314,21 +314,50 @@ requirejs(['jquery', 'angular', 'bootstrap'], function($, angular) {
       scope: {
         themes: '=themes'
       },
+      link: function(scope, element, attr) {
+        if (!localStorage.getItem('theme')) {
+          return localStorage.setItem('theme', 'green');
+        }
+      },
       controller: [
         '$scope', '$rootScope', '$timeout', '$http', function($scope, $rootScope, $timeout, $http) {
-          var imgs, themes;
+          var imgs, picsize, themes;
           themes = [];
+          picsize = '1080x1800';
+          if ($(window).width() < 500) {
+            picsize = '500x500xz';
+          }
           imgs = {
-            'green': 'http://gtms01.alicdn.com/tps/i1/TB1I3coIFXXXXaOXpXXxjZKVXXX-1200-675.jpg_1080x1800.jpg',
-            'pink': 'http://gtms03.alicdn.com/tps/i3/TB1CUj9IFXXXXbNaXXX9l.7UFXX-1920-1080.jpg_1080x1800.jpg',
-            'purple': 'http://gtms04.alicdn.com/tps/i4/TB1euAmIFXXXXbnXpXX9l.7UFXX-1920-1080.jpg_1080x1800.jpg',
-            'blue': 'http://gtms01.alicdn.com/tps/i1/TB1jEEuIFXXXXXrXXXX9l.7UFXX-1920-1080.jpg_1080x1800.jpg',
-            'yellow': 'http://gtms03.alicdn.com/tps/i3/TB1e4EaIFXXXXcuXVXX9l.7UFXX-1920-1080.jpg_1080x1800.jpg'
+            'green': 'http://gtms01.alicdn.com/tps/i1/TB1I3coIFXXXXaOXpXXxjZKVXXX-1200-675.jpg_' + picsize + '.jpg',
+            'pink': 'http://gtms03.alicdn.com/tps/i3/TB1CUj9IFXXXXbNaXXX9l.7UFXX-1920-1080.jpg_' + picsize + '.jpg',
+            'purple': 'http://gtms04.alicdn.com/tps/i4/TB1euAmIFXXXXbnXpXX9l.7UFXX-1920-1080.jpg_' + picsize + '.jpg',
+            'blue': 'http://gtms01.alicdn.com/tps/i1/TB1jEEuIFXXXXXrXXXX9l.7UFXX-1920-1080.jpg_' + picsize + '.jpg',
+            'yellow': 'http://gtms03.alicdn.com/tps/i3/TB1e4EaIFXXXXcuXVXX9l.7UFXX-1920-1080.jpg_' + picsize + '.jpg'
           };
           this.gotChanged = function(theme) {
-            var bk, xhr;
-            bk = [];
-            bk.img = new Image();
+            var changeTheme, xhr;
+            changeTheme = function() {
+              var background, enterEle, leaveEle;
+              themes.forEach(function(v) {
+                if (v !== theme) {
+                  return v.selected = false;
+                }
+              });
+              $scope.themes.themeClass = 'theme-' + theme.color;
+              localStorage.setItem('theme', theme.color);
+              theme.loaded = true;
+              background = 'url(' + theme.url + ')';
+              enterEle = $('.header-background.bg-leave');
+              leaveEle = $('.header-background.bg-enter');
+              leaveEle.removeClass('bg-enter').addClass('bg-leave');
+              enterEle.removeClass('bg-leave').addClass('bg-enter').css('background-image', background);
+              return $rootScope.$broadcast('themeChangeSuccess');
+            };
+            if (theme.loaded) {
+              changeTheme();
+              return;
+            }
+            theme.img = new Image();
             if (window.URL.createObjectURL) {
               $rootScope.$broadcast('themeChangeStart', {
                 'fake': false
@@ -338,7 +367,7 @@ requirejs(['jquery', 'angular', 'bootstrap'], function($, angular) {
               xhr.responseType = 'blob';
               xhr.onreadystatechange = function() {
                 if (xhr.readyState === 4) {
-                  return bk.url = window.URL.createObjectURL(xhr.response);
+                  return theme.url = window.URL.createObjectURL(xhr.response);
                 }
               };
               xhr.onprogress = function(e) {
@@ -351,29 +380,10 @@ requirejs(['jquery', 'angular', 'bootstrap'], function($, angular) {
               $rootScope.$broadcast('themeChangeStart', {
                 'fake': true
               });
-              bk.img.src = bk.url = imgs[theme.color];
+              theme.img.src = theme.url = imgs[theme.color];
             }
-            return xhr.onload = bk.img.onload = function() {
-              return $rootScope.$apply(function() {
-                var background, enterEle, leaveEle;
-                themes.forEach(function(v) {
-                  if (v !== theme) {
-                    return v.selected = false;
-                  }
-                });
-                $scope.themes.themeClass = 'theme-' + theme.color;
-                background = 'url(' + bk.url + ')';
-                enterEle = $('.header-background.bg-leave');
-                leaveEle = $('.header-background.bg-enter');
-                leaveEle.removeClass('bg-enter').addClass('bg-leave');
-                enterEle.removeClass('bg-leave').addClass('bg-enter').css('background-image', background);
-                return $rootScope.$broadcast('themeChangeSuccess');
-              });
-            };
+            return xhr.onload = theme.img.onload = changeTheme;
           };
-          $timeout(function() {
-            return $rootScope.$broadcast('themeChangeSuccess');
-          }, 300);
           this.addThemes = function(e) {
             return themes.push(e);
           };
@@ -393,18 +403,17 @@ requirejs(['jquery', 'angular', 'bootstrap'], function($, angular) {
           theme: '=tm'
         },
         link: function(scope, element, attr, themeSwitcherController) {
+          var nowtheme;
           scope.theme.selected = false;
-          $rootScope.$broadcast('themeChangeStart', {
-            'fake': true
-          });
-          if (scope.theme.color === 'green') {
-            scope.theme.selected = true;
-          }
+          nowtheme = localStorage.getItem('theme');
           themeSwitcherController.addThemes(scope.theme);
-          return scope.toggleTheme = function() {
+          scope.toggleTheme = function() {
             scope.theme.selected = true;
             return themeSwitcherController.gotChanged(scope.theme);
           };
+          if (nowtheme === scope.theme.color) {
+            return scope.toggleTheme();
+          }
         }
       };
     }

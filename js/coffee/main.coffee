@@ -273,19 +273,45 @@ requirejs ['jquery', 'angular', 'bootstrap'], ($, angular) ->
         scope: {
             themes: '=themes'
         }
+        link: (scope, element, attr)->
+            if not localStorage.getItem('theme')
+                localStorage.setItem('theme', 'green')
+
         controller: ['$scope', '$rootScope', '$timeout', '$http', ($scope, $rootScope, $timeout, $http)->
             themes = []
+            picsize = '1080x1800'
+            if $(window).width() < 500
+                picsize = '500x500xz'
             imgs = 
-                'green': 'http://gtms01.alicdn.com/tps/i1/TB1I3coIFXXXXaOXpXXxjZKVXXX-1200-675.jpg_1080x1800.jpg'
-                'pink': 'http://gtms03.alicdn.com/tps/i3/TB1CUj9IFXXXXbNaXXX9l.7UFXX-1920-1080.jpg_1080x1800.jpg'
-                'purple': 'http://gtms04.alicdn.com/tps/i4/TB1euAmIFXXXXbnXpXX9l.7UFXX-1920-1080.jpg_1080x1800.jpg'
-                'blue': 'http://gtms01.alicdn.com/tps/i1/TB1jEEuIFXXXXXrXXXX9l.7UFXX-1920-1080.jpg_1080x1800.jpg'
-                'yellow': 'http://gtms03.alicdn.com/tps/i3/TB1e4EaIFXXXXcuXVXX9l.7UFXX-1920-1080.jpg_1080x1800.jpg'
+                'green': 'http://gtms01.alicdn.com/tps/i1/TB1I3coIFXXXXaOXpXXxjZKVXXX-1200-675.jpg_' + picsize + '.jpg'
+                'pink': 'http://gtms03.alicdn.com/tps/i3/TB1CUj9IFXXXXbNaXXX9l.7UFXX-1920-1080.jpg_' + picsize + '.jpg'
+                'purple': 'http://gtms04.alicdn.com/tps/i4/TB1euAmIFXXXXbnXpXX9l.7UFXX-1920-1080.jpg_' + picsize + '.jpg'
+                'blue': 'http://gtms01.alicdn.com/tps/i1/TB1jEEuIFXXXXXrXXXX9l.7UFXX-1920-1080.jpg_' + picsize + '.jpg'
+                'yellow': 'http://gtms03.alicdn.com/tps/i3/TB1e4EaIFXXXXcuXVXX9l.7UFXX-1920-1080.jpg_' + picsize + '.jpg'
 
             this.gotChanged = (theme)->
+                changeTheme = ->
+                    #需要将逻辑包进$rootScope.$apply 否则angular无法进行双向绑定！！！
+                    themes.forEach (v) ->
+                        if v != theme
+                            v.selected = false;
+                    #切换全局主题名        
+                    $scope.themes.themeClass = 'theme-' + theme.color
+                    #保存主题
+                    localStorage.setItem('theme', theme.color)
+                    theme.loaded = true
+                    background = 'url(' + theme.url + ')'
+                    enterEle = $('.header-background.bg-leave')
+                    leaveEle = $('.header-background.bg-enter')
+                    leaveEle.removeClass('bg-enter').addClass('bg-leave')
+                    enterEle.removeClass('bg-leave').addClass('bg-enter').css('background-image', background)
+                    $rootScope.$broadcast('themeChangeSuccess')
+                #如果主题已加载，直接切换
+                if theme.loaded
+                    changeTheme()
+                    return
                 #预加载图片
-                bk = []
-                bk.img = new Image()
+                theme.img = new Image()
                 #判断浏览器支持 如果支持xhr2 则使用加载blob的方法加载图片
                 if window.URL.createObjectURL
                     $rootScope.$broadcast('themeChangeStart', {'fake': false})
@@ -294,38 +320,20 @@ requirejs ['jquery', 'angular', 'bootstrap'], ($, angular) ->
                     xhr.responseType = 'blob'
                     xhr.onreadystatechange = ->
                         if xhr.readyState is 4
-                            bk.url = window.URL.createObjectURL(xhr.response)
+                            theme.url = window.URL.createObjectURL(xhr.response)
                     xhr.onprogress = (e) ->
                         $rootScope.$apply ->
                             $rootScope.$broadcast('themeChangeProgress', e)
                     xhr.send()
                 else  
                     $rootScope.$broadcast('themeChangeStart', {'fake': true})
-                    bk.img.src = bk.url = imgs[theme.color]
+                    theme.img.src = theme.url = imgs[theme.color]
+                xhr.onload = theme.img.onload = changeTheme
 
-                xhr.onload = bk.img.onload = ->
-                    #需要将逻辑包进$rootScope.$apply 否则angular无法进行双向绑定！！！
-                    $rootScope.$apply ->
-                        themes.forEach (v) ->
-                            if v != theme
-                                v.selected = false;
-                        #切换全局主题名        
-                        $scope.themes.themeClass = 'theme-' + theme.color
-                        background = 'url(' + bk.url + ')'
-                        enterEle = $('.header-background.bg-leave')
-                        leaveEle = $('.header-background.bg-enter')
-                        leaveEle.removeClass('bg-enter').addClass('bg-leave')
-                        enterEle.removeClass('bg-leave').addClass('bg-enter').css('background-image', background)
-                        $rootScope.$broadcast('themeChangeSuccess')
-
-            #首次打开页面也认为是切换主题
-            $timeout( ->
-                $rootScope.$broadcast('themeChangeSuccess')
-            , 300)
             this.addThemes = (e) ->
                 themes.push(e)
             return
-        ]    
+        ] 
 
     app.directive 'switcher', ['$rootScope', '$timeout', ($rootScope, $timeout) ->
         restrict: 'EA'
@@ -338,13 +346,14 @@ requirejs ['jquery', 'angular', 'bootstrap'], ($, angular) ->
         }
         link: (scope,element,attr,themeSwitcherController) ->
             scope.theme.selected = false
-            #首次打开页面也认为是切换主题
-            $rootScope.$broadcast('themeChangeStart', {'fake': true})
-            if scope.theme.color is 'green' then scope.theme.selected = true
+            nowtheme = localStorage.getItem('theme')
             themeSwitcherController.addThemes(scope.theme);
             scope.toggleTheme = ->
                 scope.theme.selected = true;
                 themeSwitcherController.gotChanged(scope.theme)
+            #首次主题设定
+            if nowtheme is scope.theme.color
+                scope.toggleTheme()
 
     ]
 
