@@ -78,5 +78,7 @@ if (!debug) {
 console.log(libs);
 
 requirejs(libs, function($, angular) {
-  return angular.bootstrap(document, ['myblog']);
+  return setTimeout(function() {
+    return angular.bootstrap(document, ['myblog']);
+  });
 });

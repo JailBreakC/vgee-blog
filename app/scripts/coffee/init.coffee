@@ -79,7 +79,8 @@ else
 console.log libs 
 
 requirejs libs, ($, angular) ->
-    angular.bootstrap(document, ['myblog'])
+    setTimeout ->
+        angular.bootstrap(document, ['myblog'])
 
 
 
