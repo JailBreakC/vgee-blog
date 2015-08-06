@@ -8,8 +8,8 @@ if (!debug) {
   requirejs.config({
     baseUrl: 'build/js',
     paths: {
-      'angular': '//7mnmwm.com1.z0.glb.clouddn.com/js/build/lib/angular-route-animate.min',
       'jquery': '//7mnmwm.com1.z0.glb.clouddn.com/js/build/lib/jquery.min',
+      'angular': '//7mnmwm.com1.z0.glb.clouddn.com/js/build/lib/angular-route-animate.min',
       'bootstrap': '//7mnmwm.com1.z0.glb.clouddn.com/js/build/lib/bootstrap.min',
       'markdown': '//7mnmwm.com1.z0.glb.clouddn.com/js/build/lib/markdown.min',
       'hljs': '//7mnmwm.com1.z0.glb.clouddn.com/js/build/lib/highlight.pack',
@@ -38,7 +38,9 @@ if (!debug) {
     baseUrl: 'app/scripts/js',
     paths: {
       'jquery': 'http://cdn.staticfile.org/jquery/1.11.1/jquery',
-      'angular': '//7mnmwm.com1.z0.glb.clouddn.com/js/build/lib/angular-route-animate.min',
+      'angular': 'lib/angular',
+      'ngRoute': 'lib/angular-ui-router',
+      'ngAnimate': 'lib/angular-animate',
       'bootstrap': 'http://cdn.staticfile.org/twitter-bootstrap/3.3.1/js/bootstrap',
       'markdown': 'js/build/lib/markdown',
       'hljs': 'js/build/lib/highlight.pack',
@@ -50,7 +52,16 @@ if (!debug) {
     },
     shim: {
       'angular': {
+        deps: ['jquery'],
         exports: 'angular'
+      },
+      'ngRoute': {
+        deps: ['angular'],
+        exports: 'ngRoute'
+      },
+      'ngAnimate': {
+        deps: ['angular'],
+        exports: 'ngAnimate'
       },
       'bootstrap': {
         deps: ['jquery'],
@@ -61,7 +72,7 @@ if (!debug) {
       }
     }
   });
-  libs = ['jquery', 'angular', 'bootstrap', 'config', 'directive', 'controller', 'factory', 'filter'];
+  libs = ['jquery', 'angular', 'ngRoute', 'ngAnimate', 'bootstrap', 'config', 'directive', 'controller', 'factory', 'filter'];
 }
 
 console.log(libs);

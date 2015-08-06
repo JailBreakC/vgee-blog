@@ -1,5 +1,4 @@
 define ['jquery', 'angular'], ($, angular) ->
-
     app = angular.module 'myblog'
 
     parseTitle = (data) ->

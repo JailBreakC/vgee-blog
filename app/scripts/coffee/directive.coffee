@@ -1,5 +1,4 @@
 define ['jquery', 'angular'], ($, angular) ->
-
     app = angular.module 'myblog'
 
     #博客列表的动画，滚动时在下方出现

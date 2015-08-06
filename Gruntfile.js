@@ -9,6 +9,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-requirejs');
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-coffee');
+    grunt.loadNpmTasks('grunt-contrib-concat');
     // Project configuration.
     grunt.initConfig({
         pkg: function() {
@@ -28,17 +29,25 @@ module.exports = function(grunt) {
                 dest: 'build/js',
                 ext: '.min.js'
             }
-            //,
-            // concat: {
-            //     files:  [
-            //         {'js/build/lib/angular-route-animate.min.js': [
-            //             'js/lib/angular.js',
-            //             'js/lib/angular-ui-router.js',
-            //             'js/lib/angular-animate.min.js'
-            //             ]
-            //         }
-            //     ]
-            // }
+            ,
+            concat: {
+                files:  [
+                    {'app/scripts/js/lib/angular-route-animate.js': [
+                        'app/scripts/js/lib/angular.js',
+                        'app/scripts/js/lib/angular-ui-router.js',
+                        'app/scripts/js/lib/angular-animate.js'
+                        ]
+                    }
+                ]
+            }
+        },
+        concat: {
+            dist: {
+                  src: ['app/scripts/js/lib/angular.js',
+                        'app/scripts/js/lib/angular-ui-router.js',
+                        'app/scripts/js/lib/angular-animate.js'],
+                  dest: 'app/scripts/js/lib/angular-route-animate.js',
+            },
         },
         watch: {
             less: {
@@ -110,6 +119,7 @@ module.exports = function(grunt) {
     grunt.registerTask('default', ['watch']);
     grunt.registerTask('build', ['less:production', 'coffee:dev', 'uglify:build']);
     grunt.registerTask('live', ['watch']);
+    grunt.registerTask('cat', ['concat']);
 };
 
 
