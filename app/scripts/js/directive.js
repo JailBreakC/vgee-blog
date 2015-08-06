@@ -200,7 +200,7 @@ define(['jquery', 'angular'], function($, angular) {
       link: function(scope, element, attrs) {
         var cssUrl, link, loading, them;
         them = attrs.theme ? attrs.theme : 'zenburn';
-        cssUrl = require.toUrl('/style/lib/hightlight/' + them + '.css');
+        cssUrl = require.toUrl('/app/assets/css/lib/highlight/' + them + '.css');
         link = document.createElement('link');
         link.type = 'text/css';
         link.rel = 'stylesheet';

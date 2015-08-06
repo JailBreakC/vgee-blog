@@ -156,7 +156,7 @@ define ['jquery', 'angular'], ($, angular) ->
         },
         link: (scope, element, attrs)-> 
             them = if attrs.theme then attrs.theme else 'zenburn'
-            cssUrl = require.toUrl('/style/lib/hightlight/' + them + '.css')
+            cssUrl = require.toUrl('/app/assets/css/lib/highlight/' + them + '.css')
             link = document.createElement('link')
             link.type = 'text/css'
             link.rel = 'stylesheet'
