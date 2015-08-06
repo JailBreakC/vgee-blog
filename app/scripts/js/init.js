@@ -37,13 +37,13 @@ if (!debug) {
   requirejs.config({
     baseUrl: 'app/scripts/js',
     paths: {
-      'jquery': 'http://cdn.staticfile.org/jquery/1.11.1/jquery',
+      'jquery': 'lib/jquery',
       'angular': 'lib/angular',
       'ngRoute': 'lib/angular-ui-router',
       'ngAnimate': 'lib/angular-animate',
-      'bootstrap': 'http://cdn.staticfile.org/twitter-bootstrap/3.3.1/js/bootstrap',
-      'markdown': 'js/build/lib/markdown',
-      'hljs': 'js/build/lib/highlight.pack',
+      'bootstrap': 'lib/bootstrap',
+      'markdown': 'lib/markdown',
+      'hljs': 'lib/highlight.pack',
       'config': 'config',
       'directive': 'directive',
       'controller': 'controller',
