@@ -1,0 +1,66 @@
+title:CO 源码分析
+disc:实现一个最简版的co
+type:node.js
+-----------
+
+### 能在console里运行的co最简单代码，debug一下比较方便理解。
+
+Koa 是nodejs新一代web框架，koa 编写 web 应用，通过组合不同的 generator，可以免除重复繁琐的回调函数嵌套，并极大地提升常用错误处理效率。
+Koa又是建立在co的基础上的，所以了解co对进阶Koa是有非常大的帮助的，
+
+co主要就是利用了ES6的generator函数 看之前要先要学习一下generator的特性。
+这里推荐阮一峰老师的教程 <http://es6.ruanyifeng.com/#docs/generator>
+
+co的简单实现方法 参考至竹隐的博客 <http://purplebamboo.github.io/2014/05/24/koa-source-analytics-2/>
+
+    
+    //chunk函数，
+    function size(file) {
+      //这里的参数fn 其实就是co里面的_next
+      return function(fn){
+      	setTimeout(function() {
+          //当异步函数执行完之后，调用fn(就是_next， _next函数会帮我们继续调用gen.next())
+      		fn('err', file + '---' + file.length);
+      	},1000);
+      }
+    }
+    function co(fn) {
+      return function(done) {
+        var ctx = this;
+        var gen = fn.call(ctx);
+        var it = null;
+        function _next(err, res) {
+          it = gen.next(res);
+          if (it.done) {
+            //done为true代表generatorFunction函数执行完毕,就会把值传给co的回调函数。
+            //这时的it.value 就是generatorFunction返回的[a,b];
+            done.call(ctx, err, it.value);
+          } else {
+            //这里it.value就是上面chunk函数返回的匿名函数参数为_next()，匿名函数执行完之后会调用_next()。
+            it.value(_next);
+          }
+        }
+        _next();
+      }
+    }
+    co(function *(){
+      var a = yield size('.gitignore');
+      var b = yield size('package.json');
+      console.log(a);
+      console.log(b);
+      return [a,b];
+    })(function (err,args){
+      console.log("callback===args=======");
+      console.log(args);
+    })
+
+    
+
+通过执行GeneratorFunction我们可以得到一个generator对象也就是gen。gen对象有一个next方法。
+当我们第一次调用gen.next()的时候代码会执行到第一个yield声明的地方。
+此时gen.next()返回的是一个对象，对象的value属性是yield语句后函数返回的值，这个值可以是字符串，函数，对象等等等。
+co就是让yield语句后函数再返回一个函数，比如gen.next()返回一个it对象，it.value()就是这个yield语句返回的函数，然后将包含gen.next方法的函数再传入it.value()中去，
+这样就可以在chunk函数中的异步方法执行完毕之后来回调gen.next()方法，从而实现了co中的同步写法。
+
+如果看不懂的话，可以直接复制代码放进console里面取debug非常方便。
+

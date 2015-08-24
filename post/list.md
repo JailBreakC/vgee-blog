@@ -1,3 +1,8 @@
+title:CO 源码分析
+disc:实现一个最简版的co
+type:node.js
+url: 2017-8-24-co
+-------
 title:angularJS $rootscope.$apply()
 disc:$rootscope.$apply() 与 angular 双向绑定机制
 type:JavaScript
