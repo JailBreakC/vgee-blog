@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>vgee.cn 留言板</title>
+    <link rel="stylesheet" href="/build/css/less/style.css">
+    <script src="http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js"></script>
+</head>
+<body>
+        
+    <div class="container edit">
+        <div class="pic-ct">
+            <div class="mask">
+                <div class="upload"><i class="iconfont">&#xe609;</i></div>
+            </div>
+        </div>
+        <div class="textarea">
+            <textarea name="msg" id="msg"></textarea>
+            <div class="submit">
+                <i class="iconfont">&#xe60e;</i>
+            </div>
+        </div>
+    </div>
+
+    <div class="container preview hide" style="display: none">
+        <div class="pic-ct">
+            <img id="picture" alt="">
+        </div>
+        <div class="text-ct">
+            <!-- <i class="iconfont like">&#xe60d;</i>  -->  
+            <pre id="prepre">
+            </pre>
+            <p class="user">-- <span>jack</span></p>
+            <div class="acts">
+                <div class="act">
+                    <i id="i-temp" class="iconfont">&#xe600;</i>    
+                    <p id="temp">天晴</p>
+                </div>
+                <div class="act">
+                    <i class="iconfont">&#xe60b;</i>
+                    <p id="time">8/3</p>
+                </div>
+                <div class="act">
+                    <i class="iconfont location">&#xe60c;</i>
+                    <p id="loc">茶陵</p>
+                </div>
+            </div>
+            <div class="subCtrl">
+                <div class="sub go">
+                    发布
+                </div>
+                <div class="sub ret">
+                    返回
+                </div>
+            </div>
+        </div>
+    </div>  
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/js-cookie/js-cookie-2.0.4/src/js.cookie.js"></script>
+    <script src="bower_components/textarea-autosize/dist/jquery.textarea_autosize.min.js"></script>
+    <script src="bower_components/fastclick/lib/fastclick.js"></script>
+    <script src="build/js/index.js"></script>
+</body>
+</html>
