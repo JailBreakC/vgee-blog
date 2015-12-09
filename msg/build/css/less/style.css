@@ -71,6 +71,7 @@ body {
   background-color: grey;
   padding-top: 50%;
   height: 100%;
+  box-sizing: border-box;
 }
 .container .pic-ct .mask:active {
   background-color: #696969;
