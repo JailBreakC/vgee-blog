@@ -69,7 +69,7 @@ body {
 }
 .container .pic-ct .mask {
   background-color: grey;
-  padding-top: 50%;
+  padding: 25vh 0;
   height: 100%;
   box-sizing: border-box;
 }
@@ -80,7 +80,8 @@ body {
   display: block;
   margin: auto;
   text-align: center;
-  margin-top: -17px;
+  line-height: 0;
+  height: 0;
 }
 .container .pic-ct .mask .upload .iconfont {
   font-size: 35px;
