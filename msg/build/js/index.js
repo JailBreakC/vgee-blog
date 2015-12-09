@@ -63,7 +63,7 @@ var userData;
 
 var postData = function() {
     var wall_author = userData.user,
-        wall_message = userData.text,
+        wall_message = userData.text.replace(/\n/g, '/_rt/'),
         wall_weither = userData.weither,
         wall_city = userData.location;
         wall_w_icon = userData.w_icon;

@@ -33,13 +33,15 @@ var getData = function() {
             time = time.join('/');
             var icon = icons[msg.wall_w_icon] || '&#xe604;'
             var noImg = msg.wall_img ? '': 'no-img';
+            //替换特殊标识为换行符
+            var massage = msg.wall_message.replace(/\/_rt\//g, '\n');
             var htmlStr = [
             '<div class="container '+noImg+'">',
                 '<div class="pic-ct">',
                     '<img src="'+msg.wall_img+'" alt="">',
                 '</div>',
                 '<div class="text-ct">',
-                    '<pre>'+msg.wall_message+'</pre>',
+                    '<pre>'+massage+'</pre>',
                     '<p class="user">-- <span>'+msg.wall_author+'</span></p>',
                     '<div class="acts">',
                         '<div class="act">',
