@@ -31,6 +31,8 @@ var getData = function() {
             var time = msg.wall_addtime.split('_')[0].split('-')
             time.shift();
             time = time.join('/');
+            time += ' ' + msg.wall_addtime.split('_')[1].slice(0, -3)
+            console.log(time);
             var icon = icons[msg.wall_w_icon] || '&#xe604;'
             var noImg = msg.wall_img ? '': 'no-img';
             //替换特殊标识为换行符

@@ -34,7 +34,7 @@ var loadUserMsg = function(cb) {
 
     data.text = $('.edit #msg').val();
     data.location = ipLoc.city || ipLoc.province || '北京';
-    data.time = date.getMonth() + 1 + '/' + date.getDate();
+    data.time = date.getMonth() + 1 + '/' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes();
     var currentWeither = weitherAPI + data.location;
 
     $.getJSON(currentWeither).success(function(weither) {
@@ -47,7 +47,7 @@ var loadUserMsg = function(cb) {
         data.weither = weither.weather[0].description;
         data.w_icon = weither.weather[0].icon.slice(0,2);
         data.img = 'http://7xp0x5.com1.z0.glb.clouddn.com/photo'+Math.ceil(PICS * Math.random())+'.png'
-        
+
     }).fail(function() {
 
         data.temp = '未知'
@@ -61,7 +61,7 @@ var loadUserMsg = function(cb) {
 
 var userData;
 
-var postData = function() {
+var postData = function(ele) {
     var wall_author = userData.user,
         wall_message = userData.text.replace(/\n/g, '/_rt/'),
         wall_weither = userData.weither,
@@ -76,6 +76,7 @@ var postData = function() {
                 +'&wall_img='+wall_img;
     console.log(param);
     $.getJSON(API.post + param).success(function(data) {
+        ele.waiting = false;
         if(data.success) {
             window.location.href="list.html"
         }else {
@@ -125,7 +126,7 @@ var init = function() {
                     .find('#loc').text(data.location).end()
                     .find('.user span').text(data.user).end();
                     setTimeout(function(){
-                        $('.preview').toShow(); 
+                        $('.preview').toShow();
                     })
 
             });
@@ -136,15 +137,19 @@ var init = function() {
     $('.ret').click(function() {
         $('.preview').toHide().one(transitionend, function() {
             $(this).unbind(transitionend).hide();
-            $('.edit').show() 
+            $('.edit').show()
             setTimeout(function(){
-                $('.edit').toShow(); 
+                $('.edit').toShow();
             })
         })
     })
 
     $('.go').click(function() {
-        postData();
+        if(this.waiting) {
+          return;
+        }
+        this.waiting = true;
+        postData(this);
     })
 
     $('.mask').click(function() {
@@ -166,7 +171,7 @@ $(function() {
 
 var test = function() {
     var arr = [];
-    
+
     var str = 'http://openweathermap.org/img/w/50d.png';
 
 }
