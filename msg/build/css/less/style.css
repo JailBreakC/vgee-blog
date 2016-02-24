@@ -67,9 +67,17 @@ body {
 .container .pic-ct img {
   width: 100%;
 }
+.container .pic-ct .thumb {
+  height: 100%;
+  width: 100%;
+}
 .container .pic-ct .mask {
-  background-color: grey;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-color: transparent;
   padding: 25vh 0;
+  width: 100%;
   height: 100%;
   box-sizing: border-box;
 }
