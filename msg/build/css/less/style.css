@@ -142,7 +142,9 @@ body {
 .container .text-ct pre {
   margin-bottom: 20px;
   overflow: hidden;
-  word-break: break-word;
+  word-break: break-all;
+  word-wrap: break-word;
+  white-space: pre-wrap;
 }
 .container .textarea {
   background-color: white;
