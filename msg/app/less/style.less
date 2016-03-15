@@ -1,0 +1,277 @@
+@font-face {
+  font-family: 'iconfont';
+  src: url('//at.alicdn.com/t/font_1449639891_5691915.eot'); /* IE9*/
+  src: url('//at.alicdn.com/t/font_1449639891_5691915.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('//at.alicdn.com/t/font_1449639891_5691915.woff') format('woff'), /* chrome、firefox */
+  url('//at.alicdn.com/t/font_1449639891_5691915.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+  url('//at.alicdn.com/t/font_1449639891_5691915.svg#iconfont') format('svg'); /* iOS 4.1- */
+}
+                            
+                    
+
+
+.iconfont{
+    font-family:"iconfont";
+    font-size:16px;
+    font-style:normal;
+    -webkit-font-smoothing: antialiased;
+}
+
+body {
+    margin: 0px;
+    padding: 10px;
+    background-color: black;
+}
+.container {
+    &.preview {
+        transition: transform 1s ease;
+        transform: rotateY(0deg);
+        &.hide {
+            transform: rotateY(-90deg);
+        }
+        &.show {
+            display: block;
+            transform: rotateY(0deg);
+        }
+        .text-ct {
+            padding-bottom: 0px;
+        }
+    }
+    &.edit {
+        transition: transform 1s ease;
+        transform: rotateY(0deg);
+        &.hide {
+            transform: rotateY(90deg);
+        }
+        &.show {
+            display: block;
+            transform: rotateY(0deg);
+        }
+        .pic-ct {
+            height: 50vh;
+        }
+    }
+    background-color: transparent;
+    overflow: hidden;
+    margin-bottom: 20px;
+    &.no-img {
+        img {
+            display: none;
+        }
+        .text-ct {
+            border-radius: 3px;
+        }
+    }
+    .pic-ct {
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+        overflow: hidden;
+        line-height: 0;
+        position: relative;
+        background: white;
+        text-align: center;
+
+        img {
+            width: 100%;
+        }
+        .thumb {
+            height: 100%;
+            width: 100%;
+        }
+        .mask {
+            position: absolute;
+            left: 0;
+            top: 0;
+            background-color: transparent;
+            padding: 25vh 0;
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+            &:active {
+                background-color: #696969;
+            }
+            .upload {
+                display: block;
+                margin: auto;
+                text-align: center;
+                line-height: 0;
+                height: 0;
+                .iconfont {
+                    font-size: 35px;
+                    color: white
+                }
+            }
+        }
+    }
+    .text-ct {
+        background-color: white;
+        overflow: hidden;
+        padding: 50px 20px 20px 20px;
+        border-bottom-left-radius: 3px;
+        border-bottom-right-radius: 3px;
+        position: relative;
+        .acts {
+            text-align: center;
+            overflow: auto;
+            .act {
+                display: block;
+                float: left;
+                width: 33%;
+                p {
+                    font-size: 12px;
+                    color: gray;
+                    margin: 5px 0px 0px 0px;
+                }
+                i {
+                    display: block;
+                    font-size: 18px;
+                    color: black;
+                    &.location {
+                        font-size: 16px;
+                    }
+                }
+            }
+        }
+        .user {
+            text-align: right;
+            margin: 0 0 10px 0;
+            font-size: 12px;
+            color: gray;
+        }
+        .like {
+            color: red;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        pre {
+            margin-bottom: 20px;
+            overflow: hidden;
+            word-break: break-all;
+            word-wrap: break-word;
+            white-space: pre-wrap;
+        }
+    }
+    .textarea {
+        background-color: white;
+        overflow: hidden;
+        border-bottom-left-radius: 3px;
+        border-bottom-right-radius: 3px;
+        textarea {
+            box-sizing: border-box;
+            width: 100%;
+            min-height: 30vh;
+            padding: 20px;
+            border: none;
+            resize: none;
+            font-family: monospace;
+            font-size: 12px;
+            &:focus { 
+                outline: none; 
+            }
+        }
+        .submit {
+            width: 50px;
+            height: 50px;
+            margin: 5px auto 10px;
+            border-radius: 50%;
+            background-color: #1CCCDE;
+            text-align: center;
+            box-shadow: 0px 0px 2px 1px #9ABCC5;
+            color: white;
+            transition: box-shadow .3s ease;
+            &.circle {
+                animation: circle 2s infinite linear;
+            }
+            &:active {   
+                box-shadow: 0px 0px 5px 2px #9ABCC5;
+            }
+            i {
+                line-height: 50px;
+                font-size: 30px;
+            }
+        }
+    }
+    .subCtrl {
+        overflow: auto;
+        padding: 20px 5px 10px;
+        .sub {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            text-align: center;
+            color: white;
+            line-height: 40px;
+            font-size: 12px;
+            &.ret {
+                float: left;
+                background-color: #FF6B4A;
+                box-shadow: 0px 0px 2px 1px #DC632A;
+                &:active {   
+                box-shadow: 0px 0px 5px 2px #DC632A;
+                }
+            }
+            &.go {
+                float: right;
+                background-color: #1CCCDE;
+                box-shadow: 0px 0px 2px 1px #9ABCC5;   
+                &:active {   
+                box-shadow: 0px 0px 5px 2px #9ABCC5;
+                }
+            }
+        }
+    }
+}
+.submitCtrl {
+    overflow: hidden;
+    border-radius: 3px;
+    .sub {
+        box-sizing: border-box;
+        width: 50%;
+        padding: 10px;
+        background-color: white;
+        float: left;
+        text-align: center;
+        font-size: 12px;
+        color: white;
+        &.ret {
+            background-color: #1CCCDE;
+        }
+        &.go {   
+            background-color: #1CCCDE;
+        }
+    }
+}
+.go-write {
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+    width: 45px;
+    height: 45px;
+    line-height: 45px;
+    color: white;
+    text-decoration: none;
+    background-color: #FF3B00;
+    text-align: center;
+    border-radius: 50%;
+    box-shadow: 0px 0px 2px 1px #DC632A;
+    overflow: hidden;
+    &:active {   
+    box-shadow: 0px 0px 5px 2px #DC632A;
+    }
+    &:focus {
+        outline: none;
+    }
+    i {
+        font-size: 17px;
+        &:focus {
+            outline: none;
+        }
+    }
+}
+@keyframes circle {
+    0%   { transform: rotateZ(0deg);}
+    100% { transform: rotateZ(360deg);}
+}
