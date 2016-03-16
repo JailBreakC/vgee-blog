@@ -35,9 +35,15 @@ var getData = function() {
             if(!msg.weither) {
                 msg.weither = '未知';
             }
+            var front0 = function (num) {
+                return num = num < 10 ? '0' + num : num;
+            }
+
             var time = new Date(msg.createdAt);
-            time = time.getMonth() + '/' + time.getDate() + ' ' + time.getHours() + ':' + time.getMinutes();
-            console.log(time);
+
+            time = (time.getMonth() + 1) + '/' + time.getDate() + ' ' 
+                   + front0(time.getHours()) + ':' + front0(time.getMinutes());
+
             var icon = icons[msg.weither_icon] || '&#xe604;'
             var noImg = msg.img ? '': 'no-img';
             //替换特殊标识为换行符

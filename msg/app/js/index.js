@@ -1,4 +1,4 @@
-var weitherAPI = 'http://api.openweathermap.org/data/2.5/weather?appid=44db6a862fba0b067b1930da0d769e98&lang=zh&callback=?&q='
+var weitherAPI = 'http://api.openweathermap.org/data/2.5/weather?appid=ddd22c249a580fc203705e7412883979&lang=zh&callback=?&q='
 var transitionend = "transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd";
 
 var API = {
@@ -444,7 +444,11 @@ $(function() {
     init();
 
     $.get(API.policy).success(function(data) {
-
+        if(data.flag != true) {
+            console.log(data);
+            alert('暂时无法上传图片!');
+            return;
+        }
         initUploader($('.pic-ct')[0], data, '2048kb', false, function(info) {
             console.log('success');
         });
