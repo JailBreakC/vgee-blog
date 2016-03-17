@@ -1,12 +1,28 @@
 var weitherAPI = 'http://api.openweathermap.org/data/2.5/weather?appid=ddd22c249a580fc203705e7412883979&lang=zh&callback=?&q='
 var transitionend = "transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd";
 
-var API = {
-    get: 'http://api.vgee.cn/msg',
-    post: 'http://api.vgee.cn/msg',
-    policy: 'http://api.vgee.cn/policy',
-    mylocation: 'http://api.vgee.cn/mylocation'
+// 获得url query参数
+var getURLQuery = function(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(location.search);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
+
+//配置api
+var API = (function(){
+    var devHOST = 'http://127.0.0.1:8888';
+    var proHOST = 'http://api.vgee.cn';
+    var HOST = getURLQuery('debug') == 'true' ? devHOST : proHOST;
+
+    return {
+        get: HOST + '/msg',
+        post: HOST + '/msg',
+        policy: HOST + '/policy',
+        mylocation: HOST + '/mylocation'
+    }
+})();
+
 
 var icons = {
     '01': '&#xe604;',
@@ -132,7 +148,7 @@ var init = function() {
                     .find('#temp').text(userData.weither).end()
                     .find('#time').text(userData.time).end()
                     .find('#loc').text(userData.city).end()
-                    .find('.user span').text(userData.user).end();
+                    .find('.user span').text(userData.author).end();
                     setTimeout(function(){
                         $('.preview').toShow();
                     })

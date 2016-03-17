@@ -235,6 +235,33 @@ body {
 .submitCtrl .sub.go {
   background-color: #1CCCDE;
 }
+.go-del {
+  position: fixed;
+  bottom: 15px;
+  left: 15px;
+  width: 45px;
+  height: 45px;
+  line-height: 45px;
+  color: white;
+  text-decoration: none;
+  background-color: #2D2D2D;
+  text-align: center;
+  border-radius: 50%;
+  box-shadow: 0px 0px 2px 1px #6B6B6B;
+  overflow: hidden;
+}
+.go-del:active {
+  box-shadow: 0px 0px 5px 2px black;
+}
+.go-del:focus {
+  outline: none;
+}
+.go-del i {
+  font-size: 17px;
+}
+.go-del i:focus {
+  outline: none;
+}
 .go-write {
   position: fixed;
   bottom: 15px;

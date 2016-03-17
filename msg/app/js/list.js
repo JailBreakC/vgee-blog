@@ -1,7 +1,59 @@
-var API = {
-    get: 'http://api.vgee.cn/msg',
-    post: 'http://api.vgee.cn/msg',
-    policy: 'http://api.vgee.cn/policy'
+var getURLQuery = function(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(location.search);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
+var API = (function(){
+    var devHOST = 'http://127.0.0.1:8888';
+    var proHOST = 'http://api.vgee.cn';
+    var HOST = getURLQuery('debug') == 'true' ? devHOST : proHOST;
+
+    return {
+        get: HOST + '/msg',
+        post: HOST + '/msg',
+        del: HOST + '/msg',
+        policy: HOST + '/policy'
+    }
+})();
+
+var checkPageMode = function() {
+    if( getURLQuery('del') == 'true' ) {
+        $('input[type="checkbox"]').show();
+        $('.go-del').show().click(function() {
+            deleteMessages();
+        });
+    }
+}
+
+var deleteMessages = function() {
+    var getCheckedArr = function() {
+        var checkedArr = [];
+        $('input[type="checkbox"]').each(function(i, checkbox) {
+            if(checkbox.checked == true) {
+                checkedArr.push(checkbox.value);
+            }
+        })
+        console.log(checkedArr);
+        return checkedArr;
+    }
+    var sendDeleteReq = function() {
+        $.ajax({
+            url: API.del,
+            type: 'DELETE',
+            data: {
+                ids: getCheckedArr().join(',')
+            }
+        }).success(function(res) {
+            if(res.flag != true) {
+                alert('delete fail');
+                return;
+            }
+            window.location.reload();
+        });
+    }
+    sendDeleteReq();
 }
 
 var icons = {
@@ -24,7 +76,6 @@ var getData = function() {
             return;
         }
         data = data.data;
-        console.log(data);
         $.each(data, function(i, msg) {
             if(msg.first) {
                 msg.message = msg.first + '\n\n' + msg.sec;
@@ -70,6 +121,7 @@ var getData = function() {
                             '<i class="iconfont location">&#xe60c;</i>',
                             '<p>'+msg.city+'</p>',
                         '</div>',
+                        '<input style="display:none" value="'+ msg._id +'" type="checkbox">',
                     '</div>',
                 '</div>',
             '</div>'
@@ -78,6 +130,9 @@ var getData = function() {
             content.push(htmlStr)
         })
         $('.big-ct').html(content.join('\n'));
+
+        checkPageMode();
+
     })
 }
 

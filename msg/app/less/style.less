@@ -244,6 +244,34 @@ body {
         }
     }
 }
+.go-del {
+    position: fixed;
+    bottom: 15px;
+    left: 15px;
+    width: 45px;
+    height: 45px;
+    line-height: 45px;
+    color: white;
+    text-decoration: none;
+    background-color: #2D2D2D;
+    text-align: center;
+    border-radius: 50%;
+    box-shadow: 0px 0px 2px 1px #6B6B6B;
+    overflow: hidden;
+    &:active {   
+    box-shadow: 0px 0px 5px 2px black;
+    }
+    &:focus {
+        outline: none;
+    }
+    i {
+        font-size: 17px;
+        &:focus {
+            outline: none;
+        }
+    }
+}
+
 .go-write {
     position: fixed;
     bottom: 15px;
