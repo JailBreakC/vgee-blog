@@ -1,12 +1,17 @@
+title:Flex 布局示例教程
+disc:简单、完整的Flex布局示例
+type:CSS
+url: 2016-07-26-flex-box-demo.md
+-------
 title:CO 源码分析
 disc:实现一个最简版的co
 type:node.js
-url: 2017-8-24-co
+url: 2015-8-24-co.md
 -------
 title:angularJS $rootscope.$apply()
 disc:$rootscope.$apply() 与 angular 双向绑定机制
 type:JavaScript
-url: 2015-7-27-angular-$rootscope.$apply
+url: 2015-7-27-angular-$rootscope.$apply.md
 -------
 title:Blog 3 todo list
 disc:后续计划列表
