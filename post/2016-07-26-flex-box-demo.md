@@ -5,6 +5,9 @@ code:html
 -----------
 
 
-<iframe src="http://7xp0x5.com1.z0.glb.clouddn.com/static/index.html" frameborder="0" width="100%" height="15000">
+# flex-box-demo
 
-</iframe>
+
+点这里查看页面 <http://static.vgee.cn/static/index.html>
+
+![preview](http://static.vgee.cn/preview-nb.png)
