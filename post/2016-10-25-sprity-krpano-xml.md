@@ -44,6 +44,7 @@ CSS 精灵图已经有各种成熟的解决方案，比如博主喜欢的 gulp �
 
 `sprity-krpano-xml` 是一个基于 sprity 的krpano-xml style 样式生成器。一键解决 krpano 精灵图部署问题。
 
+<https://github.com/JailBreakC/sprity-krpano-xml>
 
 强烈建议先阅读 [sprity](https://github.com/sprity/sprity) 的官方文档
 
