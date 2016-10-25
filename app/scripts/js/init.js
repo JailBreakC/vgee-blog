@@ -29,10 +29,22 @@ if (!debug) {
       },
       'markdown': {
         exports: 'markdown'
+      },
+      'directive': {
+        deps: ['config']
+      },
+      'controller': {
+        deps: ['config']
+      },
+      'factory': {
+        deps: ['config']
+      },
+      'filter': {
+        deps: ['config']
       }
     }
   });
-  libs = ['jquery', 'angular', 'bootstrap', 'config', 'directive', 'controller', 'factory', 'filter'];
+  libs = ['jquery', 'angular', 'bootstrap', 'directive', 'controller', 'factory', 'filter'];
 } else {
   requirejs.config({
     baseUrl: 'app/scripts/js',
@@ -69,13 +81,23 @@ if (!debug) {
       },
       'markdown': {
         exports: 'markdown'
+      },
+      'directive': {
+        deps: ['config']
+      },
+      'controller': {
+        deps: ['config']
+      },
+      'factory': {
+        deps: ['config']
+      },
+      'filter': {
+        deps: ['config']
       }
     }
   });
-  libs = ['jquery', 'angular', 'ngRoute', 'ngAnimate', 'bootstrap', 'config', 'directive', 'controller', 'factory', 'filter'];
+  libs = ['jquery', 'angular', 'ngRoute', 'ngAnimate', 'bootstrap', 'directive', 'controller', 'factory', 'filter'];
 }
-
-console.log(libs);
 
 requirejs(libs, function($, angular) {
   return setTimeout(function() {

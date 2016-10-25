@@ -41,9 +41,7 @@ define ['jquery', 'angular'], ($, angular) ->
         flag = false
         head = ''
         tail = '' 
-        # console.log text
         for line in text.split('\n')
-            console.log line
             if /[\-=]{5,}/.test(line)
                 flag=true
             if flag
@@ -51,7 +49,6 @@ define ['jquery', 'angular'], ($, angular) ->
             else
                 head+= '\n'+line+'\n'
         post = parseTitle head
-        console.log head
         post.text = tail
         if post.hide == 'true' then return
         return post
@@ -63,7 +60,6 @@ define ['jquery', 'angular'], ($, angular) ->
             for i in data
                 if i.type is type
                     output.push i
-            ##console.log output
             return output
         return data 
 
@@ -95,7 +91,6 @@ define ['jquery', 'angular'], ($, angular) ->
             )
             $rootScope.$on('themeChangeProgress', (e, data)->
                 $scope.percent = (data.loaded/data.total) * 100 + ''
-                console.log($scope.percent)
             )
 
             $scope.themes = [
@@ -153,8 +148,6 @@ define ['jquery', 'angular'], ($, angular) ->
                 el.setAttribute('data-thread-key', $scope.title) #必选参数
                 el.setAttribute('data-url', $location.url()) #必选参数
                 #el.setAttribute('data-author-key', '作者的本地用户ID');//可选参数
-                #console.log(el)
                 DUOSHUO.EmbedThread(el)
-                #console.log(el)
                 jQuery(container).append(el)
     ]

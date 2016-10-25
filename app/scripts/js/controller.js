@@ -58,7 +58,6 @@ define(['jquery', 'angular'], function($, angular) {
     ref = text.split('\n');
     for (j = 0, len = ref.length; j < len; j++) {
       line = ref[j];
-      console.log(line);
       if (/[\-=]{5,}/.test(line)) {
         flag = true;
       }
@@ -69,7 +68,6 @@ define(['jquery', 'angular'], function($, angular) {
       }
     }
     post = parseTitle(head);
-    console.log(head);
     post.text = tail;
     if (post.hide === 'true') {
       return;
@@ -111,8 +109,7 @@ define(['jquery', 'angular'], function($, angular) {
         return $scope.percent = '100';
       });
       $rootScope.$on('themeChangeProgress', function(e, data) {
-        $scope.percent = (data.loaded / data.total) * 100 + '';
-        return console.log($scope.percent);
+        return $scope.percent = (data.loaded / data.total) * 100 + '';
       });
       $scope.themes = [
         {

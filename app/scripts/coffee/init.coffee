@@ -22,11 +22,18 @@ if not debug
                 exports: 'bootstrap'
             'markdown':
                 exports: 'markdown'
+            'directive': 
+                deps: ['config']
+            'controller': 
+                deps: ['config']
+            'factory': 
+                deps: ['config']
+            'filter': 
+                deps: ['config']
     libs = [
         'jquery'
         'angular'
         'bootstrap'
-        'config'
         'directive'
         'controller'
         'factory'
@@ -63,20 +70,25 @@ else
                 exports: 'bootstrap'
             'markdown':
                 exports: 'markdown'
+            'directive':
+                deps: ['config']
+            'controller':
+                deps: ['config']
+            'factory':
+                deps: ['config']
+            'filter':
+                deps: ['config']
     libs = [
         'jquery'
         'angular'
         'ngRoute'
         'ngAnimate'
         'bootstrap'
-        'config'
         'directive'
         'controller'
         'factory'
         'filter'
     ]
-
-console.log libs 
 
 requirejs libs, ($, angular) ->
     setTimeout ->
