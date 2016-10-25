@@ -1510,6 +1510,9 @@ p {
   border-radius: 5px;
   padding: 10px;
 }
+.c-blog .blog-detail p {
+  margin-bottom: 1em;
+}
 .c-blog .blog-detail > h1 {
   font-size: 30px;
 }
@@ -1520,6 +1523,7 @@ p {
   padding: 0;
   margin-left: -10px;
   margin-right: -10px;
+  margin-bottom: 1em;
 }
 #footer {
   background-color: #ebebed;
