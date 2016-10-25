@@ -1,6 +1,12 @@
+title: sprity-krpano-xml
+disc:Krpano 精灵图（雪碧图 || sprites）完美解决方案
+type:krpano
+url: 2016-10-25-sprity-krpano-xml.md
+-------
 title:Flex 布局示例教程
 disc:简单、完整的Flex布局示例
 type:CSS
+code:html
 url: 2016-07-26-flex-box-demo.md
 -------
 title:CO 源码分析
