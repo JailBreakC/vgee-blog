@@ -58,7 +58,8 @@ define(['jquery', 'angular'], function($, angular) {
     ref = text.split('\n');
     for (j = 0, len = ref.length; j < len; j++) {
       line = ref[j];
-      if (/[\-=]+/.test(line)) {
+      console.log(line);
+      if (/[\-=]{5,}/.test(line)) {
         flag = true;
       }
       if (flag) {
@@ -68,6 +69,7 @@ define(['jquery', 'angular'], function($, angular) {
       }
     }
     post = parseTitle(head);
+    console.log(head);
     post.text = tail;
     if (post.hide === 'true') {
       return;

@@ -41,14 +41,17 @@ define ['jquery', 'angular'], ($, angular) ->
         flag = false
         head = ''
         tail = '' 
+        # console.log text
         for line in text.split('\n')
-            if /[\-=]+/.test(line)
+            console.log line
+            if /[\-=]{5,}/.test(line)
                 flag=true
             if flag
                 tail+= '\n'+line
             else
                 head+= '\n'+line+'\n'
         post = parseTitle head
+        console.log head
         post.text = tail
         if post.hide == 'true' then return
         return post
