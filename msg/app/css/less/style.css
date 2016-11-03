@@ -269,11 +269,11 @@ body {
   width: 50px;
   height: 50px;
   position: fixed;
-  bottom: 10px;
+  bottom: 30px;
   left: 50%;
   margin-left: -25px;
   border-radius: 50%;
-  color: #1CCCDE;
+  color: #ff3b00;
   text-align: center;
   line-height: 46px;
   font-size: 30px;

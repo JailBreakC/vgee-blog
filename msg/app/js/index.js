@@ -82,7 +82,7 @@ var loadUserMsg = function(cb) {
             console.log('done');
             userData.img = $('.thumb').attr('src');
             if(userData.img == "1pxgray.png") {
-                userData.img = 'http://7xp0x5.com1.z0.glb.clouddn.com/photo'+Math.ceil(PICS * Math.random())+'.png';
+                userData.img = 'http://static.vgee.cn/photo'+Math.ceil(PICS * Math.random())+'.png?imageView2/2/w/500/interlace/0/q/90';
             }
 
             cb(userData);
@@ -96,9 +96,7 @@ var loadUserMsg = function(cb) {
 var postData = function(ele) {
 
     userData.message = userData.message.replace(/\n/g, '/_rt/');
-
-    console.log(userData);
-
+    userData.img = userData.img.split('?')[0];
     $.post(API.post, userData).success(function(data) {
         ele.waiting = false;
         if(data.flag == true) {
@@ -182,7 +180,7 @@ var init = function() {
     // })
 
     $('#picture').click(function() {
-        userData.img = 'http://7xp0x5.com1.z0.glb.clouddn.com/photo'+Math.ceil(PICS * Math.random())+'.png'
+        userData.img = 'http://static.vgee.cn/photo'+Math.ceil(PICS * Math.random())+'.png?imageView2/2/w/500/interlace/0/q/90'
         $(this).attr('src', userData.img);
     })
 }
@@ -219,7 +217,7 @@ var previewImage = function(file, callback){
         var preloader = new mOxie.Image();
 
         preloader.onload = function() {
-            preloader.downsize( 300, 300 );//先压缩一下要预览的图片,宽300，高300
+            preloader.downsize( 500, 500 );//先压缩一下要预览的图片,宽300，高300
             var imgsrc = preloader.type=='image/jpeg' ? preloader.getAsDataURL('image/jpeg', 80) : preloader.getAsDataURL(); //得到图片src,实质为一个base64编码的数据
             callback && callback(imgsrc); //callback传入的参数为预览图片的url
             preloader.destroy();
@@ -322,8 +320,8 @@ initUploader = function(ele, data, _size, _sharp, successCallBack) {
 
         container: ele,
         resize : {
-            width : 800, 
-            height : 800, 
+            width : 500, 
+            height : 500, 
             quality : 90,
             crop: false // crop to exact dimensions
         },

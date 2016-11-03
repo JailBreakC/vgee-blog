@@ -104,7 +104,17 @@ var getData = function(page, count) {
                    + front0(time.getHours()) + ':' + front0(time.getMinutes());
 
             var icon = icons[msg.weither_icon] || '&#xe604;'
-            var noImg = msg.img ? '': 'no-img';
+            var noImg = '';
+            if(msg.img) {
+                if(msg.img.slice(7, 13) == 'static' || msg.img.slice(7, 13) == '7xp0x5') {
+                    msg.img += '?imageView2/2/w/500/interlace/0/q/90';
+                } else {
+                    msg.img += '?x-oss-process=image/resize,w_500';
+                }
+
+            } else {
+                noImg = 'no-img';
+            }
             //替换特殊标识为换行符
             var massage = msg.message.replace(/\/_rt\//g, '\n');
             
