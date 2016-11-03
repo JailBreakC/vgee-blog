@@ -1,8 +1,8 @@
 @font-face {
   font-family: 'iconfont';
   /* project id："52830" */
-  src: url('//at.alicdn.com/t/font_zxipvc8w39hhbyb9.eot');
-  src: url('//at.alicdn.com/t/font_zxipvc8w39hhbyb9.eot') format('embedded-opentype'), url('//at.alicdn.com/t/font_zxipvc8w39hhbyb9.woff') format('woff'), url('//at.alicdn.com/t/font_zxipvc8w39hhbyb9.ttf') format('truetype'), url('//at.alicdn.com/t/font_zxipvc8w39hhbyb9.svg#iconfont') format('svg');
+  src: url('//at.alicdn.com/t/font_d94e0wfdll7n9udi.eot');
+  src: url('//at.alicdn.com/t/font_d94e0wfdll7n9udi.eot') format('embedded-opentype'), url('//at.alicdn.com/t/font_d94e0wfdll7n9udi.woff') format('woff'), url('//at.alicdn.com/t/font_d94e0wfdll7n9udi.ttf') format('truetype'), url('//at.alicdn.com/t/font_d94e0wfdll7n9udi.svg#iconfont') format('svg');
 }
 .iconfont {
   font-family: "iconfont";
@@ -165,6 +165,29 @@ body {
 }
 .container .textarea textarea:focus {
   outline: none;
+}
+.container .textarea .golist {
+  width: 50px;
+  height: 50px;
+  margin: 5px 10px 10px;
+  border-radius: 50%;
+  float: left;
+  background-color: #808080;
+  text-align: center;
+  box-shadow: 0px 0px 2px 1px #808080;
+  text-decoration: none;
+  color: white;
+  transition: box-shadow 0.3s ease;
+}
+.container .textarea .golist.circle {
+  animation: circle 2s infinite linear;
+}
+.container .textarea .golist:active {
+  box-shadow: 0px 0px 5px 2px #9ABCC5;
+}
+.container .textarea .golist i {
+  line-height: 50px;
+  font-size: 30px;
 }
 .container .textarea .submit {
   width: 50px;
