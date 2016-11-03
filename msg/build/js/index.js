@@ -321,6 +321,12 @@ initUploader = function(ele, data, _size, _sharp, successCallBack) {
         browse_button : $(ele).find('.mask')[0],
 
         container: ele,
+        resize : {
+            width : 800, 
+            height : 800, 
+            quality : 90,
+            crop: false // crop to exact dimensions
+        },
 
         flash_swf_url : 'plupload/Moxie.swf',
 
@@ -388,12 +394,15 @@ initUploader = function(ele, data, _size, _sharp, successCallBack) {
                 });
 
                 var that = this;
-
+                console.log('files');
+                console.log(files);
                 plupload.each(files, function(file) {
+
                     //预览图片
                     previewImage(file, function(imgSrc) {
                         // that._$mask.show()
                         that._$thumb.attr('src', imgSrc);
+                        $('.container.edit .pic-ct').css('height', 'auto');
                     })
                     uploader.start();
                 });

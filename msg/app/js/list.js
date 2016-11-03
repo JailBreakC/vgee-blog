@@ -68,13 +68,21 @@ var icons = {
     '50': '&#xe605;'
 }
 
-var getData = function() {
+var DATA_LOADING = false;
+var CURRECT_PAGE = 1;
+var getData = function(page, count) {
+    DATA_LOADING = true;
+    $('.loading').show();
     var content = [];
-    $.getJSON(API.get).success(function(data) {
+    $.getJSON(API.get, {
+        page: page || 1,
+        count: count || 5
+    }).success(function(data) {
         if(data.flag != true) {
             alert('服务器发生了一个错误，请联系贝爷');
             return;
         }
+        CURRECT_PAGE++;
         data = data.data;
         $.each(data, function(i, msg) {
             if(msg.first) {
@@ -103,7 +111,7 @@ var getData = function() {
             var htmlStr = [
             '<div class="container '+noImg+'">',
                 '<div class="pic-ct">',
-                    '<img src="'+msg.img+'" alt="">',
+                    '<img class="lazy" src="'+msg.img+'" alt="">',
                 '</div>',
                 '<div class="text-ct">',
                     '<pre>'+massage+'</pre>',
@@ -129,15 +137,22 @@ var getData = function() {
             htmlStr = htmlStr.join('\n');
             content.push(htmlStr)
         })
-        $('.big-ct').html(content.join('\n'));
+        $('.big-ct').append(content.join('\n'));
 
         checkPageMode();
 
+    }).always(function() {
+        DATA_LOADING = false;
+        $('.loading').hide();
     })
 }
 
 $(function() {
-
-    getData();
+    $(window).on('scroll', function() {
+        if(!DATA_LOADING && $('body').scrollTop() >= $('body').height() - $(window).height()) {
+            getData(CURRECT_PAGE);
+        }
+    })
+    getData(CURRECT_PAGE);
 
 });
