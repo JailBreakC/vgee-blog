@@ -1,6 +1,6 @@
 title: 响应式页面终极实战
 disc: 使用CSS3 REM 和 VW 打造等比例响应式页面的便捷工作流
-type:krpano
+type:css
 ------------------
 
 
