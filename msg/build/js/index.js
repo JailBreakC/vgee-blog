@@ -320,8 +320,8 @@ initUploader = function(ele, data, _size, _sharp, successCallBack) {
 
         container: ele,
         resize : {
-            width : 500, 
-            height : 500, 
+            width : 1000,
+            height : 2000, 
             quality : 90,
             crop: false // crop to exact dimensions
         },
