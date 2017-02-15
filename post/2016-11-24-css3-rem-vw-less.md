@@ -6,19 +6,17 @@ type:CSS
 
 在 HTML5 时代，响应式设计是前端开发以及网页设计所关注的一个重点方向，业界非常著名（已经被用烂了）的 CSS 框架 Bootstrap 采用的就是 @media 媒体查询方式的响应式。当使用媒体查询时候我们会设定一系列的响应点，来应用不同的 CSS 样式，比如下面这样
 
-```css
-@media screen and (min-width: 960px) {
-  font-size: 20px;
-}
+    @media screen and (min-width: 960px) {
+    font-size: 20px;
+    }
 
-@media screen and (max-width: 960px) and (min-width: 500px) {
-  font-size: 16px;
-}
+    @media screen and (max-width: 960px) and (min-width: 500px) {
+    font-size: 16px;
+    }
 
-@media screen and (max-width: 500px) {
-  font-size: 14px;
-}
-```
+    @media screen and (max-width: 500px) {
+    font-size: 14px;
+    }
 
 在三种不同的页面尺寸范围，应用了三套不同的字体大小来适应页面布局。
 
@@ -30,38 +28,36 @@ type:CSS
 
 本篇文章不对 rem 进行深入介绍，不了解 rem 的同学可以先看这篇文章 [web app 变革之rem](http://520ued.com/article/549125815f85b6b44ca20b2b) 。在字体大小/宽度/边距等属性上面使用 rem 作为单位，然后这些属性的值就会和根节点，也就是 HTML 标签的 font-size 成比例。 比如：
 
-```css
-html {
-	font-size: 14px;
-}
-h1 {
-	font-size: 2rem;   // 此时对应的 font-size 转换过来即 28px:
-	padding-top: 1rem; // 同理为 14px
-}
-```
+
+    html {
+    	font-size: 14px;
+    }
+    h1 {
+    	font-size: 2rem;   // 此时对应的 font-size 转换过来即 28px:
+    	padding-top: 1rem; // 同理为 14px
+    }
 
 有了这样的比例对应关系，接下来我们只需求试时的修改 html 标签上的字体大小就可以了。
 
 比如通过 JS:
 
-```javascript
-(function (doc, win) {
-  var docEl = doc.documentElement,
-      resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
-      recalc = function () {
-        var clientWidth = docEl.clientWidth;
-        if (!clientWidth) return;
-        docEl.style.fontSize = 20 * (clientWidth / 320) + 'px';
-      };
-  if (!doc.addEventListener) return;
-  win.addEventListener(resizeEvt, recalc, false);
-  doc.addEventListener('DOMContentLoaded', recalc, false);
-})(document, window);
-```
+
+    (function (doc, win) {
+      var docEl = doc.documentElement,
+          resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+          recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            docEl.style.fontSize = 20 * (clientWidth / 320) + 'px';
+          };
+      if (!doc.addEventListener) return;
+      win.addEventListener(resizeEvt, recalc, false);
+      doc.addEventListener('DOMContentLoaded', recalc, false);
+    })(document, window);
 
 或者 @media 媒体查询
 
-```css
+
 	html {
    		font-size : 20px;
 	}
@@ -90,7 +86,7 @@ h1 {
 	        font-size: 40px !important; 
 	    }
 	}
-```
+
 
 ## 等比例响应 VW
 
@@ -106,25 +102,24 @@ h1 {
 
 如果要根据屏幕宽度自适应的话，现在我们只需要给 HTML 元素设定一个 vw 单位的 font-size 就可以完美解决问题了。
 
-```css
-html {
-	font-size: 4.375vw;
-}
-```
+    html {
+    	font-size: 4.375vw;
+    }
+
 
 为什么我这里要 设定为 4.375vw 呢，4.375vw 在视窗宽度为 320px 的时候，正好是 14px (14 / 320 = 0.04375)。 而我的项目中的页面默认字体大小就是14px。好了，现在页面上所有以 rem 为单位的属性都会随着屏幕的宽度变化而自动响应等比变化。（终于舒坦了。）
 
 设计师只要设计好320px 宽度页面样式。将需要响应的 CSS 属性设定为对应的 rem 值，页面就会按照你想要样子按视窗宽度响应显示。
 
-```CSS
-html {
-	font-size: 4.375vw;
-}
-p {
-	font-size: 1rem;   // 设计稿上为 14px
-	padding-top: 2rem: // 设计稿上为 28px
-}
-```
+
+    html {
+    	font-size: 4.375vw;
+    }
+    p {
+    	font-size: 1rem;   // 设计稿上为 14px
+    	padding-top: 2rem: // 设计稿上为 28px
+    }
+
 
 到这里就结束了？
 
@@ -142,78 +137,77 @@ no no no。
 
 LESS Mixin:
 
-```less
-.font-size(@sizeValue) {
-    @remValue: @sizeValue / 14;
-    font-size: ~"@{remValue}rem";
-}
-.px-to-rem(@sizeValue:14) {
-    @remValue: @sizeValue / 14;
-    @pxToRem: ~"@{remValue}rem";
-}
-```
+    .font-size(@sizeValue) {
+        @remValue: @sizeValue / 14;
+        font-size: ~"@{remValue}rem";
+    }
+    .px-to-rem(@sizeValue:14) {
+        @remValue: @sizeValue / 14;
+        @pxToRem: ~"@{remValue}rem";
+    }
+
 
 使用方法
 
-```less
-p {
-	.font-size(18);
-	
-	.px-to-rem(80);
-	padding-top: @pxToRem;
-}
 
-// 注意，当你在同一个大括号作用于中使用多次 .px-to-rem Mixin 时，
-// 会造成值覆盖的情况，这时候要使用增加一层大括号的方式，来隔离作用域。
+    p {
+    	.font-size(18);
+    	
+    	.px-to-rem(80);
+    	padding-top: @pxToRem;
+    }
 
-// Bad！ 反面示例
-h1 {
-	.px-to-rem(20);
-	padding-top: @pxToRem;
-	.px-to-rem(80);
-	padding-bottom: @pxToRem;
-}
+    /* 注意，当你在同一个大括号作用于中使用多次 .px-to-rem Mixin 时，*/
+    /* 会造成值覆盖的情况，这时候要使用增加一层大括号的方式，来隔离作用域。*/
 
-// Good！ 正面示例
+    /* Bad！ 反面示例*/
+    h1 {
+    	.px-to-rem(20);
+    	padding-top: @pxToRem;
+    	.px-to-rem(80);
+    	padding-bottom: @pxToRem;
+    }
 
-h1 {
-	& {
-		.px-to-rem(20);
-		padding-top: @pxToRem;
-	}
-	& {
-		.px-to-rem(80);
-		padding-bottom: @pxToRem;
-	}
-}
+    /* Good！ 正面示例 */
 
-```
+    h1 {
+    	& {
+    		.px-to-rem(20);
+    		padding-top: @pxToRem;
+    	}
+    	& {
+    		.px-to-rem(80);
+    		padding-bottom: @pxToRem;
+    	}
+    }
+
+
 
 生成的 CSS
 
-```css
-p {
-    font-size: 1.2857142857142858rem;
-    padding-top: 5.714285714285714rem;
-}
+
+    p {
+        font-size: 1.2857142857142858rem;
+        padding-top: 5.714285714285714rem;
+    }
 
 
-// Bad result！ 反面示例结果
-h1 {
-	padding-top: 5.714285714285714rem;
-	padding-bottom: 5.714285714285714rem; //被上一个覆盖
-}
+    /* Bad result！ 反面示例结果 */
+    h1 {
+    	padding-top: 5.714285714285714rem;
+    	padding-bottom: 5.714285714285714rem; /*被上一个覆盖 */
+    }
 
-// Good result！ 正面示例结果
+    /* Good result！ 正面示例结果 */
 
-h1 {
-	padding-top: 5.714285714285714rem;
-	padding-bottom: 1.4285714285714286rem;
-}
+    h1 {
+    	padding-top: 5.714285714285714rem;
+    	padding-bottom: 1.4285714285714286rem;
+    }
 
-```
 
-好了，解决了这些烦人的东西，现在我们终于可以舒舒服服的去实现一个等比响应的 web 页面了。🙄
+
+好了，现在我们终于可以舒舒服服的去实现一个等比响应的 web 页面了。
 
 Author : JailBreak <http://vgee.cn>
 

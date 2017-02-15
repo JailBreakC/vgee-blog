@@ -1,6 +1,7 @@
 title:html5QQClient
 disc:使用HTML5+ 开发的第三方手机QQ客户端
 type:project
+hide:true
 ------------------
 #使用HTML5+ 开发的第三方手机QQ客户端
 
