@@ -8,11 +8,11 @@ if (!debug) {
   requirejs.config({
     baseUrl: 'build/js',
     paths: {
-      'jquery': '//7mnmwm.com1.z0.glb.clouddn.com/app/scripts/js/lib/jquery.min',
-      'angular': '//7mnmwm.com1.z0.glb.clouddn.com/app/scripts/js/lib/angular-route-animate.min',
-      'bootstrap': '//7mnmwm.com1.z0.glb.clouddn.com/app/scripts/js/lib/bootstrap.min',
-      'markdown': '//7mnmwm.com1.z0.glb.clouddn.com/app/scripts/js/lib/markdown.min',
-      'hljs': '//7mnmwm.com1.z0.glb.clouddn.com/app/scripts/js/lib/highlight.pack',
+      'jquery': '//s1.vgee.cn/app/scripts/js/lib/jquery.min',
+      'angular': '//s1.vgee.cn/app/scripts/js/lib/angular-route-animate.min',
+      'bootstrap': '//s1.vgee.cn/app/scripts/js/lib/bootstrap.min',
+      'markdown': '//s1.vgee.cn/app/scripts/js/lib/markdown.min',
+      'hljs': '//s1.vgee.cn/app/scripts/js/lib/highlight.pack',
       'config': 'config.min',
       'directive': 'directive.min',
       'controller': 'controller.min',
